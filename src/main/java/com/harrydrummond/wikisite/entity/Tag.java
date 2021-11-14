@@ -11,11 +11,7 @@ import java.util.Set;
 public class Tag implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "tag_id")
-    private Long id;
-
-    @Column(nullable = false)
+    @Column(nullable = false, name = "tag_name")
     private String name;
 
     // Default @column nullable is true
@@ -23,10 +19,6 @@ public class Tag implements Serializable {
 
     @ManyToMany(mappedBy = "tags")
     Set<KnowledgeBase> taggedKnowledgeBases;
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;

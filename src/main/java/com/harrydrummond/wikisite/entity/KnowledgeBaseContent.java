@@ -12,9 +12,15 @@ public class KnowledgeBaseContent {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "version", nullable = false)
+    private String versionString;
+
+    @Column(name = "version_info")
+    private String versionInfo;
+
     @Lob
-    @Column(columnDefinition="BLOB", nullable = false)
-    private byte[] content;
+    @Column(columnDefinition="CLOB", nullable = false)
+    private String content;
 
     @Column(name = "date_created", nullable = false)
     private Date dateCreated;
@@ -23,5 +29,39 @@ public class KnowledgeBaseContent {
     @JoinColumn(name = "kb_id", nullable = false)
     private KnowledgeBase knowledgeBase;
 
+    public Long getId() {
+        return id;
+    }
 
+    public String getContent() {
+        return content;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getVersionString() {
+        return versionString;
+    }
+
+    public void setVersionString(String versionString) {
+        this.versionString = versionString;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getVersionInfo() {
+        return versionInfo;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 }
