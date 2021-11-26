@@ -1,5 +1,7 @@
 package com.harrydrummond.wikisite.entity;
 
+import com.harrydrummond.wikisite.parser.ParserUtil;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -29,12 +31,19 @@ public class KnowledgeBaseContent {
     @JoinColumn(name = "kb_id", nullable = false)
     private KnowledgeBase knowledgeBase;
 
+    @Column(name = "views")
+    private Long views;
+
+    public void incrementViews() {
+        views++;
+    }
+
     public Long getId() {
         return id;
     }
 
     public String getContent() {
-        return content;
+        return ParserUtil.parse(content);
     }
 
     public Date getDateCreated() {

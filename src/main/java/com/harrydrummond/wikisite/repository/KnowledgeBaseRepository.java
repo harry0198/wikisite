@@ -10,11 +10,9 @@ import java.util.Set;
 
 public interface KnowledgeBaseRepository extends CrudRepository<KnowledgeBase, Integer> {
 
-    List<KnowledgeBase> findTop3ByOrderByRatingAsc();
+    List<KnowledgeBase> findAllByOrderByRatingDesc();
 
     List<KnowledgeBase> findAllByTags(Tag tag);
-
-    List<KnowledgeBase> findAllByTagsIn(List<Tag> tags);
 
     KnowledgeBase findByTitle(String title);
 }

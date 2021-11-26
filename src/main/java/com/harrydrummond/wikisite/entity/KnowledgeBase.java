@@ -4,15 +4,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "kb")
-public class KnowledgeBase {
+public class KnowledgeBase implements Comparable<KnowledgeBase> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +18,8 @@ public class KnowledgeBase {
 
     @OneToMany(mappedBy = "knowledgeBase", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Column(name = "content")
-    private Set<KnowledgeBaseContent> possibleContents;
+    @OrderBy("versionString DESC")
+    private List<KnowledgeBaseContent> possibleContents;
 
     @Column(unique = true, nullable = false)
     private String title;
@@ -50,7 +48,8 @@ public class KnowledgeBase {
         return id;
     }
 
-    public Set<KnowledgeBaseContent> getPossibleContents() {
+    public List<KnowledgeBaseContent> getPossibleContents() {
+
         return possibleContents;
     }
 
@@ -62,21 +61,30 @@ public class KnowledgeBase {
         return dateCreated;
     }
 
+    /**
+     * Gets the knowledgebase content found by most recently created. If no content is found,
+     * default KnowledgeBaseContent is returned with an id of -1L
+     * @return Latest KnowledgeBaseContent related to this knowledgebase
+     */
     public KnowledgeBaseContent getLatestKnowledgeBaseContent() {
         List<KnowledgeBaseContent> contents = getPossibleContents().stream().sorted(Comparator.comparing(KnowledgeBaseContent::getDateCreated)).collect(Collectors.toList());
         if (contents.isEmpty()) {
-            System.out.println("Empty!");
             KnowledgeBaseContent tmpContent = new KnowledgeBaseContent();
             tmpContent.setId(-1L);
-            tmpContent.setContent("<h1>Nothing Here! :(</h1><p>Something went wrong! Please contact an administrator. </p>");
+            tmpContent.setContent("#Nothing Here! :(    Something went wrong! Please contact an administrator.");
             tmpContent.setDateCreated(new Date(0));
             tmpContent.setVersionString("v0.0.0");
             return tmpContent;
         }
-        System.out.println("we out here");
         return contents.stream().findFirst().get();
     }
 
+    /**
+     * Gets the knowledgebasecontent from the version string provided. If
+     * contents is empty, returns null
+     * @param version Version string to find
+     * @return KnowledgeBaseContent from version string, if none was found, returns null.
+     */
     public KnowledgeBaseContent getKnowledgeBaseContentFromVersion(String version) {
         List<KnowledgeBaseContent> contents = getPossibleContents().stream().filter(t -> t.getVersionString().equalsIgnoreCase(version)).collect(Collectors.toList());
         if (contents.isEmpty()) {
@@ -93,13 +101,26 @@ public class KnowledgeBase {
         return rating;
     }
 
-
-
     public Set<Comment> getComments() {
         return comments;
     }
 
     public String getTagLine() {
         return tagLine;
+    }
+
+    /**
+     * Comparable interface implementation, compares by rating, if rating is
+     * equal, date created is compared
+     * @param o KnowledgeBase to compare
+     * @return index of compared objects as outlined in compareTo. 0 if rating and date created are identical.
+     */
+    @Override
+    public int compareTo(KnowledgeBase o) {
+        int index = Integer.compare(o.getRating(), getRating());
+        if (index == 0) {
+            index = getDateCreated().compareTo(o.getDateCreated());
+        }
+        return index;
     }
 }

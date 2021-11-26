@@ -24,6 +24,14 @@ public class Tag implements Serializable {
         return name;
     }
 
+    /**
+     * Gets the search ready name, replaces all spaces in tag names with '-'
+     * @return Search ready name
+     */
+    public String getSearchReadyName() {
+        return name.replaceAll(" ", "-");
+    }
+
     public String getDescription() {
         return description;
     }

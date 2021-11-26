@@ -21,17 +21,7 @@
 </head>
 <body>
 
-    <nav class="navbar with-search">
-        <div class="container">
-
-            <a th:href="@{/}" class="navbar-brand">VESUDATT</a>
-            <form name="t" th:action="@{/kb/search}" class="d-flex">
-                <input class="form-control me-2" name="query" type="search" placeholder="Search Knowlege Base" aria-label="Search">
-                <button class="btn btn-primary d-flex" type="submit"><span class="material-icons">search</span></button>
-            </form>
-
-        </div>
-    </nav>
+<div th:replace="fragments/navbar :: nav"></div>
 
 
     <header>
@@ -39,10 +29,6 @@
             <h1 class="SiteTitle"><span>Oops!</span> Something went wrong!</h1>
         </div>
     </header>
-
-<!--    <div class="alert alert-danger" role="alert">-->
-<!--        Example Error, Don't do mistakes buddy.-->
-<!--    </div>-->
 
     <main>
         <div class="container">

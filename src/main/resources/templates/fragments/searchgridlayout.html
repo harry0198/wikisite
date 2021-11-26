@@ -8,7 +8,7 @@
                 <!-- For now, we don't have users so we can leave this as a static image & author: Me :) -->
                 <div class="AvatarBlock">
                     <img src="https://cdn.discordapp.com/avatars/281088015219032064/293f42162f4ffeddf7a060a30d27d12a.webp?size=96" width="128px" height="128px" />
-                    <div class="AuthorInfo">Author: Harry0918</div>
+                    <div class="AuthorInfo">Author: Harry0198</div>
                 </div>
 
                 <hr class="ResultDivider">
@@ -19,8 +19,6 @@
                         <p th:text="${result.tagLine}">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
                     </div>
                 </div>
-
-                <hr class="ResultDivider">
 
                 <div class="ResultFooter">
                     <div th:text="'Publish Date: ' + ${T(com.harrydrummond.wikisite.util.DateUtil).getDateCreatedFormatted(result.getDateCreated())}" class="TimeBlock">Publish Date: 12/11/2021</div>
