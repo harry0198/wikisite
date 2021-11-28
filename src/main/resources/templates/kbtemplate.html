@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta th:replace="fragments/meta">
+    <meta name=“description” th:attr="content=${kb.tagLine}" />
+    <meta th:replace="fragments/meta" />
 
     <!-- CSS -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6787754437771899"
-            crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6787754437771899" crossorigin="anonymous"></script>
     <title th:text="${kb.title}">Article Page</title>
 </head>
 <body>

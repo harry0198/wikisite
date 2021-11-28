@@ -383,7 +383,6 @@ form.SearchBar button:hover {
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    border-top: 1px solid rgba(0,0,0,0.05);
     margin: 0px -15px;
     padding: 20px;
     width: 100%;
