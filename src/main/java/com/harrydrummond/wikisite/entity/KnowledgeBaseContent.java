@@ -34,6 +34,19 @@ public class KnowledgeBaseContent {
     @Column(name = "views")
     private Long views;
 
+    /**
+     * No arg constructor
+     */
+    public KnowledgeBaseContent() {}
+
+    public KnowledgeBaseContent(long id, String versionString, String content) {
+        this.id = id;
+        this.versionString = versionString;
+        this.content = content;
+        this.views = 0L;
+        this.versionInfo = "Default Release Info";
+    }
+
     public void incrementViews() {
         views++;
     }

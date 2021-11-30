@@ -14,9 +14,9 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "kb_id")
-    private Integer id;
+    private Long id;
 
-    @OneToMany(mappedBy = "knowledgeBase", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "knowledgeBase", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "content")
     @OrderBy("versionString DESC")
     private List<KnowledgeBaseContent> possibleContents;
@@ -44,7 +44,32 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     @Column(nullable = false)
     private int rating;
 
-    public Integer getId() {
+    /**
+     * No arg constructor
+     */
+    public KnowledgeBase() {}
+
+    public KnowledgeBase(long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+    /**
+     * Initialises KnowledgeBase with ID, Title and content. Primarily used for testing purposes.
+     * Sets rating to 0 and sets date created to today.
+     * @param id Integer ID
+     * @param title String title
+     * @param content Knowledgebase content
+     */
+    public KnowledgeBase(long id, String title, KnowledgeBaseContent content) {
+        this(id, title);
+        this.dateCreated = new Date(System.currentTimeMillis());
+        this.possibleContents = new ArrayList<>();
+        this.possibleContents.add(content);
+        this.rating = 0;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -69,11 +94,8 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     public KnowledgeBaseContent getLatestKnowledgeBaseContent() {
         List<KnowledgeBaseContent> contents = getPossibleContents().stream().sorted(Comparator.comparing(KnowledgeBaseContent::getDateCreated)).collect(Collectors.toList());
         if (contents.isEmpty()) {
-            KnowledgeBaseContent tmpContent = new KnowledgeBaseContent();
-            tmpContent.setId(-1L);
-            tmpContent.setContent("#Nothing Here! :(    Something went wrong! Please contact an administrator.");
+            KnowledgeBaseContent tmpContent = new KnowledgeBaseContent(-1,"v0.0.0", "#Nothing Here! :(    Something went wrong! Please contact an administrator.");
             tmpContent.setDateCreated(new Date(0));
-            tmpContent.setVersionString("v0.0.0");
             return tmpContent;
         }
         return contents.stream().findFirst().get();
@@ -107,6 +129,14 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
 
     public String getTagLine() {
         return tagLine;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public void setTagLine(String tagLine) {
+        this.tagLine = tagLine;
     }
 
     /**
