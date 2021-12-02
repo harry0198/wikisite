@@ -7,10 +7,7 @@ import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
@@ -24,27 +21,43 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-@Transactional(readOnly = true)
 public class IndexModel {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexModel.class);
 
     private static final String ID = "ID";
     private static final String CONTENT_TOKENIZED = "CONTENT_TOKENIZED";
-    private static final String CONTENT_BODY = "CONTENT_BODY";
     private static final String TAG_LINE = "TAGLINE";
     private static final String TITLE = "TITLE";
     private static final String DATE = "DATE";
 
-    // Eventually, it is expected we will move to a file based indexing system so we use the parent
-    private final Directory directory;
+    // Eventually, it is expected we will move to a file based indexing system or others so we use the parent
+    private Directory directory;
 
+    /**
+     * Default constructor, assigns directory field to which found in #getNewDirectory
+     */
     public IndexModel() {
+        directory = getNewDirectory();
+    }
+
+    /**
+     * Gets a new directory from lucene
+     * @return New Directory Object
+     */
+    public static Directory getNewDirectory() {
         // Due to current database size, the overhead here is less than if we were to write and store to file.
         // Once site becomes large enough, we will move to a file based indexing system but as of now, the costs are not nominal.
-        directory = new ByteBuffersDirectory();
+        return new ByteBuffersDirectory();
+    }
+
+    /**
+     * Simple setter, updates the directory
+     * @param directory Directory to set
+     */
+    public void setDirectory(Directory directory) {
+        assert directory != null;
+        this.directory = directory;
     }
 
     /**
@@ -61,29 +74,9 @@ public class IndexModel {
      * @param knowledgeBaseList List of KnowledgeBases to add
      */
     public void scanKnowledgeBaseToIndex(final List<KnowledgeBase> knowledgeBaseList) {
-        checkNotNull(knowledgeBaseList);
+        assert knowledgeBaseList != null;
 
-        try (IndexWriter directoryWriter = new IndexWriter(directory, new IndexWriterConfig(new EnglishAnalyzer()))){
-            for (KnowledgeBase knowledgeBase : knowledgeBaseList) {
-                if (knowledgeBase == null) continue;
-                KnowledgeBaseContent latestContent = knowledgeBase.getLatestKnowledgeBaseContent();
-                if (latestContent == null || latestContent.getContent() == null) {
-                    LOGGER.warn(String.format("Tried to scan knowledgebase %s to index but it has no latest content!", knowledgeBase.getId()));
-                    continue;
-                }
-
-                Document doc = new Document();
-                doc.add(new StoredField(ID, knowledgeBase.getId()));
-                doc.add(new TextField(CONTENT_TOKENIZED, latestContent.getContent(), Field.Store.NO));
-                doc.add(new StoredField(TAG_LINE, knowledgeBase.getTagLine()));
-                doc.add(new StoredField(TITLE, knowledgeBase.getTitle()));
-                doc.add(new StoredField(DATE, knowledgeBase.getDateCreated().getTime()));
-
-                directoryWriter.addDocument(doc);
-            }
-        } catch (IOException io) {
-            LOGGER.trace("Failed to instantiate IndexWriter", io);
-        }
+        scanAndWriteTo(directory, knowledgeBaseList);
     }
 
     /**
@@ -105,11 +98,7 @@ public class IndexModel {
 
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
                 Document doc = searcher.doc(scoreDoc.doc);
-                KnowledgeBase kb = new KnowledgeBase(
-                        doc.getField(ID).numericValue().longValue(),
-                        doc.get(TITLE));
-                kb.setTagLine(doc.get(TAG_LINE));
-                kb.setDateCreated(new Date(doc.getField(DATE).numericValue().longValue()));
+                KnowledgeBase kb = generateKnowledgeBaseFromDocument(doc);
                 knowledgeBaseList.add(kb);
             }
             return knowledgeBaseList;
@@ -118,4 +107,79 @@ public class IndexModel {
         }
         return Collections.emptyList();
     }
+
+    /**
+     * Gets all knowledgebases in the index
+     * @return List of knowledgebases in index
+     */
+    public List<KnowledgeBase> getAllKnowledgeBases() {
+        List<KnowledgeBase> knowledgeBaseList = new ArrayList<>();
+        try {
+            IndexReader indexReader = DirectoryReader.open(directory);
+            for (int i = 0; i < indexReader.maxDoc(); i++) {
+
+                knowledgeBaseList.add(generateKnowledgeBaseFromDocument(indexReader.document(i)));
+            }
+        } catch (IOException io) {
+            LOGGER.trace("Critical Search * Error!", io);
+        }
+
+        return knowledgeBaseList;
+
+    }
+
+    /**
+     * Scans the knowledgebase lists and writes in indexed values to the directory
+     * @param directory Directory to write to
+     * @param knowledgeBaseList List of knowledge bases to scan and index
+     */
+    public void scanAndWriteTo(Directory directory, List<KnowledgeBase> knowledgeBaseList) {
+        try (IndexWriter directoryWriter = new IndexWriter(directory, new IndexWriterConfig(new EnglishAnalyzer()))){
+            for (KnowledgeBase knowledgeBase : knowledgeBaseList) {
+                if (knowledgeBase == null) continue;
+
+                Document doc = generateDocument(knowledgeBase);
+                if (doc == null) continue;
+
+                directoryWriter.addDocument(doc);
+            }
+        } catch (IOException io) {
+            LOGGER.trace("Failed to instantiate IndexWriter", io);
+        }
+    }
+
+    /**
+     * Generates a document to index based off knowledgebase. Only keeps
+     * ID, TAG_LINE, TITLE and DATE
+     * @param knowledgeBase Knowledgebase to generate doc for
+     * @return Generated document or null if there is no content in the knowledgebase to index.
+     */
+    private Document generateDocument(KnowledgeBase knowledgeBase) {
+
+        KnowledgeBaseContent latestContent = knowledgeBase.getLatestKnowledgeBaseContent();
+        if (latestContent == null || latestContent.getContent() == null) {
+            LOGGER.warn(String.format("Tried to scan knowledgebase %s to index but it has no latest content!", knowledgeBase.getId()));
+            return null;
+        }
+
+        Document doc = new Document();
+        doc.add(new StoredField(ID, knowledgeBase.getId()));
+        doc.add(new TextField(CONTENT_TOKENIZED, latestContent.getContent(), Field.Store.NO));
+        doc.add(new StoredField(TAG_LINE, knowledgeBase.getTagLine()));
+        doc.add(new StoredField(TITLE, knowledgeBase.getTitle()));
+        doc.add(new StoredField(DATE, knowledgeBase.getDateCreated().getTime()));
+
+        return doc;
+    }
+
+    private KnowledgeBase generateKnowledgeBaseFromDocument(Document doc) {
+        KnowledgeBase kb = new KnowledgeBase(
+                doc.getField(ID).numericValue().longValue(),
+                doc.get(TITLE));
+        kb.setTagLine(doc.get(TAG_LINE));
+        kb.setDateCreated(new Date(doc.getField(DATE).numericValue().longValue()));
+
+        return kb;
+    }
+
 }

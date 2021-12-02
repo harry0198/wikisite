@@ -2,6 +2,10 @@ body {
     background: #fff;
     font-family: 'Source Sans Pro', sans-serif;
 }
+
+p {
+    margin: 0;
+}
 a {
     transition: 0.3s all !important;
     text-decoration: none !important;
@@ -463,6 +467,8 @@ footer .Links a {
 pre code {
     border-left: #eb3c06 solid 3px;
     padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background-color: white;
 }
 
@@ -471,8 +477,6 @@ pre code {
     margin-top: 1em;
     margin-bottom: 0.5em;
 }
-
-
 
 .panel-body h1 {
     margin-top: 0.5em !important;

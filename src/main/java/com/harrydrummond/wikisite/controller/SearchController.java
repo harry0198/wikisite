@@ -4,6 +4,7 @@ import com.harrydrummond.wikisite.ResultViewType;
 import com.harrydrummond.wikisite.entity.KnowledgeBase;
 import com.harrydrummond.wikisite.entity.Tag;
 import com.harrydrummond.wikisite.model.IndexModel;
+import com.harrydrummond.wikisite.model.IndexTask;
 import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
 import com.harrydrummond.wikisite.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,15 @@ import java.util.*;
 @Controller
 public class SearchController {
 
-    private final KnowledgeBaseRepository knowledgeBaseRepository;
     private final IndexModel indexModel;
 
     @Autowired
     public SearchController(KnowledgeBaseRepository knowledgeBaseRepository) {
-        this.knowledgeBaseRepository = knowledgeBaseRepository;
         this.indexModel = new IndexModel();
         this.indexModel.scanKnowledgeBaseToIndex(knowledgeBaseRepository.findAll());
+
+        final int PERIOD = (1000 * 60) * 30; // 30 mins
+        new Timer().scheduleAtFixedRate(new IndexTask(indexModel, knowledgeBaseRepository), PERIOD, PERIOD);
     }
 
     /**
@@ -35,11 +37,12 @@ public class SearchController {
      */
     @GetMapping("/")
     public String getSearchIndexPage(Model model) {
-        Iterable<KnowledgeBase> kb = knowledgeBaseRepository.findAllByOrderByRatingDesc();
+        List<KnowledgeBase> kb = indexModel.getAllKnowledgeBases();
         addSearchModelAttributes(kb, model);
         model.addAttribute("preferredView", ResultViewType.GRID);
         return "index";
     }
+
 
     @GetMapping("/kb/search")
     public String querySearch(@RequestParam(required = false) String query, Model model) {
@@ -48,17 +51,6 @@ public class SearchController {
         }
 
         List<KnowledgeBase> results = indexModel.searchByString(query);
-//        Set<KnowledgeBase> kbSet = new LinkedHashSet<>();
-//        String[] rs = query.t
-//        for (int i = 0; i < rs.length; i++) {
-//            rs[i] = rs[i].replaceAll("-", " ");
-//        }
-//        Iterable<Tag> tags = tagRepository.findAllById(List.of(rs));
-//        for (Tag tag : tags) {
-//            kbSet.addAll(tag.getTaggedKnowledgeBases());
-//        }
-//
-//        kbSet = kbSet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
 
         addSearchModelAttributes(results, model);
         model.addAttribute("preferredView", ResultViewType.LIST);

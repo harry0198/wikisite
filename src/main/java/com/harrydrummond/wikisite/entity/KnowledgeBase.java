@@ -74,7 +74,6 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     }
 
     public List<KnowledgeBaseContent> getPossibleContents() {
-
         return possibleContents;
     }
 
@@ -93,6 +92,7 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      */
     public KnowledgeBaseContent getLatestKnowledgeBaseContent() {
         List<KnowledgeBaseContent> contents = getPossibleContents().stream().sorted(Comparator.comparing(KnowledgeBaseContent::getDateCreated)).collect(Collectors.toList());
+        Collections.reverse(contents);
         if (contents.isEmpty()) {
             KnowledgeBaseContent tmpContent = new KnowledgeBaseContent(-1,"v0.0.0", "#Nothing Here! :(    Something went wrong! Please contact an administrator.");
             tmpContent.setDateCreated(new Date(0));
