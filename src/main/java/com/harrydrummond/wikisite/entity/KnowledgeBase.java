@@ -91,7 +91,10 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      * @return Latest KnowledgeBaseContent related to this knowledgebase
      */
     public KnowledgeBaseContent getLatestKnowledgeBaseContent() {
-        List<KnowledgeBaseContent> contents = getPossibleContents().stream().sorted(Comparator.comparing(KnowledgeBaseContent::getDateCreated)).collect(Collectors.toList());
+        List<KnowledgeBaseContent> contents = getPossibleContents()
+                .stream()
+                .sorted(Comparator.comparing(KnowledgeBaseContent::getDateCreated))
+                .collect(Collectors.toList());
         Collections.reverse(contents);
         if (contents.isEmpty()) {
             KnowledgeBaseContent tmpContent = new KnowledgeBaseContent(-1,"v0.0.0", "#Nothing Here! :(    Something went wrong! Please contact an administrator.");
@@ -131,8 +134,24 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
         return tagLine;
     }
 
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getKnowledgeBaseUrlSafe() {
+        return title.replaceAll(" ", "-");
+    }
+
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Date getLatestContentUpdate() {
+        KnowledgeBaseContent content = getLatestKnowledgeBaseContent();
+        if (content.getId() != -1) {
+            return content.getDateCreated();
+        }
+        return dateCreated;
     }
 
     public void setTagLine(String tagLine) {

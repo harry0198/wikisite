@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /find-new/
+Allow: /
+
+Sitemap: https://www.vesudatutorials.com/sitemap.xml

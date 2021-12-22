@@ -60,7 +60,7 @@ public class KnowledgeBaseContent {
     }
 
     public Date getDateCreated() {
-        return dateCreated;
+        return dateCreated == null ? new Date(System.currentTimeMillis()) : dateCreated;
     }
 
     public void setId(Long id) {

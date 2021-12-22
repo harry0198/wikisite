@@ -2,10 +2,8 @@ package com.harrydrummond.wikisite.model;
 
 import com.harrydrummond.wikisite.entity.KnowledgeBase;
 import com.harrydrummond.wikisite.entity.KnowledgeBaseContent;
-import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -15,12 +13,13 @@ import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
 
+@Component
 public class IndexModel {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexModel.class);
@@ -30,6 +29,7 @@ public class IndexModel {
     private static final String TAG_LINE = "TAGLINE";
     private static final String TITLE = "TITLE";
     private static final String DATE = "DATE";
+    private static final String RATING = "RATING";
 
     // Eventually, it is expected we will move to a file based indexing system or others so we use the parent
     private Directory directory;
@@ -125,7 +125,6 @@ public class IndexModel {
         }
 
         return knowledgeBaseList;
-
     }
 
     /**
@@ -167,7 +166,8 @@ public class IndexModel {
         doc.add(new TextField(CONTENT_TOKENIZED, latestContent.getContent(), Field.Store.NO));
         doc.add(new StoredField(TAG_LINE, knowledgeBase.getTagLine()));
         doc.add(new StoredField(TITLE, knowledgeBase.getTitle()));
-        doc.add(new StoredField(DATE, knowledgeBase.getDateCreated().getTime()));
+        doc.add(new StoredField(DATE, knowledgeBase.getLatestContentUpdate().getTime()));//TODO Not actually the knowledge base's date! its contents' date
+        doc.add(new StoredField(RATING, knowledgeBase.getRating()));
 
         return doc;
     }
@@ -177,6 +177,7 @@ public class IndexModel {
                 doc.getField(ID).numericValue().longValue(),
                 doc.get(TITLE));
         kb.setTagLine(doc.get(TAG_LINE));
+        kb.setRating(doc.getField(RATING).numericValue().intValue());
         kb.setDateCreated(new Date(doc.getField(DATE).numericValue().longValue()));
 
         return kb;
