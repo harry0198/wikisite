@@ -49,6 +49,11 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      */
     public KnowledgeBase() {}
 
+    /**
+     * KnowledgeBase quick creation
+     * @param id Id of KnowledgeBase
+     * @param title Title of KnowledgeBase
+     */
     public KnowledgeBase(long id, String title) {
         this.id = id;
         this.title = title;
@@ -69,20 +74,12 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
         this.rating = 0;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public List<KnowledgeBaseContent> getPossibleContents() {
-        return possibleContents;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
+    /**
+     * Adds tag to tag list
+     * @param tag Tag to add
+     */
+    public void addTag(Tag tag) {
+        tags.add(tag);
     }
 
     /**
@@ -118,38 +115,82 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
         return contents.stream().findFirst().get();
     }
 
-    public void addTag(Tag tag) {
-        tags.add(tag);
+    /**
+     * Gets KnowledgeBase numerical ID
+     * @return Gets ID of KnowledgeBase
+     */
+    public Long getId() {
+        return id;
     }
 
+    /**
+     * Gets a list of possible contents the KnowledgeBase may have. Such as previous versions
+     * @return List of KnowledgeBaseContents
+     */
+    public List<KnowledgeBaseContent> getPossibleContents() {
+        return possibleContents;
+    }
+
+    /**
+     * Gets title of KnowledgeBase
+     * @return Title of KnowledgeBase
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Gets Date KnowledgeBase was created
+     * @return Date KnowledgeBase was created
+     */
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    /**
+     * Gets Tags applied to KnowledgeBase
+     * @return Set of tags applied to KnowledgeBase
+     */
     public Set<Tag> getTags() {
         return tags;
     }
 
+    /**
+     * Gets rating of KnowledgeBase
+     * @return Numerical valued Rating
+     */
     public int getRating() {
         return rating;
     }
 
+    /**
+     * Get all comments relating to KnowledgeBase
+     * @return Set of Comments
+     */
     public Set<Comment> getComments() {
         return comments;
     }
 
+    /**
+     * Gets the tagline of KnowledgeBase
+     * @return Tagline of KnowledgeBase
+     */
     public String getTagLine() {
         return tagLine;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
+    /**
+     * Gets a single-stringed KnowledgeBase title to be used for a URL
+     * @return Single-stringed title for URL usage
+     */
     public String getKnowledgeBaseUrlSafe() {
         return title.replaceAll(" ", "-");
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
+    /**
+     * Gets Date latest content was updated
+     * @return Date of latest content
+     */
     public Date getLatestContentUpdate() {
         KnowledgeBaseContent content = getLatestKnowledgeBaseContent();
         if (content.getId() != -1) {
@@ -158,9 +199,30 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
         return dateCreated;
     }
 
+    /**
+     * Sets the rating of KnowledgeBase
+     * @param rating Rating to set
+     */
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * Sets Date created
+     * @param dateCreated Date to set
+     */
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    /**
+     * Sets tagline
+     * @param tagLine Tagline to set
+     */
     public void setTagLine(String tagLine) {
         this.tagLine = tagLine;
     }
+
 
     /**
      * Comparable interface implementation, compares by rating, if rating is
