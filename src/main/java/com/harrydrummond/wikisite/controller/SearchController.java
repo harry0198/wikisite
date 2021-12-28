@@ -46,7 +46,7 @@ public class SearchController {
 
     @GetMapping("/kb/search")
     public String querySearch(@RequestParam(required = false) String query, Model model) {
-        if (query == null || query.isEmpty() || Validate.validateInputLength(query)) {
+        if (query == null || query.isEmpty() || !Validate.validateInputLength(query)) {
             return getSearchIndexPage(model);
         }
 
