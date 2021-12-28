@@ -5,6 +5,10 @@ import com.harrydrummond.wikisite.parser.ParserUtil;
 import javax.persistence.*;
 import java.sql.Date;
 
+/**
+ * Entity class for KnowledgeBaseContent
+ * Provides various getter/setter methods with conversion methods for readable format e.g content from CLOB to string
+ */
 @Entity
 @Table(name = "kb_content")
 public class KnowledgeBaseContent {
@@ -39,6 +43,13 @@ public class KnowledgeBaseContent {
      */
     public KnowledgeBaseContent() {}
 
+    /**
+     * KnowledgeBaseContent custom constructor
+     * Defaults views to 0
+     * @param id ID to set
+     * @param versionString Version of Content
+     * @param content Actual content
+     */
     public KnowledgeBaseContent(long id, String versionString, String content) {
         this.id = id;
         this.versionString = versionString;
@@ -47,42 +58,81 @@ public class KnowledgeBaseContent {
         this.versionInfo = "Default Release Info";
     }
 
+    /**
+     * Increments view count by 1
+     */
     public void incrementViews() {
         views++;
     }
 
+    /**
+     * Gets ID of content
+     * @return ID of content
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Gets string-parsed content
+     * @return String-parsed content
+     */
     public String getContent() {
         return ParserUtil.parse(content);
     }
 
+    /**
+     * Gets the date content was created
+     * @return Date created
+     */
     public Date getDateCreated() {
         return dateCreated == null ? new Date(System.currentTimeMillis()) : dateCreated;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    /**
+     * Gets version of content
+     * @return Version
+     */
     public String getVersionString() {
         return versionString;
     }
 
-    public void setVersionString(String versionString) {
-        this.versionString = versionString;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
+    /**
+     * Gets version information
+     * @return Version information
+     */
     public String getVersionInfo() {
         return versionInfo;
     }
 
+    /**
+     * Sets the ID
+     * @param id ID to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets version
+     * @param versionString Version to set
+     */
+    public void setVersionString(String versionString) {
+        this.versionString = versionString;
+    }
+
+    /**
+     * Sets content
+     * @param content Content to set
+     */
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    /**
+     * Sets the date created
+     * @param dateCreated Date to set
+     */
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
