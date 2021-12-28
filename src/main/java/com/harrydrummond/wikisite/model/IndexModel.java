@@ -2,6 +2,7 @@ package com.harrydrummond.wikisite.model;
 
 import com.harrydrummond.wikisite.entity.KnowledgeBase;
 import com.harrydrummond.wikisite.entity.KnowledgeBaseContent;
+import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.*;
@@ -13,6 +14,7 @@ import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -36,9 +38,15 @@ public class IndexModel {
 
     /**
      * Default constructor, assigns directory field to which found in #getNewDirectory
+     * Scans all knowledgebases to index from kbrepository and auto updates at set interval
      */
-    public IndexModel() {
+    @Autowired
+    public IndexModel(KnowledgeBaseRepository kbRepository) {
         directory = getNewDirectory();
+        scanKnowledgeBaseToIndex(kbRepository.findAll());
+
+        final int PERIOD = (1000 * 60) * 30; // 30 mins
+        new Timer().scheduleAtFixedRate(new IndexTask(this, kbRepository), PERIOD, PERIOD);
     }
 
     /**
@@ -117,7 +125,6 @@ public class IndexModel {
         try {
             IndexReader indexReader = DirectoryReader.open(directory);
             for (int i = 0; i < indexReader.maxDoc(); i++) {
-
                 knowledgeBaseList.add(generateKnowledgeBaseFromDocument(indexReader.document(i)));
             }
         } catch (IOException io) {

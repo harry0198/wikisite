@@ -118,6 +118,10 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
         return contents.stream().findFirst().get();
     }
 
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+
     public Set<Tag> getTags() {
         return tags;
     }

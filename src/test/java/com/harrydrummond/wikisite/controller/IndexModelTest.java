@@ -6,20 +6,24 @@ import com.harrydrummond.wikisite.model.IndexModel;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class IndexModelTest {
+
+    @Autowired private IndexModel indexModel;
 
     @Test
     public void givenSearchQueryWhenFetchedDocumentThenCorrect() {
-        IndexModel controller = new IndexModel();
         KnowledgeBase kb = quickMakeKnowledgeBaseWithContent(1, "Example Title", "Searchable content for querying here! Hello World");
-        controller.scanKnowledgeBaseToIndex(kb);
+        indexModel.scanKnowledgeBaseToIndex(kb);
 
-        List<KnowledgeBase> documents = controller.searchByString("lots and lots of random irrelevant things BOOM HELLO WORLD okay");
+        List<KnowledgeBase> documents = indexModel.searchByString("lots and lots of random irrelevant things BOOM HELLO WORLD okay");
         assertEquals(
                 1L,
                 documents.get(0).getId());
@@ -27,18 +31,17 @@ public class IndexModelTest {
 
     @Test
     public void testSetDirectory() {
-        IndexModel model = new IndexModel();
 
-        model.scanKnowledgeBaseToIndex(quickMakeKnowledgeBaseWithContent(1,"Test Set Directory", "example search content"));
+        indexModel.scanKnowledgeBaseToIndex(quickMakeKnowledgeBaseWithContent(1,"Test Set Directory", "example search content"));
 
-        assertEquals(1L, model.searchByString("example search lots and lots of otehr things").get(0).getId());
+        assertEquals(1L, indexModel.searchByString("example search lots and lots of otehr things").get(0).getId());
 
         Directory directory = new ByteBuffersDirectory();
 
-        model.scanAndWriteTo(directory, List.of(quickMakeKnowledgeBaseWithContent(2, "New Directory", "New content")));
-        model.setDirectory(directory);
+        indexModel.scanAndWriteTo(directory, List.of(quickMakeKnowledgeBaseWithContent(2, "New Directory", "New content")));
+        indexModel.setDirectory(directory);
 
-        assertEquals(2L, model.searchByString("New").get(0).getId());
+        assertEquals(2L, indexModel.searchByString("New").get(0).getId());
     }
 
     private KnowledgeBase quickMakeKnowledgeBase(int id, String title) {

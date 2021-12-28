@@ -2,9 +2,7 @@ package com.harrydrummond.wikisite.controller;
 
 import com.harrydrummond.wikisite.ResultViewType;
 import com.harrydrummond.wikisite.entity.KnowledgeBase;
-import com.harrydrummond.wikisite.model.IndexModel;
-import com.harrydrummond.wikisite.model.IndexTask;
-import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
+import com.harrydrummond.wikisite.model.KnowledgeBaseModel;
 import com.harrydrummond.wikisite.util.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,20 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class SearchController {
 
-    private final IndexModel indexModel;
+    private final KnowledgeBaseModel kbModel;
+
 
     @Autowired
-    public SearchController(KnowledgeBaseRepository knowledgeBaseRepository, IndexModel indexModel) {
-        this.indexModel = indexModel;
-        this.indexModel.scanKnowledgeBaseToIndex(knowledgeBaseRepository.findAll());
-
-        final int PERIOD = (1000 * 60) * 30; // 30 mins
-        new Timer().scheduleAtFixedRate(new IndexTask(indexModel, knowledgeBaseRepository), PERIOD, PERIOD);
+    public SearchController(KnowledgeBaseModel kbModel) {
+        this.kbModel = kbModel;
     }
 
     /**
@@ -36,9 +30,7 @@ public class SearchController {
      */
     @GetMapping("/")
     public String getSearchIndexPage(Model model) {
-        List<KnowledgeBase> kb = indexModel.getAllKnowledgeBases();
-        kb = kb.stream().sorted().collect(Collectors.toList());
-        addSearchModelAttributes(kb, model);
+        addSearchModelAttributes(kbModel.getAllKnowledgeBasesFromIndex(), model);
         model.addAttribute("preferredView", ResultViewType.GRID);
         return "index";
     }
@@ -50,7 +42,7 @@ public class SearchController {
             return getSearchIndexPage(model);
         }
 
-        List<KnowledgeBase> results = indexModel.searchByString(query);
+        List<KnowledgeBase> results = kbModel.findKnowledgeBasesByQueryFromIndex(query);
 
         addSearchModelAttributes(results, model);
         model.addAttribute("preferredView", ResultViewType.LIST);

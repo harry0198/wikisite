@@ -2,8 +2,8 @@ package com.harrydrummond.wikisite.controller;
 
 import com.harrydrummond.wikisite.entity.KnowledgeBase;
 import com.harrydrummond.wikisite.entity.KnowledgeBaseContent;
+import com.harrydrummond.wikisite.model.KnowledgeBaseModel;
 import com.harrydrummond.wikisite.repository.KnowledgeBaseContentRepository;
-import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class KnowledgeBaseController {
 
-    private final KnowledgeBaseContentRepository knowledgeBaseContentRepository;
-    private final KnowledgeBaseRepository knowledgeBaseRepository;
+    private final KnowledgeBaseModel kbModel;
+    private final KnowledgeBaseContentRepository kbContentRepository;
 
     @Autowired
-    public KnowledgeBaseController(KnowledgeBaseRepository knowledgeBaseRepository, KnowledgeBaseContentRepository knowledgeBaseContentRepository) {
-        this.knowledgeBaseRepository = knowledgeBaseRepository;
-        this.knowledgeBaseContentRepository = knowledgeBaseContentRepository;
+    public KnowledgeBaseController(KnowledgeBaseModel kbModel, KnowledgeBaseContentRepository kbContentRepository) {
+        this.kbModel = kbModel;
+        this.kbContentRepository = kbContentRepository;
     }
 
     @GetMapping("/kb/view/{title}")
     public String getKnowledgeBase(@PathVariable(required = true) String title, @RequestParam(required = false) String version, Model model) {
         title = title.replaceAll("-", " ");
-        KnowledgeBase kb = knowledgeBaseRepository.findByTitle(title);
+        KnowledgeBase kb = kbModel.findByTitle(title);
         if (kb == null) return "error";
 
         KnowledgeBaseContent content;
@@ -39,7 +39,7 @@ public class KnowledgeBaseController {
         model.addAttribute("kbcontent", content);
 
         content.incrementViews();
-        knowledgeBaseContentRepository.save(content);
+        kbContentRepository.save(content);
 
         return "kbtemplate";
     }
