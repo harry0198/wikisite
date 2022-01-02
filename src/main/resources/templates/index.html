@@ -22,24 +22,12 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-
-        <a th:href="@{/}" class="navbar-brand">VESUDATT</a>
-        <ul class="NavLinks">
-            <li><a th:href="@{/kb/view/about-us}">About</a></li>
-            <li><a th:href="@{/kb/view/contact-us}">Contact</a></li>
-        </ul>
-
-    </div>
-</nav>
+<div th:replace="fragments/navbar-layout1 :: nav"></div>
 
 <main class="KnowledgeBase">
     <div class="container">
-
         <div class="InfoBlock">
             <div class="Greetings">
-                <p th:if="${query != null}">Articles for: <span th:text="${query}">Query</span></p>
                 <p th:if="${query == null}"><span>Hello</span> What are you looking for?</p>
             </div>
             <form name="t" th:action="@{/kb/search}" class="SearchBar" method="get">
@@ -47,12 +35,7 @@
                 <button class="btn btn-primary d-flex" type="submit"><span class="material-icons">search</span></button>
             </form>
         </div>
-
-        <!-- Thymeleaf if expression -->
-        <div th:switch="${preferredView}">
-            <div th:case="${T(com.harrydrummond.wikisite.ResultViewType).GRID}"><div th:replace="fragments/searchgridlayout"></div></div>
-            <div th:case="${T(com.harrydrummond.wikisite.ResultViewType).LIST}"><div th:replace="fragments/searchlistlayout"></div></div>
-        </div>
+        <div th:replace="fragments/searchgridlayout"></div>
     </div>
 </main>
 

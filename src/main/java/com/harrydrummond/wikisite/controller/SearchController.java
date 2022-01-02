@@ -48,7 +48,7 @@ public class SearchController {
         model.addAttribute("preferredView", ResultViewType.LIST);
         model.addAttribute("query", query);
 
-        return "index";
+        return "search";
     }
 
     private static Model addSearchModelAttributes(Iterable<KnowledgeBase> kbs, Model model) {

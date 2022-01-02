@@ -15,4 +15,9 @@ public class SiteInformationController {
     public String getCookiesPolicy() {
         return "cookies-policy";
     }
+
+    @GetMapping("/about")
+    public String getAboutPage() {
+        return "about";
+    }
 }

@@ -1,5 +1,4 @@
 body {
-    background: #fff;
     font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -129,7 +128,10 @@ form.SearchBar input {
     color: #eb3c06;
 }
 
-
+#sidebarcontainer {
+    position: sticky;
+    top: 20px;
+}
 
 
 
@@ -137,6 +139,12 @@ form.SearchBar input {
 header {
     background: #f1f2f6;
     padding: 70px;
+}
+.template-title {
+    background-image: url("https://www.vesudatutorials.com/images/HeaderBg.png");
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: bottom;
 }
 .SiteTitle {
     font-weight: 700;
@@ -183,11 +191,9 @@ header {
 
 
 .panel {
-    /*background: #f1f2f6;*/
-    border-radius: 8px;
+    /*background: #fff;*/
+    /*border-radius: 8px;*/
     margin-bottom: 30px;
-    position: sticky;
-    top: 20px;
 }
 
 
@@ -216,6 +222,16 @@ main .Content {
 }
 .sidebar {
     width: 25%;
+}
+
+.glass {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
 }
 
 
@@ -267,6 +283,9 @@ main .Content {
 .changedate {
     color: rgba(0,0,0,0.4);
     margin-bottom: 2px;
+}
+.changelog {
+    margin-bottom: 15px;
 }
 .changelog ul {
     margin: 0;
