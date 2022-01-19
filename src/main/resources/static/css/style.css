@@ -425,10 +425,6 @@ form.SearchBar button:hover {
 }
 
 
-
-
-
-
 .ResultsGrid .Results {
     display: grid;
     grid-template-columns: repeat(3,1fr);
