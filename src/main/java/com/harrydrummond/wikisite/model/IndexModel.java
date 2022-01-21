@@ -173,21 +173,21 @@ public class IndexModel {
         doc.add(new TextField(CONTENT_TOKENIZED, latestContent.getContent(), Field.Store.NO));
         doc.add(new StoredField(TAG_LINE, knowledgeBase.getTagLine()));
         doc.add(new StoredField(TITLE, knowledgeBase.getTitle()));
-        doc.add(new StoredField(DATE, knowledgeBase.getLatestContentUpdate().getTime()));//TODO Not actually the knowledge base's date! its contents' date
+        doc.add(new StoredField(DATE, knowledgeBase.getDateCreated().getTime()));
         doc.add(new StoredField(RATING, knowledgeBase.getRating()));
 
         return doc;
     }
 
+    // Creates a KnowledgeBase object from the supplied Document using KnowledgeBaseBuilder
     private KnowledgeBase generateKnowledgeBaseFromDocument(Document doc) {
-        KnowledgeBase kb = new KnowledgeBase(
-                doc.getField(ID).numericValue().longValue(),
-                doc.get(TITLE));
-        kb.setTagLine(doc.get(TAG_LINE));
-        kb.setRating(doc.getField(RATING).numericValue().intValue());
-        kb.setDateCreated(new Date(doc.getField(DATE).numericValue().longValue()));
-
-        return kb;
+        return new KnowledgeBase.KnowledgeBaseBuilder()
+                .setId(doc.getField(ID).numericValue().longValue())
+                .setTitle(doc.get(TITLE))
+                .setTagLine(doc.get(TAG_LINE))
+                .setRating(doc.getField(RATING).numericValue().intValue())
+                .setDateCreated(new Date(doc.getField(DATE).numericValue().longValue()))
+                .build();
     }
 
 }

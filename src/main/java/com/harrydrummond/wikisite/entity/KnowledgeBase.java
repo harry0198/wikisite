@@ -1,6 +1,8 @@
 package com.harrydrummond.wikisite.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -13,18 +15,18 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "kb_id")
+    @Column(name = "kb_id", nullable = false)
     private Long id;
 
     @OneToMany(mappedBy = "knowledgeBase", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "content")
     @OrderBy("versionString DESC")
-    private List<KnowledgeBaseContent> possibleContents;
+    private @Nullable List<KnowledgeBaseContent> possibleContents;
 
     @Column(unique = true, nullable = false)
     private String title;
 
-    @Column(name = "tag_line")
+    @Column(name = "tag_line", nullable = false)
     private String tagLine = "";
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -32,14 +34,8 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     private Date dateCreated;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "kb_tag_relation",
-    joinColumns = @JoinColumn(name = "kb_id"),
-    inverseJoinColumns = @JoinColumn(name = "tag_name"))
-    private Set<Tag> tags;
-
-    @OneToMany(mappedBy = "knowledgeBase", fetch = FetchType.LAZY)
-    @Column(name = "content")
-    private Set<Comment> comments;
+    @JoinTable(name = "kb_tag_relation", joinColumns = @JoinColumn(name = "kb_id"), inverseJoinColumns = @JoinColumn(name = "tag_name"))
+    private @Nullable Set<Tag> tags;
 
     @Column(nullable = false)
     private int rating;
@@ -49,29 +45,17 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      */
     public KnowledgeBase() {}
 
-    /**
-     * KnowledgeBase quick creation
-     * @param id Id of KnowledgeBase
-     * @param title Title of KnowledgeBase
-     */
-    public KnowledgeBase(long id, String title) {
-        this.id = id;
-        this.title = title;
-    }
-
-    /**
-     * Initialises KnowledgeBase with ID, Title and content. Primarily used for testing purposes.
-     * Sets rating to 0 and sets date created to today.
-     * @param id Integer ID
-     * @param title String title
-     * @param content Knowledgebase content
-     */
-    public KnowledgeBase(long id, String title, KnowledgeBaseContent content) {
-        this(id, title);
-        this.dateCreated = new Date(System.currentTimeMillis());
-        this.possibleContents = new ArrayList<>();
-        this.possibleContents.add(content);
-        this.rating = 0;
+    // Creates object via KnowledgeBaseBuilder
+    private KnowledgeBase(KnowledgeBaseBuilder kbb) {
+        this.id = kbb.id;
+        this.tagLine = kbb.tagLine;
+        this.title = kbb.title;
+        this.dateCreated = kbb.dateCreated;
+        this.rating = kbb.rating;
+        if (kbb.knowledgeBaseContent != null) {
+            this.possibleContents = new ArrayList<>();
+            this.possibleContents.add(kbb.knowledgeBaseContent);
+        }
     }
 
     /**
@@ -79,8 +63,15 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      * @param tag Tag to add
      */
     public void addTag(Tag tag) {
-        tags.add(tag);
+        if (tags == null)
+            tags = Set.of(tag);
+        else
+            tags.add(tag);
     }
+
+    /*
+        GETTERS
+     */
 
     /**
      * Gets the knowledgebase content found by most recently created. If no content is found,
@@ -124,11 +115,11 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     }
 
     /**
-     * Gets a list of possible contents the KnowledgeBase may have. Such as previous versions
-     * @return List of KnowledgeBaseContents
+     * Gets a list of possible contents the KnowledgeBase may have. Such as previous versions.
+     * @return List of KnowledgeBaseContents or empty list if contents is null
      */
-    public List<KnowledgeBaseContent> getPossibleContents() {
-        return possibleContents;
+    public @NonNull List<KnowledgeBaseContent> getPossibleContents() {
+        return possibleContents == null ? new ArrayList<>() : possibleContents;
     }
 
     /**
@@ -164,14 +155,6 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     }
 
     /**
-     * Get all comments relating to KnowledgeBase
-     * @return Set of Comments
-     */
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    /**
      * Gets the tagline of KnowledgeBase
      * @return Tagline of KnowledgeBase
      */
@@ -199,12 +182,24 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
         return dateCreated;
     }
 
+    /*
+        SETTERS
+     */
+
     /**
      * Sets the rating of KnowledgeBase
      * @param rating Rating to set
      */
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    /**
+     * Sets title of the article
+     * @param title Title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
@@ -237,5 +232,87 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
             index = getDateCreated().compareTo(o.getDateCreated());
         }
         return index;
+    }
+
+    @Override
+    public String toString() {
+        return "KnowledgeBase{" +
+                "id=" + id +
+                ", possibleContents=" + possibleContents +
+                ", title='" + title + '\'' +
+                ", tagLine='" + tagLine + '\'' +
+                ", dateCreated=" + dateCreated +
+                ", tags=" + tags +
+                ", rating=" + rating +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        KnowledgeBase that = (KnowledgeBase) o;
+        return rating == that.rating && id.equals(that.id) && Objects.equals(possibleContents, that.possibleContents) && title.equals(that.title) && tagLine.equals(that.tagLine) && dateCreated.equals(that.dateCreated) && Objects.equals(tags, that.tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, possibleContents, title, tagLine, dateCreated, tags, rating);
+    }
+
+    public static class KnowledgeBaseBuilder {
+
+        private long id;
+        private String title;
+        private String tagLine;
+        private Date dateCreated;
+        private int rating;
+        private KnowledgeBaseContent knowledgeBaseContent;
+
+        public KnowledgeBaseBuilder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public KnowledgeBaseBuilder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public KnowledgeBaseBuilder setTagLine(String tagLine) {
+            this.tagLine = tagLine;
+            return this;
+        }
+
+        public KnowledgeBaseBuilder setDateCreated(Date dateCreated) {
+            this.dateCreated = dateCreated;
+            return this;
+        }
+
+        public KnowledgeBaseBuilder setRating(int rating) {
+            this.rating = rating;
+            return this;
+        }
+
+        public KnowledgeBaseBuilder setKnowledgeBaseContent(KnowledgeBaseContent knowledgeBaseContent) {
+            this.knowledgeBaseContent = knowledgeBaseContent;
+            return this;
+        }
+
+        public KnowledgeBase build() {
+            KnowledgeBase kb = new KnowledgeBase(this);
+            validate(kb);
+            return kb;
+        }
+
+        // Validates the created KnowledgeBase object. Checks if there are any missing assumptions before
+        // returning object to user.
+        private void validate(KnowledgeBase kb) {
+            assert kb.id != null;
+            assert kb.dateCreated != null;
+            assert kb.title != null;
+            assert kb.tagLine != null;
+        }
+
     }
 }
