@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,13 +45,15 @@ public class IndexModelTest {
         assertEquals(2L, indexModel.searchByString("New").get(0).getId());
     }
 
-    private KnowledgeBase quickMakeKnowledgeBase(int id, String title) {
-        return quickMakeKnowledgeBaseWithContent(id, title, "Default content");
-    }
-
     private KnowledgeBase quickMakeKnowledgeBaseWithContent(int id, String title, String content) {
         KnowledgeBaseContent contents = new KnowledgeBaseContent(id, "v1.0.0", content);
-        return new KnowledgeBase(id, title, contents);
+        return new KnowledgeBase.KnowledgeBaseBuilder()
+                .setId(id)
+                .setTitle(title)
+                .setKnowledgeBaseContent(contents)
+                .setTagLine("Example tagline")
+                .setDateCreated(new Date(System.currentTimeMillis()))
+                .build();
     }
 
 }
