@@ -1,3 +1,7 @@
+html {
+  background: #f45a2a
+}
+
 body {
   font-family: 'Source Sans Pro', sans-serif;
 }
@@ -66,7 +70,7 @@ pre code {
 
 
 main {
-  margin: 50px 0px;
+  padding: 50px 0px;
 }
 main .container {
   display: flex;

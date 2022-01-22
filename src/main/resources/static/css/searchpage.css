@@ -1,3 +1,7 @@
+main.KnowledgeBase {
+  background: #f1f2f6;
+}
+
 @media (max-width: 786px) {
 
   .ResultBody, .ResultFooter, footer .Links {
@@ -23,6 +27,7 @@
   font-weight: 600;
   font-size: 36px;
   text-align: center;
+  margin-bottom: 30px;
 }
 .Greetings span {
   color: #f45a2a;
