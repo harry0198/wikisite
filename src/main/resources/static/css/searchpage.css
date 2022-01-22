@@ -1,0 +1,138 @@
+@media (max-width: 786px) {
+
+  .ResultBody, .ResultFooter, footer .Links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .Greetings {
+    text-align: center;
+  }
+
+  .ResultsGrid .Results {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+
+  form.SearchBar input {
+    width: 100% !important;
+  }
+
+}
+
+.Greetings {
+  font-weight: 600;
+  font-size: 36px;
+  text-align: center;
+}
+.Greetings span {
+  color: #f45a2a;
+}
+form.SearchBar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+form.SearchBar input {
+  width: 50%;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 100px;
+  margin-right: -50px;
+  box-shadow: 0px 2px 15px rgb(0 0 0 / 5%);
+}
+form.SearchBar button {
+  background: #f45a2a;
+  border: none;
+  color: #fff;
+  border-radius: 100px;
+  padding: 8px;
+}
+form.SearchBar button:hover {
+  background: #eb3c06;
+  color: #fff;
+}
+.ResultsInfo {
+  text-align: center;
+  color: #f45a2a;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+.ResultInfo span {
+  color: #f45a2a;
+  font-weight: 700;
+}
+.Result {
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0px 3px 15px rgb(0 0 0 / 10%);
+  margin-bottom: 30px;
+  transition: 0.3s all !important;
+  cursor: pointer;
+  position: relative;
+}
+.Result:hover {
+  transform: translateY(-10px);
+  box-shadow: rgb(0 0 0 / 25%) 0px 3px 20px;
+}
+.ResultBody {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 15px;
+}
+.AvatarBlock img {
+  border-radius: 100px;
+}
+.ResultInfo h4 {
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0px;
+}
+.ResultInfo p {
+  margin: 5px 0px 50px;
+  color: rgba(0,0,0,0.4);
+  line-height: 20px;
+}
+.ResultFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  margin: 0px -15px;
+  padding: 20px;
+  width: 100%;
+  left: 15px;
+  bottom: 0;
+}
+.AuthorBlock {
+  color: rgba(0,0,0,0.5);
+  font-weight: 600;
+}
+.TimeBlock {
+  color: #f45a2a;
+  font-weight: 600;
+}
+
+
+.ResultsGrid .Results {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 30px;
+}
+.ResultsGrid .AvatarBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.AuthorInfo {
+  color: rgba(0,0,0,0.5);
+  font-weight: 600;
+  font-size: 24px;
+}
+hr.ResultDivider {
+  background: rgba(0,0,0,0.3);
+  margin: 20px -25px;
+}

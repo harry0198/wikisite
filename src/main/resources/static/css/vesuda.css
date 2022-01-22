@@ -1,0 +1,169 @@
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  transition: 0.3s all !important;
+  text-decoration: none !important;
+  color: #f45a2a;
+}
+
+a:hover {
+  color: #eb3c06;
+}
+
+/**
+Elements with code inside
+ */
+pre code {
+  border-left: #eb3c06 solid 3px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+.tag a {
+  color: #000;
+}
+
+@media (max-width: 786px) {
+
+  /**
+  Nav bar styling
+  */
+  .navbar .container {
+    flex-direction: column;
+  }
+
+  .navbar-brand {
+    margin: 0px auto;
+  }
+
+  .navbar form {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .navbar button {
+    width: fit-content;
+    margin: 0px auto;
+  }
+
+  footer .Copyright {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  main .container {
+    flex-direction: column;
+  }
+}
+
+
+main {
+  margin: 50px 0px;
+}
+main .container {
+  display: flex;
+  gap: 30px;
+}
+
+.KnowledgeBase .container {
+  flex-direction: column;
+}
+
+/**
+NavBar
+ */
+.navbar {
+  background: #ffffff;
+}
+.navbar-brand {
+  font-weight: 800;
+  color: rgba(0,0,0,0.8);
+}
+
+.navbar-brand:hover {
+  color: #eb3c06;
+}
+
+.navbar input {
+  width: 350px !important;
+  border-radius: 100px !important;
+  padding: 5px 18px !important;
+}
+.with-search button {
+  background: #f45a2a;
+  border: none;
+  color: #fff;
+  border-radius: 100px;
+  padding: 8px;
+}
+.with-search button:hover {
+  background: #eb3c06;
+  color: #fff;
+}
+.NavLinks {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.NavLinks a {
+  font-weight: 600;
+  color: #333;
+  line-height: 50px;
+  padding: 0px 5px;
+  display: block;
+}
+.NavLinks a:hover {
+  color: #eb3c06;
+}
+
+.glass {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+
+footer {
+  background: #323232;
+  color: #fff;
+  padding: 75px;
+}
+footer .Links {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 5px;
+}
+footer .Links a {
+  color: #fff;
+  font-weight: 600;
+  font-size: 24px;
+}
+footer .Copyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  gap: 50px;
+}
+footer .Copyright p {
+  margin: 0px;
+}
