@@ -2,6 +2,11 @@ main.KnowledgeBase {
   background: #f1f2f6;
 }
 
+.KnowledgeBase .container {
+  padding-top: 100px;
+  min-height: 100vh;
+}
+
 @media (max-width: 786px) {
 
   .ResultBody, .ResultFooter, footer .Links {
@@ -118,7 +123,6 @@ form.SearchBar button:hover {
   color: #f45a2a;
   font-weight: 600;
 }
-
 
 .ResultsGrid .Results {
   display: grid;

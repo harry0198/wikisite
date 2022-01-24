@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class SearchController {
@@ -30,25 +31,31 @@ public class SearchController {
      */
     @GetMapping("/")
     public String getSearchIndexPage(Model model) {
-        addSearchModelAttributes(kbModel.getAllKnowledgeBasesFromIndex(), model);
-        model.addAttribute("preferredView", ResultViewType.GRID);
+        model.addAttribute("totalViews", kbModel.getTotalViews());
+        model.addAttribute("exploreArticles", kbModel.getAllKnowledgeBasesFromIndex().stream().limit(3).collect(Collectors.toList()));
         return "index";
     }
 
 
-    @GetMapping("/kb/search")
+    @GetMapping("/search")
     public String querySearch(@RequestParam(required = false) String query, Model model) {
         if (query == null || query.isEmpty() || !Validate.validateInputLength(query)) {
-            return getSearchIndexPage(model);
+            return getHomeSearchPage(model);
         }
 
         List<KnowledgeBase> results = kbModel.findKnowledgeBasesByQueryFromIndex(query);
 
         addSearchModelAttributes(results, model);
-        model.addAttribute("preferredView", ResultViewType.LIST);
+        model.addAttribute("preferredView", ResultViewType.GRID);
         model.addAttribute("query", query);
 
         return "search";
+    }
+
+    private String getHomeSearchPage(Model model) {
+        addSearchModelAttributes(kbModel.getAllKnowledgeBasesFromIndex().stream().limit(3).collect(Collectors.toList()), model);
+        model.addAttribute("preferredView", ResultViewType.GRID);
+        return "home-search";
     }
 
     private static Model addSearchModelAttributes(Iterable<KnowledgeBase> kbs, Model model) {

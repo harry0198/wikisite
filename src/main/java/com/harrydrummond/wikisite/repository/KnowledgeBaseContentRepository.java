@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface KnowledgeBaseContentRepository extends CrudRepository<KnowledgeBaseContent, Long> {
 
     List<KnowledgeBaseContent> findByKnowledgeBase(KnowledgeBase knowledgeBase);
+
+    @Query("SELECT SUM(m.views) FROM KnowledgeBaseContent m")
+    int selectViews();
 }

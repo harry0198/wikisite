@@ -2,6 +2,7 @@ package com.harrydrummond.wikisite.model;
 
 import com.harrydrummond.wikisite.entity.KnowledgeBase;
 import com.harrydrummond.wikisite.entity.Tag;
+import com.harrydrummond.wikisite.repository.KnowledgeBaseContentRepository;
 import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
 import com.harrydrummond.wikisite.repository.TagRepository;
 import com.harrydrummond.wikisite.util.DateUtil;
@@ -22,12 +23,14 @@ public final class KnowledgeBaseModel {
     private final IndexModel indexModel;
     private final KnowledgeBaseRepository kbRepository;
     private final TagRepository tagRepository;
+    private final KnowledgeBaseContentRepository kbContentRepository;
 
     @Autowired
-    public KnowledgeBaseModel(IndexModel indexModel, KnowledgeBaseRepository kbRepository, TagRepository tagRepository) {
+    public KnowledgeBaseModel(IndexModel indexModel, KnowledgeBaseRepository kbRepository, TagRepository tagRepository, KnowledgeBaseContentRepository kbContentRepository) {
         this.indexModel = indexModel;
         this.kbRepository = kbRepository;
         this.tagRepository = tagRepository;
+        this.kbContentRepository = kbContentRepository;
     }
 
     /**
@@ -50,6 +53,10 @@ public final class KnowledgeBaseModel {
      */
     public List<KnowledgeBase> findKnowledgeBasesByQueryFromIndex(String query) {
         return indexModel.searchByString(query);
+    }
+
+    public int getTotalViews() {
+        return kbContentRepository.selectViews();
     }
 
     /**

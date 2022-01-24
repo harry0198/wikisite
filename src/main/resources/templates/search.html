@@ -32,7 +32,7 @@
       <div class="Greetings">
         <p>Articles for: <span th:text="${query}">Query</span></p>
       </div>
-      <form name="t" th:action="@{/kb/search}" class="SearchBar" method="get">
+      <form name="t" th:action="@{/search}" class="SearchBar" method="get">
         <input type="text" name="query" placeholder="Search Knowledge Base" th:maxlength="${maxInputLength}"/>
         <button class="btn btn-primary d-flex" type="submit"><span class="material-icons">search</span></button>
       </form>
