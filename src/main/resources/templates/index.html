@@ -1,13 +1,18 @@
 <!doctype html>
-<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org">
+<html class="no-js" lang="en" prefix="og: https://ogp.me/ns#" xmlns:th="https://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
   <title>VesudaTutorials - Programming Tutorials</title>
   <meta th:replace="fragments/meta" />
 
-  <!-- CSS -->
-  <link rel="stylesheet" th:href="@{/css/libraries/vesuda.css}">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" th:attr="content=@{/}" />
+  <meta property="og:title" content="VesudaTutorials" />
+  <meta property="og:description" content="Homepage for VesudaTutorials" />
+
+  <!-- More CSS -->
   <link rel="stylesheet" th:href="@{/css/landing-page.css}">
 </head>
 

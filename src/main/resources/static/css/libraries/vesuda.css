@@ -55,11 +55,49 @@ Elements with code inside
  */
 pre code {
   border-left: #eb3c06 solid 3px;
+  border-radius: 4px 15px 15px 4px;
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
   background-color: white;
+  position: relative;
 }
+
+.alert:before {
+  content: 'YEET';
+}
+
+.alert-info {
+
+}
+
+/*pre code:before {*/
+/*  content: '';*/
+/*  background:url('../../images/icons/copy-regular.svg');*/
+/*  background-size:cover;*/
+/*  position:absolute;*/
+/*  width:20px;*/
+/*  height:20px;*/
+/*  top: 15px;*/
+/*  right: 15px;*/
+/*  transition: 0.3s all;*/
+/*}*/
+
+/*pre code:hover:before {*/
+/*  cursor: pointer;*/
+/*  background:url('../../images/icons/copy-solid.svg');*/
+/*}*/
+
+/*pre code:hover:after {*/
+/*  content: "Copy";*/
+/*  display: block;*/
+/*  position: absolute;*/
+/*  padding: 2px;*/
+/*  top: 37px;*/
+/*  right: 15px;*/
+/*  color: white;*/
+/*  background: black;*/
+/*}*/
 
 .tag a {
   color: #000;
