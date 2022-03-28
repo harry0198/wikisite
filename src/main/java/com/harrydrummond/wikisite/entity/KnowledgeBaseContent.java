@@ -35,6 +35,9 @@ public class KnowledgeBaseContent {
     @JoinColumn(name = "kb_id", nullable = false)
     private KnowledgeBase knowledgeBase;
 
+    @Column(name = "author")
+    private String author;
+
     @Column(name = "views")
     private Long views;
 
@@ -63,6 +66,14 @@ public class KnowledgeBaseContent {
      */
     public void incrementViews() {
         views++;
+    }
+
+    /**
+     * Gets author of content
+     * @return Author of content
+     */
+    public String getAuthor() {
+        return author;
     }
 
     /**
@@ -111,6 +122,10 @@ public class KnowledgeBaseContent {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     /**

@@ -18,10 +18,20 @@
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/libraries/vesuda.css}">
     <link rel="stylesheet" th:href="@{/css/error.css}">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQDWBF5DPZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-HQDWBF5DPZ');
+    </script>
 </head>
 <body>
 
-<div th:replace="fragments/navbar-layout2 :: nav"></div>
+<div th:replace="fragments/navbars :: nav(searchBar=true)"></div>
 
 
     <header>

@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-  <meta name="robots" content="noindex">
-  <meta name=“description” content="Search the Knowledgebase for tutorials and topics covered by VesudaTutorials" />
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <title>VesudaTutorials - Search</title>
+  <meta name=“description” content="Search the KnowledgeBase for tutorials and topics covered by VesudaTutorials" />
 
-  <!-- BOOTSTRAP CSS only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!--  &lt;!&ndash; BOOTSTRAP CSS only &ndash;&gt;-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">-->
 
-  <!-- FONTS & ICONS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <!-- CSS -->
+  <div th:replace="fragments/head-fragment :: analytics"></div>
+
+  <!-- Page Specific CSS -->
   <link rel="stylesheet" th:href="@{/css/searchpage.css}">
-  <link rel="stylesheet" th:href="@{/css/libraries/vesuda.css}">
 </head>
 <body>
 
-<div th:replace="fragments/navbar-layout1 :: nav"></div>
+<div th:replace="fragments/navbars :: nav(searchBar=false)"></div>
 
 <main class="KnowledgeBase">
   <div class="container">
-
     <div class="InfoBlock">
       <div class="Greetings">
-        <p>Articles for: <span th:text="${query}">Query</span></p>
+        <p th:if="${query == null || query.isEmpty()}">Search the KnowledgeBase</p>
+        <p th:unless="${query == null || query.isEmpty()}">Articles for: <span th:text="${query}">Query</span></p>
       </div>
       <form name="t" th:action="@{/search}" class="SearchBar" method="get">
-        <input type="text" name="query" placeholder="Search Knowledge Base" th:maxlength="${maxInputLength}"/>
+        <input type="text" name="query" placeholder="Search..." th:maxlength="${maxInputLength}"/>
         <button class="btn btn-primary d-flex" type="submit"><span class="material-icons">search</span></button>
       </form>
     </div>
-
-    <div th:replace="fragments/searchlistlayout"></div>
   </div>
+
+    <section class="top-articles">
+      <div th:switch="${resultsSize > 0}">
+        <div th:case="true">
+          <div class="ResultsInfo" th:inline="text">Results found: [[${resultsSize}]]</div>
+          <div th:replace="fragments/card-layout.html :: card(kbs=${kbs})"></div>
+        </div>
+        <div th:case="false">
+          <div class="container">
+            <h3 class="card-segment-header">Top Articles</h3>
+            <div th:replace="fragments/card-layout.html :: card(kbs=${topArticles})"></div>
+          </div>
+          <div class="container">
+            <h3 class="card-segment-header">Recent Articles</h3>
+            <div th:replace="fragments/card-layout.html :: card(kbs=${recentArticles})"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 </main>
 
 

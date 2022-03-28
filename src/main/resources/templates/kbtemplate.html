@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
-    <!-- START Fragmented Meta -->
-    <meta th:replace="fragments/meta" />
-    <!-- END Fragmented Meta -->
 
+    <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
     <!-- Generic Meta -->
     <title th:text="${kb.title}">Article Page</title>
     <meta name=“description” th:attr="content=${kb.tagLine}" />
@@ -21,10 +19,13 @@
     <link rel="stylesheet" th:href="@{/css/articlepage.css}">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6787754437771899" crossorigin="anonymous"></script>
+
+    <div th:replace="fragments/head-fragment :: analytics"></div>
+    <div th:replace="fragments/head-fragment :: code-syntax-highlights"></div>
 </head>
 <body>
 
-    <div th:replace="fragments/navbar-layout2 :: nav"></div>
+    <div th:replace="fragments/navbars :: nav(searchBar=true)"></div>
 
     <header class="template-title">
         <div class="container text-center">
@@ -33,7 +34,7 @@
 
             <div class="authorblock">
                 <img src="https://cdn.discordapp.com/avatars/281088015219032064/293f42162f4ffeddf7a060a30d27d12a.webp?size=96" width="36px" height="36px" />
-                <span>Author: Harry0198</span>
+                <span>Author: <span th:text="${kb.getLatestKnowledgeBaseContent().getAuthor()}">Author</span></span>
             </div>
 
             <div class="tagsblock">

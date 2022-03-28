@@ -2,9 +2,8 @@
 <html class="no-js" lang="en" prefix="og: https://ogp.me/ns#" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
+  <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
   <title>VesudaTutorials - Programming Tutorials</title>
-  <meta th:replace="fragments/meta" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -14,11 +13,14 @@
 
   <!-- More CSS -->
   <link rel="stylesheet" th:href="@{/css/landing-page.css}">
+
+  <div th:replace="fragments/head-fragment :: analytics"></div>
+
 </head>
 
 <body>
 
-  <div th:replace="fragments/navbar-layout2 :: nav"></div>
+  <div th:replace="fragments/navbars :: nav(searchBar=true)"></div>
 
   <header>
       <div class="image-text w-75">
@@ -29,7 +31,7 @@
           <p>Our articles have a combined total of <strong><mark class="low orange"><span th:text="${totalViews}">x</span> views</mark></strong> and counting!</p>
           <div class="button-holder">
             <a class="emphasis" th:href="@{/search}">Start Reading</a>
-            <a class="secondary" th:href="@{/about}">Find out more</a>
+<!--            <a class="secondary" th:href="@{/about}">Contact us</a>-->
           </div>
         </div>
         <div class="flex-i-image">

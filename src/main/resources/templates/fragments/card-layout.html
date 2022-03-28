@@ -1,0 +1,20 @@
+<div class="card-container" th:fragment="card">
+    <div class="card__wrap--outer">
+        <div th:each="article: ${kbs}" class="card__wrap--inner">
+            <div class="carde">
+                <img src="https://www.vesudatutorials.com/images/stock-bg.jpg" alt="Background Image">
+                <div class="card__item card-content card__header">
+                    <h2><mark class="low orange" th:text="${article.getTitle()}">Custom CSS</mark></h2>
+                </div>
+                <div class="card__item card-content flexible tag_line">
+                    <small th:text="${article.getTagLine()}">
+                        Example tagline
+                    </small>
+                </div>
+                <div class="card__footer card-content">
+                    <a class="emphasis" th:href="@{/kb/view/} + ${article.getKnowledgeBaseUrlSafe()}">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

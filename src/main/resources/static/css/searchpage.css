@@ -1,10 +1,17 @@
 main.KnowledgeBase {
-  background: #f1f2f6;
+  background-color: #e4e7ff;
 }
 
 .KnowledgeBase .container {
-  padding-top: 100px;
+  padding-top: 30px;
+  background-color: #e4e7ff;
+}
+.KnowledgeBase {
   min-height: 100vh;
+}
+
+.card-segment-header {
+  text-align: left;
 }
 
 @media (max-width: 786px) {
@@ -144,4 +151,12 @@ form.SearchBar button:hover {
 hr.ResultDivider {
   background: rgba(0,0,0,0.3);
   margin: 20px -25px;
+}
+
+.top-articles {
+  padding-top: 100px;
+}
+
+.ResultsInfo {
+  padding-top: 10px;
 }

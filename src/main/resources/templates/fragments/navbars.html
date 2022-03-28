@@ -1,12 +1,11 @@
 <nav class="navbar with-search">
     <div class="container">
         <a th:href="@{/}" class="navbar-brand">VESUDATT</a>
-        <form name="t" th:action="@{/search}" class="d-flex">
+        <form th:if="${searchBar} == true" name="t" th:action="@{/search}" class="d-flex">
             <input th:maxlength="60" class="form-control me-2" name="query" type="search" placeholder="Search Knowledge Base" aria-label="Search">
             <button class="btn btn-primary d-flex" type="submit"><span class="material-icons">search</span></button>
         </form>
         <ul class="NavLinks">
-            <li><a th:href="@{/about}">About</a></li>
             <li><a th:href="@{/kb/view/contact-us}">Contact</a></li>
         </ul>
     </div>
