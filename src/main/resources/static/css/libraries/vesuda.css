@@ -62,14 +62,6 @@ pre code {
   position: relative;
 }
 
-.alert:before {
-  content: 'YEET';
-}
-
-.alert-info {
-
-}
-
 /*pre code:before {*/
 /*  content: '';*/
 /*  background:url('../../images/icons/copy-regular.svg');*/

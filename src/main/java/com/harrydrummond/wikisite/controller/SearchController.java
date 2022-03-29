@@ -46,7 +46,7 @@ public class SearchController {
 
         if (results.size() <= 0) {
             model.addAttribute("topArticles",kbModel.getAllKnowledgeBasesFromIndex().stream().limit(3).collect(Collectors.toList()));
-            model.addAttribute("recentArticles", kbModel.getAllKnowledgeBasesFromIndex().stream().sorted(Comparator.comparing(KnowledgeBase::getDateCreated)).limit(3).collect(Collectors.toList()));
+            model.addAttribute("recentArticles", kbModel.getAllKnowledgeBasesFromIndex().stream().sorted((c1, c2) -> c2.getDateCreated().compareTo(c1.getDateCreated())).limit(3).collect(Collectors.toList()));
         }
         model.addAttribute("resultsSize", ((Collection<?>) results).size());
         model.addAttribute("maxInputLength", Validate.Options.DEFAULT_MAX_INPUT_LENGTH);
