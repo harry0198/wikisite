@@ -16,13 +16,15 @@
 </head>
 <body>
 
-<div th:replace="fragments/navbars :: nav(searchBar=false)"></div>
+<div th:replace="fragments/navbar.html"></div>
+
+<header></header>
 
 <main class="KnowledgeBase">
   <div class="container">
     <div class="InfoBlock">
       <div class="Greetings">
-        <p th:if="${query == null || query.isEmpty()}">Search the KnowledgeBase</p>
+        <p th:if="${query == null || query.isEmpty()}">Search for Articles</p>
         <p th:unless="${query == null || query.isEmpty()}">Articles for: <span th:text="${query}">Query</span></p>
       </div>
       <form name="t" th:action="@{/search}" class="SearchBar" method="get">

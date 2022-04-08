@@ -53,6 +53,7 @@ div.w-75 {
     display: none;
   }
   .top-articles {
+    margin-top: 0;
     padding-top: 20px;
   }
   header {

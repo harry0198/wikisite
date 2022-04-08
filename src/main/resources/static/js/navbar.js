@@ -1,11 +1,12 @@
-// updated 2019
-const input = document.getElementById("search-input");
-const searchBtn = document.getElementById("search-btn");
+let menu = document.querySelector('#menu-bars');
+let navbar = document.querySelector('.navbar');
+let search = document.querySelector('#search');
 
-const expand = () => {
-    searchBtn.classList.toggle("close");
-    input.classList.toggle("square");
-};
+menu.onclick = () => {
+    menu.classList.toggle('fa-times');
+    navbar.classList.toggle('active');
+}
 
-console.log(searchBtn);
-searchBtn.addEventListener("click", expand);
+search.onclick = () => {
+    window.location.href = "https://www.vesudatutorials.com/search";
+}
