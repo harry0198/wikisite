@@ -1,4 +1,6 @@
-
+header {
+  margin-top: 5rem;
+}
 body {
   font-family: 'Source Sans Pro', sans-serif;
 }
@@ -96,35 +98,9 @@ pre code {
 
 @media (max-width: 786px) {
 
-  /**
-  Nav bar styling
-  */
-  .navbar .container {
-    flex-direction: column;
-  }
-
-  .navbar-brand {
-    margin: 0px auto;
-    text-align: center;
-  }
-
-  .navbar form {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .navbar button {
-    width: fit-content;
-    margin: 0px auto;
-  }
-
   footer .Copyright {
     text-align: center;
     margin-top: 50px;
-  }
-
-  main .container {
-    flex-direction: column;
   }
 }
 
@@ -139,55 +115,6 @@ main .container {
 
 .KnowledgeBase .container {
   flex-direction: column;
-}
-
-/**
-NavBar
- */
-.navbar {
-  background: #ffffff;
-}
-.navbar-brand {
-  font-weight: 800;
-  color: rgba(0,0,0,0.8);
-}
-
-.navbar-brand:hover {
-  color: #eb3c06;
-}
-
-.navbar input {
-  width: 350px !important;
-  border-radius: 100px !important;
-  padding: 5px 18px !important;
-}
-.with-search button {
-  background: #f45a2a;
-  border: none;
-  color: #fff;
-  border-radius: 100px;
-  padding: 8px;
-}
-.with-search button:hover {
-  background: #eb3c06;
-  color: #fff;
-}
-.NavLinks {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.NavLinks a {
-  transition: 0.3s all !important;
-  color: #333;
-  font-weight: 600;
-}
-.NavLinks a:hover {
-  background: linear-gradient(180deg, rgba(255,255,255,0) 65%, #FFD0AE 65%);
-  color: inherit;
 }
 
 .glass {
