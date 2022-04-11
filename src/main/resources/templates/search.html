@@ -27,10 +27,7 @@
         <p th:if="${query == null || query.isEmpty()}">Search for Articles</p>
         <p th:unless="${query == null || query.isEmpty()}">Articles for: <span th:text="${query}">Query</span></p>
       </div>
-      <form name="t" th:action="@{/search}" class="SearchBar" method="get">
-        <input type="text" name="query" placeholder="Search..." th:maxlength="${maxInputLength}"/>
-        <button class="btn btn-primary d-flex" type="submit"><span class="material-icons">search</span></button>
-      </form>
+      <div th:replace="fragments/search.html"></div>
     </div>
   </div>
 

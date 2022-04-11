@@ -1,11 +1,26 @@
-header {
-    padding: 50px;
+.container-404 {
+    height: 100vh;
+    margin: auto auto;
+    padding-top: 8rem;
+    text-align: center;
+    background-color: rgba(250,250,250);
 }
 
-header {
-    background: #f1f2f6;
+.hero-404 {
+    font-size: 3rem;
 }
 
-.area {
-    height: 500px;
+
+.back-icon {
+    margin-right: 5px;
+}
+
+.explain-404 {
+    margin-bottom: 30px;
+    font-weight: lighter;
+}
+
+
+form.SearchBar {
+    margin-bottom: 40px;
 }

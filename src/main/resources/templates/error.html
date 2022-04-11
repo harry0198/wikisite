@@ -4,6 +4,7 @@
     <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
 
     <title>Vesuda Error Page</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
 
     <div th:replace="fragments/head-fragment :: analytics"></div>
 </head>
@@ -11,28 +12,15 @@
 
 <div th:replace="fragments/navbar.html"></div>
 
+<main class="container-404">
+    <div class="error404-card">
+        <h1 class="hero-404">404 Error</h1>
+        <p class="explain-404">Sorry! We couldn't find the page you're looking for! Try Search!</p>
+        <div th:replace="fragments/search.html"></div>
+        <a href="#" class="secondary"><i class="fa-solid fa-angle-left back-icon"></i>Go Home</a>
+    </div>
 
-    <header>
-        <div class="container text-center">
-            <h1 class="SiteTitle"><span>Oops!</span> Something went wrong!</h1>
-        </div>
-    </header>
-
-    <main>
-        <div class="container area">
-
-            <div class="Content">
-
-                <div class="panel information">
-                    <div class="panel-body">
-                        <h1>Please try again</h1>
-                        <p>Something went wrong, please ensure the webpage you are searching for exists.</p>
-                        <p>If you tried accessing a different version of an article, the version string may have been incorrect or no longer exist! </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+</main>
 
     <div th:replace="fragments/footer :: footer"></div>
 

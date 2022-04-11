@@ -320,3 +320,30 @@ CARDS
   margin: -100px auto 0 auto;
   padding-bottom: 50px;
 }
+
+form.SearchBar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+form.SearchBar input {
+  box-sizing: border-box;
+  width: 50%;
+  border: none;
+  padding: 15px 55px 15px 30px;
+  border-radius: 100px;
+  margin-right: -50px;
+  box-shadow: 0 2px 15px rgb(0 0 0 / 5%);
+}
+form.SearchBar button {
+  background: #f45a2a;
+  border: none;
+  color: #fff;
+  border-radius: 100px;
+  padding: 8px;
+}
+form.SearchBar button:hover {
+  background: #eb3c06;
+  color: #fff;
+}

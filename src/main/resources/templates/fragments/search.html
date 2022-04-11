@@ -1,0 +1,4 @@
+<form name="t" th:action="@{/search}" class="SearchBar" method="get">
+  <input type="text" name="query" placeholder="Search..." th:maxlength="${maxInputLength}"/>
+  <button class="btn btn-primary d-flex" type="submit"><span class="material-icons">search</span></button>
+</form>
