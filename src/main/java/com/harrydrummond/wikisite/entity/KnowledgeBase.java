@@ -33,7 +33,7 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     @Column(name = "date_created", nullable = false)
     private Date dateCreated;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "kb_tag_relation", joinColumns = @JoinColumn(name = "kb_id"), inverseJoinColumns = @JoinColumn(name = "tag_name"))
     private @Nullable Set<Tag> tags;
 

@@ -40,7 +40,8 @@
             <div class="tagsblock">
                 <div th:each="tag: ${kb.tags}">
                     <div class="con-tooltip bottom tag">
-                    <a th:href="@{/kb/search} + '?query=' + ${tag.getSearchReadyName()}" th:text="${tag.name}">Tag</a>
+                    <a th:href="@{/search} + '?query=' + ${tag.getSearchReadyName()}" th:text="${tag.name}">Tag</a>
+
                     </div>
                 </div>
             </div>
