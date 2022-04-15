@@ -17,7 +17,7 @@
         <h1 class="hero-404">404 Error</h1>
         <p class="explain-404">Sorry! We couldn't find the page you're looking for! Try Search!</p>
         <div th:replace="fragments/search.html"></div>
-        <a href="#" class="secondary"><i class="fa-solid fa-angle-left back-icon"></i>Go Home</a>
+        <a th:href="@{/}" class="secondary"><i class="fa-solid fa-angle-left back-icon"></i>Go Home</a>
     </div>
 
 </main>
