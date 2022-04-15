@@ -14,12 +14,12 @@ header {
 }
 
 .template-title {
-  /*background-image: url("https://www.vesudatutorials.com/images/article-header-bg.jpg");*/
-  background-image: url("../images/article-header-bg.jpg");
+  background-image: url("https://www.vesudatutorials.com/images/article-header-bg.jpg");
   background-repeat: repeat;
   background-size: cover;
   background-position: bottom;
 }
+
 .SiteTitle {
   font-weight: 700;
   color: white;

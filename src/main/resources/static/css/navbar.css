@@ -89,12 +89,20 @@
         padding: 1rem 2rem;
     }
 
+    .navbar-header .logo {
+        font-size: 1.3rem;
+    }
+
+    .navbar-header .item {
+        flex: 0 1 auto;
+    }
+
     .navbar-header .icons #menu-bars {
         display: inline-block;
-
     }
 
     .navbar-header .navbar {
+        display: block;
         position: absolute;
         top: 100%;
         left: 0;

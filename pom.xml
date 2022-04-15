@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.harrydrummond</groupId>
     <artifactId>wikisite</artifactId>
-    <version>0.0.11</version>
+    <version>0.0.11-patch-1</version>
     <name>wikisite</name>
     <description>wikisite</description>
     <properties>
