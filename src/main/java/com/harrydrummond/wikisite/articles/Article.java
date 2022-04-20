@@ -1,6 +1,9 @@
-package com.harrydrummond.wikisite.knowledgebase;
+package com.harrydrummond.wikisite.articles;
 
-import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContent;
+import com.harrydrummond.wikisite.articles.content.ArticleContent;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -12,7 +15,10 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "kb")
-public class KnowledgeBase implements Comparable<KnowledgeBase> {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Article implements Comparable<Article> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +28,7 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     @OneToMany(mappedBy = "knowledgeBase", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "content")
     @OrderBy("versionString DESC")
-    private @Nullable List<KnowledgeBaseContent> possibleContents;
+    private @Nullable List<ArticleContent> possibleContents;
 
     @Column(unique = true, nullable = false)
     private String title;
@@ -40,24 +46,6 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
 
     @Column(nullable = false)
     private int rating;
-
-    /**
-     * No arg constructor
-     */
-    public KnowledgeBase() {}
-
-    // Creates object via KnowledgeBaseBuilder
-    private KnowledgeBase(KnowledgeBaseBuilder kbb) {
-        this.id = kbb.id;
-        this.tagLine = kbb.tagLine;
-        this.title = kbb.title;
-        this.dateCreated = kbb.dateCreated;
-        this.rating = kbb.rating;
-        if (kbb.knowledgeBaseContent != null) {
-            this.possibleContents = new ArrayList<>();
-            this.possibleContents.add(kbb.knowledgeBaseContent);
-        }
-    }
 
     /**
      * Adds tag to tag list
@@ -79,14 +67,14 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      * default KnowledgeBaseContent is returned with an id of -1L
      * @return Latest KnowledgeBaseContent related to this knowledgebase
      */
-    public KnowledgeBaseContent getLatestKnowledgeBaseContent() {
-        List<KnowledgeBaseContent> contents = getPossibleContents()
+    public ArticleContent getLatestArticleContent() {
+        List<ArticleContent> contents = getPossibleContents()
                 .stream()
-                .sorted(Comparator.comparing(KnowledgeBaseContent::getDateCreated))
+                .sorted(Comparator.comparing(ArticleContent::getDateCreated))
                 .collect(Collectors.toList());
         Collections.reverse(contents);
         if (contents.isEmpty()) {
-            KnowledgeBaseContent tmpContent = new KnowledgeBaseContent(-1,"v0.0.0", "#Nothing Here! :(    Something went wrong! Please contact an administrator.");
+            ArticleContent tmpContent = new ArticleContent(-1,"v0.0.0", "#Nothing Here! :(    Something went wrong! Please contact an administrator.");
             tmpContent.setDateCreated(new Date(0));
             return tmpContent;
         }
@@ -99,8 +87,8 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      * @param version Version string to find
      * @return KnowledgeBaseContent from version string, if none was found, returns null.
      */
-    public KnowledgeBaseContent getKnowledgeBaseContentFromVersion(String version) {
-        List<KnowledgeBaseContent> contents = getPossibleContents().stream().filter(t -> t.getVersionString().equalsIgnoreCase(version)).collect(Collectors.toList());
+    public ArticleContent getArticleContentFromVersion(String version) {
+        List<ArticleContent> contents = getPossibleContents().stream().filter(t -> t.getVersionString().equalsIgnoreCase(version)).collect(Collectors.toList());
         if (contents.isEmpty()) {
             return null;
         }
@@ -119,7 +107,7 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      * Gets a list of possible contents the KnowledgeBase may have. Such as previous versions.
      * @return List of KnowledgeBaseContents or empty list if contents is null
      */
-    public @NonNull List<KnowledgeBaseContent> getPossibleContents() {
+    public @NonNull List<ArticleContent> getPossibleContents() {
         return possibleContents == null ? new ArrayList<>() : possibleContents;
     }
 
@@ -167,7 +155,7 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      * Gets a single-stringed KnowledgeBase title to be used for a URL
      * @return Single-stringed title for URL usage
      */
-    public String getKnowledgeBaseUrlSafe() {
+    public String getArticleUrlSafe() {
         return title.replaceAll(" ", "-");
     }
 
@@ -175,8 +163,8 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      * Gets Date latest content was updated
      * @return Date of latest content
      */
-    public Date getLatestContentUpdate() {
-        KnowledgeBaseContent content = getLatestKnowledgeBaseContent();
+    public Date getLatestArticleUpdate() {
+        ArticleContent content = getLatestArticleContent();
         if (content.getId() != -1) {
             return content.getDateCreated();
         }
@@ -227,7 +215,7 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
      * @return index of compared objects as outlined in compareTo. 0 if rating and date created are identical.
      */
     @Override
-    public int compareTo(KnowledgeBase o) {
+    public int compareTo(Article o) {
         int index = Integer.compare(o.getRating(), getRating());
         if (index == 0) {
             index = getDateCreated().compareTo(o.getDateCreated());
@@ -252,68 +240,12 @@ public class KnowledgeBase implements Comparable<KnowledgeBase> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        KnowledgeBase that = (KnowledgeBase) o;
+        Article that = (Article) o;
         return rating == that.rating && id.equals(that.id) && Objects.equals(possibleContents, that.possibleContents) && title.equals(that.title) && tagLine.equals(that.tagLine) && dateCreated.equals(that.dateCreated) && Objects.equals(tags, that.tags);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, possibleContents, title, tagLine, dateCreated, tags, rating);
-    }
-
-    public static class KnowledgeBaseBuilder {
-
-        private long id;
-        private String title;
-        private String tagLine;
-        private Date dateCreated;
-        private int rating;
-        private KnowledgeBaseContent knowledgeBaseContent;
-
-        public KnowledgeBaseBuilder setId(long id) {
-            this.id = id;
-            return this;
-        }
-
-        public KnowledgeBaseBuilder setTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public KnowledgeBaseBuilder setTagLine(String tagLine) {
-            this.tagLine = tagLine;
-            return this;
-        }
-
-        public KnowledgeBaseBuilder setDateCreated(Date dateCreated) {
-            this.dateCreated = dateCreated;
-            return this;
-        }
-
-        public KnowledgeBaseBuilder setRating(int rating) {
-            this.rating = rating;
-            return this;
-        }
-
-        public KnowledgeBaseBuilder setKnowledgeBaseContent(KnowledgeBaseContent knowledgeBaseContent) {
-            this.knowledgeBaseContent = knowledgeBaseContent;
-            return this;
-        }
-
-        public KnowledgeBase build() {
-            KnowledgeBase kb = new KnowledgeBase(this);
-            validate(kb);
-            return kb;
-        }
-
-        // Validates the created KnowledgeBase object. Checks if there are any missing assumptions before
-        // returning object to user.
-        private void validate(KnowledgeBase kb) {
-            assert kb.id != null;
-            assert kb.dateCreated != null;
-            assert kb.title != null;
-            assert kb.tagLine != null;
-        }
-
     }
 }

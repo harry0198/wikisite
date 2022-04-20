@@ -1,7 +1,7 @@
-package com.harrydrummond.wikisite.knowledgebase;
+package com.harrydrummond.wikisite.articles;
 
-import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContent;
-import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContentRepository;
+import com.harrydrummond.wikisite.articles.content.ArticleContent;
+import com.harrydrummond.wikisite.articles.content.ArticleContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class KnowledgeBaseController {
+public class ArticleController {
 
-    private final KnowledgeBaseModel kbModel;
-    private final KnowledgeBaseContentRepository kbContentRepository;
+    private final ArticleModel kbModel;
+    private final ArticleContentRepository kbContentRepository;
 
     @Autowired
-    public KnowledgeBaseController(KnowledgeBaseModel kbModel, KnowledgeBaseContentRepository kbContentRepository) {
+    public ArticleController(ArticleModel kbModel, ArticleContentRepository kbContentRepository) {
         this.kbModel = kbModel;
         this.kbContentRepository = kbContentRepository;
     }
@@ -24,14 +24,14 @@ public class KnowledgeBaseController {
     @GetMapping(value={"/kb/view/{title}", "/articles/{title}"})
     public String getKnowledgeBase(@PathVariable(required = true) String title, @RequestParam(required = false) String version, Model model) {
         title = title.replaceAll("-", " ");
-        KnowledgeBase kb = kbModel.findByTitle(title);
+        Article kb = kbModel.findByTitle(title);
         if (kb == null) return "error";
 
-        KnowledgeBaseContent content;
+        ArticleContent content;
         if (version != null) {
-            content = kb.getKnowledgeBaseContentFromVersion(version);
+            content = kb.getArticleContentFromVersion(version);
         } else {
-            content = kb.getLatestKnowledgeBaseContent();
+            content = kb.getLatestArticleContent();
         }
         model.addAttribute("kb", kb);
         model.addAttribute("kbcontent", content);

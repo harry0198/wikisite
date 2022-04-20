@@ -1,7 +1,7 @@
-package com.harrydrummond.wikisite.knowledgebase.content;
+package com.harrydrummond.wikisite.articles.content;
 
 import com.harrydrummond.wikisite.appuser.AppUser;
-import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
+import com.harrydrummond.wikisite.articles.Article;
 import com.harrydrummond.wikisite.parser.ParserUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import java.sql.Date;
 @Getter
 @Setter
 @Table(name = "kb_content")
-public class KnowledgeBaseContent {
+public class ArticleContent {
 
     @Id
     @Column(name = "kb_content_id")
@@ -39,9 +39,8 @@ public class KnowledgeBaseContent {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "kb_id", nullable = false)
-    private KnowledgeBase knowledgeBase;
+    private Article knowledgeBase;
 
-    @Column(name = "app_user_id")
     @ManyToOne
     @JoinColumn(
             nullable = false,
@@ -50,12 +49,12 @@ public class KnowledgeBaseContent {
     private AppUser appUser;
 
     @Column(name = "views")
-    private Long views;
+    private Long views = 0L;
 
     /**
      * No arg constructor
      */
-    public KnowledgeBaseContent() {}
+    public ArticleContent() {}
 
     /**
      * KnowledgeBaseContent custom constructor
@@ -64,7 +63,7 @@ public class KnowledgeBaseContent {
      * @param versionString Version of Content
      * @param content Actual content
      */
-    public KnowledgeBaseContent(long id, String versionString, String content) {
+    public ArticleContent(long id, String versionString, String content) {
         this.id = id;
         this.versionString = versionString;
         this.content = content;

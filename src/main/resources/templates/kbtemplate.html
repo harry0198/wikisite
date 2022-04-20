@@ -9,7 +9,7 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" th:attr="content=@{/kb/view} + ${kb.getKnowledgeBaseUrlSafe()}" />
+    <meta property="og:url" th:attr="content=@{/kb/view} + ${kb.getArticleUrlSafe()}" />
     <meta property="og:title" th:attr="content=${kb.getTitle()}" />
     <meta property="og:description" th:attr="content=${kb.getTagLine()}" />
 
@@ -34,7 +34,7 @@
 
             <div class="authorblock">
                 <img src="https://cdn.discordapp.com/avatars/281088015219032064/293f42162f4ffeddf7a060a30d27d12a.webp?size=96" width="36px" height="36px" />
-                <span>Author: <span th:text="${kb.getLatestKnowledgeBaseContent().getAuthor()}">Author</span></span>
+                <span>Author: <span th:text="${kb.getLatestArticleContent().getAuthor()}">Author</span></span>
             </div>
 
             <div class="tagsblock">

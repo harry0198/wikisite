@@ -1,4 +1,4 @@
-package com.harrydrummond.wikisite.knowledgebase;
+package com.harrydrummond.wikisite.articles;
 
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
@@ -12,9 +12,9 @@ public class IndexTask extends TimerTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexTask.class);
 
     private final IndexModel indexModel;
-    private final KnowledgeBaseRepository knowledgeBaseRepository;
+    private final ArticleRepository knowledgeBaseRepository;
 
-    public IndexTask(final IndexModel indexModel, final KnowledgeBaseRepository knowledgeBaseRepository) {
+    public IndexTask(final IndexModel indexModel, final ArticleRepository knowledgeBaseRepository) {
         this.indexModel = indexModel;
         this.knowledgeBaseRepository = knowledgeBaseRepository;
     }
