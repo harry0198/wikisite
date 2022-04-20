@@ -1,8 +1,8 @@
 package com.harrydrummond.wikisite.controller;
 
-import com.harrydrummond.wikisite.entity.KnowledgeBase;
-import com.harrydrummond.wikisite.entity.KnowledgeBaseContent;
-import com.harrydrummond.wikisite.model.IndexModel;
+import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
+import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContent;
+import com.harrydrummond.wikisite.knowledgebase.IndexModel;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.junit.jupiter.api.Test;

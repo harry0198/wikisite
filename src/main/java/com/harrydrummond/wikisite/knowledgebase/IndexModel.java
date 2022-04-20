@@ -1,18 +1,13 @@
-package com.harrydrummond.wikisite.model;
+package com.harrydrummond.wikisite.knowledgebase;
 
-import com.harrydrummond.wikisite.entity.KnowledgeBase;
-import com.harrydrummond.wikisite.entity.KnowledgeBaseContent;
-import com.harrydrummond.wikisite.entity.Tag;
-import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
+import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContent;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;

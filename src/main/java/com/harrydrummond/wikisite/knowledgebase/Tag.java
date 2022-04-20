@@ -1,6 +1,9 @@
-package com.harrydrummond.wikisite.entity;
+package com.harrydrummond.wikisite.knowledgebase;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,9 +15,11 @@ public class Tag implements Serializable {
 
     @Id
     @Column(nullable = false, name = "tag_name")
+    @NonNull
     private String name;
 
     // Default @column nullable is true
+    @Nullable
     private String description;
 
     @ManyToMany(mappedBy = "tags")

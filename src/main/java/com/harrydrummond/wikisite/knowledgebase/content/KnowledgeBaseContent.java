@@ -1,5 +1,6 @@
-package com.harrydrummond.wikisite.entity;
+package com.harrydrummond.wikisite.knowledgebase.content;
 
+import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
 import com.harrydrummond.wikisite.parser.ParserUtil;
 
 import javax.persistence.*;
@@ -35,7 +36,7 @@ public class KnowledgeBaseContent {
     @JoinColumn(name = "kb_id", nullable = false)
     private KnowledgeBase knowledgeBase;
 
-    @Column(name = "author")
+    @Column(name = "app_user_id")
     private String author;
 
     @Column(name = "views")

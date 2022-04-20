@@ -1,6 +1,5 @@
-package com.harrydrummond.wikisite.model;
+package com.harrydrummond.wikisite.knowledgebase;
 
-import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

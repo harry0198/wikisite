@@ -1,7 +1,7 @@
-package com.harrydrummond.wikisite.controller;
+package com.harrydrummond.wikisite.sitemap;
 
-import com.harrydrummond.wikisite.entity.KnowledgeBase;
-import com.harrydrummond.wikisite.model.IndexModel;
+import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
+import com.harrydrummond.wikisite.knowledgebase.IndexModel;
 import com.harrydrummond.wikisite.sitemap.XmlUrl;
 import com.harrydrummond.wikisite.sitemap.XmlUrlSet;
 import org.springframework.beans.factory.annotation.Autowired;
