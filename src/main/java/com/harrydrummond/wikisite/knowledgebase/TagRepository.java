@@ -1,6 +1,5 @@
-package com.harrydrummond.wikisite.repository;
+package com.harrydrummond.wikisite.knowledgebase;
 
-import com.harrydrummond.wikisite.entity.Tag;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TagRepository extends CrudRepository<Tag, String> {

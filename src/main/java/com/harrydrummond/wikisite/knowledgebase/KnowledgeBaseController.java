@@ -1,9 +1,7 @@
-package com.harrydrummond.wikisite.controller;
+package com.harrydrummond.wikisite.knowledgebase;
 
-import com.harrydrummond.wikisite.entity.KnowledgeBase;
-import com.harrydrummond.wikisite.entity.KnowledgeBaseContent;
-import com.harrydrummond.wikisite.model.KnowledgeBaseModel;
-import com.harrydrummond.wikisite.repository.KnowledgeBaseContentRepository;
+import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContent;
+import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

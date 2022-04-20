@@ -1,10 +1,6 @@
-package com.harrydrummond.wikisite.model;
+package com.harrydrummond.wikisite.knowledgebase;
 
-import com.harrydrummond.wikisite.entity.KnowledgeBase;
-import com.harrydrummond.wikisite.entity.Tag;
-import com.harrydrummond.wikisite.repository.KnowledgeBaseContentRepository;
-import com.harrydrummond.wikisite.repository.KnowledgeBaseRepository;
-import com.harrydrummond.wikisite.repository.TagRepository;
+import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContentRepository;
 import com.harrydrummond.wikisite.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
