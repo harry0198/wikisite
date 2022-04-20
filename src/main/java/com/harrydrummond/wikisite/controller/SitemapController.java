@@ -43,7 +43,7 @@ public class SitemapController {
     }
 
     private void create(XmlUrlSet xmlUrlSet, String link, XmlUrl.Priority priority, Date date) {
-        xmlUrlSet.addUrl(new XmlUrl("https://www.vesudatutorials.com/kb/view/" + link, priority, date));
+        xmlUrlSet.addUrl(new XmlUrl("https://www.vesudatutorials.com/articles/" + link, priority, date));
     }
 
 

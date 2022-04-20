@@ -23,7 +23,7 @@ public class KnowledgeBaseController {
         this.kbContentRepository = kbContentRepository;
     }
 
-    @GetMapping("/kb/view/{title}")
+    @GetMapping(value={"/kb/view/{title}", "/articles/{title}"})
     public String getKnowledgeBase(@PathVariable(required = true) String title, @RequestParam(required = false) String version, Model model) {
         title = title.replaceAll("-", " ");
         KnowledgeBase kb = kbModel.findByTitle(title);
@@ -43,5 +43,7 @@ public class KnowledgeBaseController {
 
         return "kbtemplate";
     }
+
+
 
 }

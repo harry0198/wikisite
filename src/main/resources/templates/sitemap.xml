@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://www.vesudatutorials.com</loc>
+    </url>
     <url th:each="item: ${sitemap}">
         <loc th:text="${item.getLink()}">http://www.example.com/foo.html</loc>
         <lastmod th:text="${item.getDate()}">2021-12-02</lastmod>

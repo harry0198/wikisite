@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: prod
+    # prod = production
+    # dev = development

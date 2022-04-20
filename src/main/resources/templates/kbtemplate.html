@@ -39,9 +39,8 @@
 
             <div class="tagsblock">
                 <div th:each="tag: ${kb.tags}">
-                    <div class="con-tooltip bottom tag">
+                    <div class="tag glass">
                     <a th:href="@{/search} + '?query=' + ${tag.getSearchReadyName()}" th:text="${tag.name}">Tag</a>
-
                     </div>
                 </div>
             </div>
@@ -65,7 +64,7 @@
                         <div class="panel-body">
                             <div th:each="log: ${kb.getPossibleContents()}" class="changelog">
                                 <div class="changeloginfo">
-                                    <a href="#" th:href="@{/kb/view/} + ${kb.title} + '?version=' + ${log.getVersionString()}" class="viewlog">View</a>
+                                    <a href="#" th:href="@{/articles/} + ${kb.title} + '?version=' + ${log.getVersionString()}" class="viewlog">View</a>
                                     <div th:text="${log.getVersionString()}" class="changeversion">v1.0.3</div>
                                 </div>
                                 <div class="changes">

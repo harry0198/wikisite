@@ -14,17 +14,20 @@ header {
 }
 
 .template-title {
-  background-image: url("https://www.vesudatutorials.com/images/HeaderBg.png");
-  background-repeat: no-repeat;
-  background-size: auto;
+  background-image: url("https://www.vesudatutorials.com/images/article-header-bg.jpg");
+  background-repeat: repeat;
+  background-size: cover;
   background-position: bottom;
 }
+
 .SiteTitle {
   font-weight: 700;
+  color: white;
 }
 .authorblock {
   font-weight: 600;
-  color: rgba(0,0,0,0.5);
+  /*color: rgba(0,0,0,0.5);*/
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,26 +42,45 @@ header {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 20px auto 0px;
+  margin: 20px auto 0;
   gap: 5px;
 }
 .tag {
-  background: #f2d2ca;
   border-radius: 100px;
   font-weight: 600;
-  border: 3px solid #f2997f;
   padding: 2px 12px;
   width: fit-content;
-  transition: 0.3s all !important;
+  transition: 0.3s all !important;;
   cursor: pointer;
 }
-.tag:hover {
-  background: rgb(244 193 180);
-  border: 3px solid rgb(244 90 42);
-}
+
 .tag a:hover {
-  color: #000;
+  letter-spacing: 0.4rem;
+  /* Removes last letter spacing */
+  margin-right:-0.4rem;
 }
+
+.tag a {
+  color: white;
+}
+
+/*.tag {*/
+/*  background: #f2d2ca;*/
+/*  border-radius: 100px;*/
+/*  font-weight: 600;*/
+/*  border: 3px solid #f2997f;*/
+/*  padding: 2px 12px;*/
+/*  width: fit-content;*/
+/*  transition: 0.3s all !important;*/
+/*  cursor: pointer;*/
+/*}*/
+/*.tag:hover {*/
+/*  background: rgb(244 193 180);*/
+/*  border: 3px solid rgb(244 90 42);*/
+/*}*/
+/*.tag a:hover {*/
+/*  color: #000;*/
+/*}*/
 
 .panel {
   /*background: #fff;*/
@@ -95,7 +117,7 @@ Inside the article content
 }
 
 main {
-  margin: 50px 0px;
+  margin: 50px 0;
 }
 main .container {
   display: flex;
@@ -130,7 +152,7 @@ main .Content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 0px;
+  padding: 8px 0;
 }
 .viewlog {
   background: #f45a2a;
@@ -178,9 +200,9 @@ hr.changelogdivider {
 }
 
 main.KnowledgeBase {
-  margin: 0px;
+  margin: 0;
   background: #f1f2f6;
-  padding: 70px 0px;
+  padding: 70px 0;
 }
 .KnowledgeBase .container {
   flex-direction: column;
