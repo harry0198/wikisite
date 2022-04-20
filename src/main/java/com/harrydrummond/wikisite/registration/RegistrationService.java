@@ -34,7 +34,7 @@ public class RegistrationService {
                         AppUserRole.USER
                 )
         );
-        //todo email registration - just ignored
+        //todo
         String link = "http://localhost:8080/api/v1/registration/confirm?token="+token;
         emailSender.send(request.getEmail(), "<h1>Click below to confirm</h1><p>"+link+"</p>");
         return token;

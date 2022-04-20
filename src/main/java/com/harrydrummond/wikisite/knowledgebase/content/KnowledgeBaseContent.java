@@ -1,7 +1,10 @@
 package com.harrydrummond.wikisite.knowledgebase.content;
 
+import com.harrydrummond.wikisite.appuser.AppUser;
 import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
 import com.harrydrummond.wikisite.parser.ParserUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -11,6 +14,8 @@ import java.sql.Date;
  * Provides various getter/setter methods with conversion methods for readable format e.g content from CLOB to string
  */
 @Entity
+@Getter
+@Setter
 @Table(name = "kb_content")
 public class KnowledgeBaseContent {
 
@@ -37,7 +42,12 @@ public class KnowledgeBaseContent {
     private KnowledgeBase knowledgeBase;
 
     @Column(name = "app_user_id")
-    private String author;
+    @ManyToOne
+    @JoinColumn(
+            nullable = false,
+            name = "app_user_id"
+    )
+    private AppUser appUser;
 
     @Column(name = "views")
     private Long views;
@@ -74,15 +84,7 @@ public class KnowledgeBaseContent {
      * @return Author of content
      */
     public String getAuthor() {
-        return author;
-    }
-
-    /**
-     * Gets ID of content
-     * @return ID of content
-     */
-    public Long getId() {
-        return id;
+        return appUser.getUsername();
     }
 
     /**
@@ -99,57 +101,5 @@ public class KnowledgeBaseContent {
      */
     public Date getDateCreated() {
         return dateCreated == null ? new Date(System.currentTimeMillis()) : dateCreated;
-    }
-
-    /**
-     * Gets version of content
-     * @return Version
-     */
-    public String getVersionString() {
-        return versionString;
-    }
-
-    /**
-     * Gets version information
-     * @return Version information
-     */
-    public String getVersionInfo() {
-        return versionInfo;
-    }
-
-    /**
-     * Sets the ID
-     * @param id ID to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    /**
-     * Sets version
-     * @param versionString Version to set
-     */
-    public void setVersionString(String versionString) {
-        this.versionString = versionString;
-    }
-
-    /**
-     * Sets content
-     * @param content Content to set
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    /**
-     * Sets the date created
-     * @param dateCreated Date to set
-     */
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
     }
 }
