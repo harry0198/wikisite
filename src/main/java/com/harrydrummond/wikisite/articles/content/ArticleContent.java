@@ -3,11 +3,13 @@ package com.harrydrummond.wikisite.articles.content;
 import com.harrydrummond.wikisite.appuser.AppUser;
 import com.harrydrummond.wikisite.articles.Article;
 import com.harrydrummond.wikisite.parser.ParserUtil;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Entity class for KnowledgeBaseContent
@@ -16,12 +18,15 @@ import java.sql.Date;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "kb_content")
 public class ArticleContent {
 
     @Id
     @Column(name = "kb_content_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "version", nullable = false)
@@ -48,13 +53,8 @@ public class ArticleContent {
     )
     private AppUser appUser;
 
-    @Column(name = "views")
+    @Column(name = "views", nullable = false)
     private Long views = 0L;
-
-    /**
-     * No arg constructor
-     */
-    public ArticleContent() {}
 
     /**
      * KnowledgeBaseContent custom constructor

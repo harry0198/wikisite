@@ -1,9 +1,7 @@
 package com.harrydrummond.wikisite.articles;
 
 import com.harrydrummond.wikisite.articles.content.ArticleContent;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -17,35 +15,41 @@ import java.util.stream.Collectors;
 @Table(name = "kb")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Setter
+@EqualsAndHashCode
+@ToString
+@Builder(access = AccessLevel.PUBLIC)
 public class Article implements Comparable<Article> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "kb_id", nullable = false)
     private Long id;
 
     @OneToMany(mappedBy = "knowledgeBase", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "content")
     @OrderBy("versionString DESC")
-    private @Nullable List<ArticleContent> possibleContents;
+    private @Nullable List<ArticleContent> possibleContents = new ArrayList<>();
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
+    @NonNull
     private String title;
 
-    @Column(name = "tag_line", nullable = false)
-    private String tagLine = "";
+    @Column(name = "tag_line")
+    @NonNull
+    private String tagLine;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    @Column(name = "date_created", nullable = false)
+    @NonNull
+    @Column(name = "date_created")
     private Date dateCreated;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "kb_tag_relation", joinColumns = @JoinColumn(name = "kb_id"), inverseJoinColumns = @JoinColumn(name = "tag_name"))
     private @Nullable Set<Tag> tags;
 
-    @Column(nullable = false)
-    private int rating;
+    @Nullable
+    private int rating = 5;
 
     /**
      * Adds tag to tag list
@@ -72,7 +76,6 @@ public class Article implements Comparable<Article> {
                 .stream()
                 .sorted(Comparator.comparing(ArticleContent::getDateCreated))
                 .collect(Collectors.toList());
-        Collections.reverse(contents);
         if (contents.isEmpty()) {
             ArticleContent tmpContent = new ArticleContent(-1,"v0.0.0", "#Nothing Here! :(    Something went wrong! Please contact an administrator.");
             tmpContent.setDateCreated(new Date(0));
@@ -176,39 +179,6 @@ public class Article implements Comparable<Article> {
      */
 
     /**
-     * Sets the rating of KnowledgeBase
-     * @param rating Rating to set
-     */
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    /**
-     * Sets title of the article
-     * @param title Title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * Sets Date created
-     * @param dateCreated Date to set
-     */
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    /**
-     * Sets tagline
-     * @param tagLine Tagline to set
-     */
-    public void setTagLine(String tagLine) {
-        this.tagLine = tagLine;
-    }
-
-
-    /**
      * Comparable interface implementation, compares by rating, if rating is
      * equal, date created is compared
      * @param o KnowledgeBase to compare
@@ -221,31 +191,5 @@ public class Article implements Comparable<Article> {
             index = getDateCreated().compareTo(o.getDateCreated());
         }
         return index;
-    }
-
-    @Override
-    public String toString() {
-        return "KnowledgeBase{" +
-                "id=" + id +
-                ", possibleContents=" + possibleContents +
-                ", title='" + title + '\'' +
-                ", tagLine='" + tagLine + '\'' +
-                ", dateCreated=" + dateCreated +
-                ", tags=" + tags +
-                ", rating=" + rating +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Article that = (Article) o;
-        return rating == that.rating && id.equals(that.id) && Objects.equals(possibleContents, that.possibleContents) && title.equals(that.title) && tagLine.equals(that.tagLine) && dateCreated.equals(that.dateCreated) && Objects.equals(tags, that.tags);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, possibleContents, title, tagLine, dateCreated, tags, rating);
     }
 }

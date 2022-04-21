@@ -25,11 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable() /* Should enable? */
                 .authorizeRequests()
-                .antMatchers("/admin")
+                .antMatchers("/admin/**","/api/v1/components/article/submission/**")
                 .authenticated()
                 .antMatchers("/**")
                 .permitAll().and()
-                .formLogin();
+                .formLogin().and()
+                .httpBasic();
     }
 
     @Override

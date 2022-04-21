@@ -1,7 +1,6 @@
 package com.harrydrummond.wikisite.appuser;
 
 import com.harrydrummond.wikisite.registration.token.ConfirmationToken;
-import com.harrydrummond.wikisite.registration.token.ConfirmationTokenRepository;
 import com.harrydrummond.wikisite.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,11 +19,10 @@ public class AppUserService implements UserDetailsService {
     private final AppUserRepository appUserRepository;
     private final ConfirmationTokenService confirmationTokenService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    //todo instead of lombok, use injection
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return appUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Username could not be found"));
+    public AppUser loadUserByUsername(String username) throws UsernameNotFoundException {
+        return appUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username could not be found"));
     }
 
     public String signUpUser(AppUser appUser) {
@@ -32,6 +30,10 @@ public class AppUserService implements UserDetailsService {
 
         if (userExists) {
             throw new IllegalStateException("email already taken");
+        }
+        boolean usernameExists = appUserRepository.findByUsername(appUser.getUsername()).isPresent();
+        if (usernameExists) {
+            throw new IllegalStateException("username already exists");
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
