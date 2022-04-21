@@ -1,7 +1,6 @@
-package com.harrydrummond.wikisite.knowledgebase;
+package com.harrydrummond.wikisite.articles;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -23,7 +22,7 @@ public class Tag implements Serializable {
     private String description;
 
     @ManyToMany(mappedBy = "tags")
-    Set<KnowledgeBase> taggedKnowledgeBases;
+    Set<Article> taggedKnowledgeBases;
 
     public Tag() {}
 
@@ -49,7 +48,7 @@ public class Tag implements Serializable {
     }
 
     @JsonIgnore
-    public Set<KnowledgeBase> getTaggedKnowledgeBases() {
+    public Set<Article> getTaggedKnowledgeBases() {
         return taggedKnowledgeBases;
     }
 }

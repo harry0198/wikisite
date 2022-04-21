@@ -1,4 +1,4 @@
-package com.harrydrummond.wikisite.knowledgebase;
+package com.harrydrummond.wikisite.articles;
 
 import org.springframework.data.repository.CrudRepository;
 

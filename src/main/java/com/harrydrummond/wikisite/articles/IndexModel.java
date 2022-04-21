@@ -1,6 +1,6 @@
-package com.harrydrummond.wikisite.knowledgebase;
+package com.harrydrummond.wikisite.articles;
 
-import com.harrydrummond.wikisite.knowledgebase.content.KnowledgeBaseContent;
+import com.harrydrummond.wikisite.articles.content.ArticleContent;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -39,12 +39,12 @@ public class IndexModel {
 
     /**
      * Default constructor, assigns directory field to which found in #getNewDirectory
-     * Scans all knowledgebases to index from kbrepository and auto updates at set interval
+     * Scans all articles to index from kbrepository and auto updates at set interval
      */
     @Autowired
-    public IndexModel(KnowledgeBaseRepository kbRepository) {
+    public IndexModel(ArticleRepository kbRepository) {
         directory = getNewDirectory();
-        scanKnowledgeBaseToIndex(kbRepository.findAll());
+        scanArticleToIndex(kbRepository.findAll());
 
         final int PERIOD = (1000 * 60) * 30; // 30 mins
         new Timer().scheduleAtFixedRate(new IndexTask(this, kbRepository), PERIOD, PERIOD);
@@ -70,39 +70,39 @@ public class IndexModel {
     }
 
     /**
-     * Scans KnowledgeBase and adds to index
-     * @param knowledgeBase KnowledgeBase to add
+     * Scans article and adds to index
+     * @param article article to add
      */
-    public void scanKnowledgeBaseToIndex(final KnowledgeBase knowledgeBase) {
-        scanKnowledgeBaseToIndex(List.of(knowledgeBase));
+    public void scanArticleToIndex(final Article article) {
+        scanArticleToIndex(List.of(article));
     }
 
     /**
-     * Scans list of knowledgebases and adds to index. If knowledgebase and / or latest content does not exist,
+     * Scans list of articles and adds to index. If article and / or latest content does not exist,
      * it is skipped.
-     * @param knowledgeBaseList List of KnowledgeBases to add
+     * @param articleList List of articles to add
      */
-    public void scanKnowledgeBaseToIndex(final List<KnowledgeBase> knowledgeBaseList) {
-        assert knowledgeBaseList != null;
+    public void scanArticleToIndex(final List<Article> articleList) {
+        assert articleList != null;
 
-        scanAndWriteTo(directory, knowledgeBaseList);
+        scanAndWriteTo(directory, articleList);
     }
 
     /**
-     * Searches index of knowledgebase's content for relevant results based on query string.
+     * Searches index of article's content for relevant results based on query string.
      * Uses Lucene's SimpleAnalyzer for lowercasing, removing stop words and generalising words.
      * @param queryString Query to search index for
-     * @return List of top 10 (or less) knowledgebases in order of relevance. Indexed fields of
+     * @return List of top 10 (or less) articles in order of relevance. Indexed fields of
      * tagline, date created, id and title. No more.
      */
-    public List<KnowledgeBase> searchByString(String queryString) {
+    public List<Article> searchByString(String queryString) {
         try {
 //            Query query = new QueryParser(CONTENT_TOKENIZED, new SimpleAnalyzer()).parse(queryString);
 
             IndexReader indexReader = DirectoryReader.open(directory);
             IndexSearcher searcher = new IndexSearcher(indexReader);
 //            TopDocs topDocs = searcher.search(query, 10);
-            List<KnowledgeBase> knowledgeBaseList = new ArrayList<>();
+            List<Article> articleList = new ArrayList<>();
 
             Analyzer analyzer = new StandardAnalyzer();
             MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
@@ -113,10 +113,10 @@ public class IndexModel {
 
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
                 Document doc = searcher.doc(scoreDoc.doc);
-                KnowledgeBase kb = generateKnowledgeBaseFromDocument(doc);
-                knowledgeBaseList.add(kb);
+                Article kb = generateArticleFromDocument(doc);
+                articleList.add(kb);
             }
-            return knowledgeBaseList;
+            return articleList;
         } catch (IOException | ParseException ex) {
             LOGGER.trace("Critical Search Error!", ex);
         }
@@ -124,34 +124,34 @@ public class IndexModel {
     }
 
     /**
-     * Gets all knowledgebases in the index
-     * @return List of knowledgebases in index
+     * Gets all articles in the index
+     * @return List of articles in index
      */
-    public List<KnowledgeBase> getAllKnowledgeBases() {
-        List<KnowledgeBase> knowledgeBaseList = new ArrayList<>();
+    public List<Article> getAllArticles() {
+        List<Article> articleList = new ArrayList<>();
         try {
             IndexReader indexReader = DirectoryReader.open(directory);
             for (int i = 0; i < indexReader.maxDoc(); i++) {
-                knowledgeBaseList.add(generateKnowledgeBaseFromDocument(indexReader.document(i)));
+                articleList.add(generateArticleFromDocument(indexReader.document(i)));
             }
         } catch (IOException io) {
             LOGGER.trace("Critical Search * Error!", io);
         }
 
-        return knowledgeBaseList;
+        return articleList;
     }
 
     /**
-     * Scans the knowledgebase lists and writes in indexed values to the directory
+     * Scans the article lists and writes in indexed values to the directory
      * @param directory Directory to write to
-     * @param knowledgeBaseList List of knowledge bases to scan and index
+     * @param articleList List of knowledge bases to scan and index
      */
-    public void scanAndWriteTo(Directory directory, List<KnowledgeBase> knowledgeBaseList) {
+    public void scanAndWriteTo(Directory directory, List<Article> articleList) {
         try (IndexWriter directoryWriter = new IndexWriter(directory, new IndexWriterConfig(new EnglishAnalyzer()))){
-            for (KnowledgeBase knowledgeBase : knowledgeBaseList) {
-                if (knowledgeBase == null) continue;
+            for (Article article : articleList) {
+                if (article == null) continue;
 
-                Document doc = generateDocument(knowledgeBase);
+                Document doc = generateDocument(article);
                 if (doc == null) continue;
 
                 directoryWriter.addDocument(doc);
@@ -162,43 +162,43 @@ public class IndexModel {
     }
 
     /**
-     * Generates a document to index based off knowledgebase. Only keeps
+     * Generates a document to index based off article. Only keeps
      * ID, TAG_LINE, TITLE and DATE
-     * @param knowledgeBase Knowledgebase to generate doc for
-     * @return Generated document or null if there is no content in the knowledgebase to index.
+     * @param article article to generate doc for
+     * @return Generated document or null if there is no content in the article to index.
      */
-    private Document generateDocument(KnowledgeBase knowledgeBase) {
+    private Document generateDocument(Article article) {
 
-        KnowledgeBaseContent latestContent = knowledgeBase.getLatestKnowledgeBaseContent();
+        ArticleContent latestContent = article.getLatestArticleContent();
         if (latestContent == null || latestContent.getContent() == null) {
-            LOGGER.warn(String.format("Tried to scan knowledgebase %s to index but it has no latest content!", knowledgeBase.getId()));
+            LOGGER.warn(String.format("Tried to scan article %s to index but it has no latest content!", article.getId()));
             return null;
         }
 
         Document doc = new Document();
-        doc.add(new StoredField(ID, knowledgeBase.getId()));
+        doc.add(new StoredField(ID, article.getId()));
         doc.add(new TextField(CONTENT_TOKENIZED, latestContent.getContent(), Field.Store.NO));
-        doc.add(new StoredField(TAG_LINE, knowledgeBase.getTagLine()));
-        doc.add(new StoredField(TITLE, knowledgeBase.getTitle()));
-        doc.add(new StoredField(DATE, knowledgeBase.getDateCreated().getTime()));
-        doc.add(new StoredField(RATING, knowledgeBase.getRating()));
+        doc.add(new StoredField(TAG_LINE, article.getTagLine()));
+        doc.add(new StoredField(TITLE, article.getTitle()));
+        doc.add(new StoredField(DATE, article.getDateCreated().getTime()));
+        doc.add(new StoredField(RATING, article.getRating()));
         String tagsList = "";
-        if (knowledgeBase.getTags() != null) {
-            tagsList = knowledgeBase.getTags().stream().map(Tag::getName).collect(Collectors.joining());
+        if (article.getTags() != null) {
+            tagsList = article.getTags().stream().map(Tag::getName).collect(Collectors.joining());
         }
         Field tagsField = new StoredField(TAGS, tagsList);
         doc.add(tagsField);
         return doc;
     }
 
-    // Creates a KnowledgeBase object from the supplied Document using KnowledgeBaseBuilder
-    private KnowledgeBase generateKnowledgeBaseFromDocument(Document doc) {
-        return new KnowledgeBase.KnowledgeBaseBuilder()
-                .setId(doc.getField(ID).numericValue().longValue())
-                .setTitle(doc.get(TITLE))
-                .setTagLine(doc.get(TAG_LINE))
-                .setRating(doc.getField(RATING).numericValue().intValue())
-                .setDateCreated(new Date(doc.getField(DATE).numericValue().longValue()))
+    // Creates a article object from the supplied Document using articleBuilder
+    private Article generateArticleFromDocument(Document doc) {
+        return new Article.ArticleBuilder()
+                .id(doc.getField(ID).numericValue().longValue())
+                .title(doc.get(TITLE))
+                .tagLine(doc.get(TAG_LINE))
+                .rating(doc.getField(RATING).numericValue().intValue())
+                .dateCreated(new Date(doc.getField(DATE).numericValue().longValue()))
                 .build();
     }
 

@@ -1,6 +1,6 @@
 package com.harrydrummond.wikisite;
 
-import com.harrydrummond.wikisite.knowledgebase.Tag;
+import com.harrydrummond.wikisite.articles.Tag;
 import java.util.*;
 
 public class SearchBuilder {

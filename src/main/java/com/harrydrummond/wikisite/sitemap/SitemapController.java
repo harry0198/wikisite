@@ -1,9 +1,7 @@
 package com.harrydrummond.wikisite.sitemap;
 
-import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
-import com.harrydrummond.wikisite.knowledgebase.IndexModel;
-import com.harrydrummond.wikisite.sitemap.XmlUrl;
-import com.harrydrummond.wikisite.sitemap.XmlUrlSet;
+import com.harrydrummond.wikisite.articles.Article;
+import com.harrydrummond.wikisite.articles.IndexModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +25,8 @@ public class SitemapController {
     @ResponseBody
     public XmlUrlSet getSitemap() {
         XmlUrlSet xmlUrlSet = new XmlUrlSet();
-        for (KnowledgeBase allKnowledgeBase : indexModel.getAllKnowledgeBases()) {
-            create(xmlUrlSet, allKnowledgeBase.getKnowledgeBaseUrlSafe(), getPriorityRating(allKnowledgeBase.getRating()), allKnowledgeBase.getDateCreated());
+        for (Article allKnowledgeBase : indexModel.getAllArticles()) {
+            create(xmlUrlSet, allKnowledgeBase.getArticleUrlSafe(), getPriorityRating(allKnowledgeBase.getRating()), allKnowledgeBase.getDateCreated());
         }
 
         return xmlUrlSet;

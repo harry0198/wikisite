@@ -1,9 +1,9 @@
 package com.harrydrummond.wikisite.controller;
 
-import com.harrydrummond.wikisite.knowledgebase.KnowledgeBase;
-import com.harrydrummond.wikisite.knowledgebase.KnowledgeBaseModel;
+import com.harrydrummond.wikisite.articles.Article;
+import com.harrydrummond.wikisite.articles.ArticleModel;
 import com.harrydrummond.wikisite.util.Validate;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +13,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
+@AllArgsConstructor
 public class SearchController {
 
-    private final KnowledgeBaseModel kbModel;
-
-
-    @Autowired
-    public SearchController(KnowledgeBaseModel kbModel) {
-        this.kbModel = kbModel;
-    }
+    private final ArticleModel kbModel;
 
     /**
      * Gets the homepage for searching the knowledgebase and applies relevant attributes
@@ -31,7 +26,7 @@ public class SearchController {
     @GetMapping("/")
     public String getSearchIndexPage(Model model) {
         model.addAttribute("totalViews", kbModel.getTotalViews());
-        model.addAttribute("exploreArticles", kbModel.getAllKnowledgeBasesFromIndex().stream().limit(3).collect(Collectors.toList()));
+        model.addAttribute("exploreArticles", kbModel.getAllArticlesFromIndex().stream().limit(3).collect(Collectors.toList()));
         return "index";
     }
 
@@ -42,11 +37,11 @@ public class SearchController {
         if (query == null || query.isEmpty() || !Validate.validateInputLength(query)) {
             query = "";
         }
-        List<KnowledgeBase> results = kbModel.findKnowledgeBasesByQueryFromIndex(query);
+        List<Article> results = kbModel.findKnowledgeBasesByQueryFromIndex(query);
 
         if (results.size() <= 0) {
-            model.addAttribute("topArticles",kbModel.getAllKnowledgeBasesFromIndex().stream().limit(3).collect(Collectors.toList()));
-            model.addAttribute("recentArticles", kbModel.getAllKnowledgeBasesFromIndex().stream().sorted((c1, c2) -> c2.getDateCreated().compareTo(c1.getDateCreated())).limit(3).collect(Collectors.toList()));
+            model.addAttribute("topArticles",kbModel.getAllArticlesFromIndex().stream().limit(3).collect(Collectors.toList()));
+            model.addAttribute("recentArticles", kbModel.getAllArticlesFromIndex().stream().sorted((c1, c2) -> c2.getDateCreated().compareTo(c1.getDateCreated())).limit(3).collect(Collectors.toList()));
         }
         model.addAttribute("resultsSize", ((Collection<?>) results).size());
         model.addAttribute("maxInputLength", Validate.Options.DEFAULT_MAX_INPUT_LENGTH);
