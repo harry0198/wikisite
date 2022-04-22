@@ -1,6 +1,9 @@
-package com.harrydrummond.wikisite.articles;
+package com.harrydrummond.wikisite.articles.tags;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.harrydrummond.wikisite.articles.Article;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -15,6 +18,7 @@ public class Tag implements Serializable {
     @Id
     @Column(nullable = false, name = "tag_name")
     @NonNull
+    @KeywordField
     private String name;
 
     // Default @column nullable is true

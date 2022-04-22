@@ -1,8 +1,11 @@
 package com.harrydrummond.wikisite.articles;
 
 import com.harrydrummond.wikisite.articles.content.ArticleContent;
+import com.harrydrummond.wikisite.articles.tags.Tag;
 import lombok.*;
+import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -43,11 +46,11 @@ public class Article implements Comparable<Article> {
 
     @Column(name = "tag_line")
     @NonNull
-    @FullTextField
     private String tagLine;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @NonNull
+    @GenericField(sortable = Sortable.YES)
     @Column(name = "date_created")
     private Date dateCreated;
 
