@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public final class ArticleModel {
 
-    private final IndexModel indexModel;
+//    private final IndexModel indexModel;
     private final ArticleRepository kbRepository;
     private final TagRepository tagRepository;
     private final ArticleContentRepository kbContentRepository;
@@ -28,12 +28,12 @@ public final class ArticleModel {
      * Retrieves all data via data indexed by {@link IndexModel}
      * @return List of KnowledgeBases ordered by #compare
      */
-    public List<Article> getAllArticlesFromIndex() {
-        List<Article> kb = indexModel.getAllArticles();
-        kb = kb.stream().sorted().collect(Collectors.toList());
-
-        return kb;
-    }
+//    public List<Article> getAllArticlesFromIndex() {
+//        List<Article> kb = indexModel.getAllArticles();
+//        kb = kb.stream().sorted().collect(Collectors.toList());
+//
+//        return kb;
+//    }
 
     /**
      * Finds knowledgebases by query via {@link IndexModel#searchByString(String)}
@@ -41,9 +41,9 @@ public final class ArticleModel {
      * @param query String to find knowledgebases by
      * @return List of knowledgebases found by query
      */
-    public List<Article> findKnowledgeBasesByQueryFromIndex(String query) {
-        return indexModel.searchByString(query);
-    }
+//    public List<Article> findKnowledgeBasesByQueryFromIndex(String query) {
+//        return indexModel.searchByString(query);
+//    }
 
     public int getTotalViews() {
         return kbContentRepository.selectViews();
