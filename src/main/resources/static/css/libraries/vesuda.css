@@ -24,12 +24,6 @@ a.emphasis:hover {
   color: white;
 }
 
-a.emphasis,
-a.secondary {
-
-}
-
-
 a.emphasis {
   border: none;
   border-radius: 40px;
