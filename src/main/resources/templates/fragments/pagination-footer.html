@@ -1,0 +1,55 @@
+<div th:fragment="pages (totalPages, page)" class="pagination">
+<!--    <ul class="page-list">-->
+<!--        <li><i class="fas fa-angle-left"></i></li>-->
+<!--        <li class="num" th:classappend="${activePageNum} == 1 ? 'active' : ''">-->
+<!--            <span>1</span>-->
+<!--        </li>-->
+
+<!--        <li th:if="!((${activePageNum} - 1) <= 2)" class="dots"><span>...</span></li>-->
+
+
+
+<!--        <li th:if="!((${activePageNum} - 1) <= 1)" class="num">-->
+<!--            <span th:text="${activePageNum} - 1">1</span>-->
+<!--        </li>-->
+<!--        <li th:if="(${activePageNum}) != 1 and !(${totalPages} == 2)" class="num active">-->
+<!--            <span th:text="${activePageNum}">1</span>-->
+<!--        </li>-->
+<!--        <li th:if="!((${activePageNum} + 1) >= ${totalPages})" class="num">-->
+<!--            <span th:text="${activePageNum} + 1">1</span>-->
+<!--        </li>-->
+
+
+
+<!--        <li th:if="!((${activePageNum} + 1) >= (${totalPages} - 1))" class="dots"><span>...</span></li>-->
+
+<!--        <li th:if="${totalPages} > 1" class="num" th:classappend="${activePageNum} == ${totalPages} ? 'active' : ''"><span th:text="${totalPages}"></span></li>-->
+<!--        <li class="next">-->
+<!--            <i class="fas fa-angle-right"></i>-->
+<!--        </li>-->
+<!--    </ul>-->
+    <ul class="pagination">
+        <!-- If page > 1 add prev button -->
+        <li th:if="${page > 1}"><i class="fas fa-angle-left"></i></li>
+
+        <!-- if page > 2, add page number 1 -->
+        <th:block th:if="${page > 2}">
+            <li><span>1</span></li>
+            <!-- if page num > 3 add dots -->
+            <li th:if="${page > 3}" class="dots"><span>...</span></li>
+        </th:block>
+
+        <th:block th:each="i : ${#numbers.sequence(page - 1, page + 1)}">
+            <li th:unless="${i <= 0}" th:classappend="${page == i ? 'active' : 'a'}"><span th:text="${i}">1</span></li>
+
+        </th:block>
+        <th:block th:if="${page < (totalPages - 1)}">
+            <li th:if="${page < (totalPages - 2)}" class="dots"><span>...</span></li>
+            <li><span th:text="${totalPages}">1</span></li>
+
+        </th:block>
+
+        <li th:if="${page < totalPages}"><i class="fas fa-angle-right"></i></li>
+    </ul>
+
+</div>

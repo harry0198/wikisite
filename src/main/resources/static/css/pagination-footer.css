@@ -1,0 +1,36 @@
+:root {
+    --background-orange-gradient: linear-gradient(147deg, #fe8a39 0%, #fd3838 74%);
+}
+
+
+.pagination ul {
+    background: white;
+    display: flex;
+    padding: 1rem;
+    border-radius: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination ul li {
+    list-style: none;
+    text-align: center;
+    padding: 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 0.2rem;
+}
+
+.pagination ul .active {
+    background-image: var(--background-orange-gradient);
+    color: white;
+}
+
+.pagination ul li:hover {
+    background-color: #eeeeee;
+}
