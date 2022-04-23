@@ -4,6 +4,9 @@ import com.harrydrummond.wikisite.appuser.AppUser;
 import com.harrydrummond.wikisite.articles.Article;
 import com.harrydrummond.wikisite.parser.ParserUtil;
 import lombok.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -35,6 +38,7 @@ public class ArticleContent {
     @Column(name = "version_info")
     private String versionInfo;
 
+    @FullTextField
     @Lob
     @Column(columnDefinition="CLOB", nullable = false)
     private String content;

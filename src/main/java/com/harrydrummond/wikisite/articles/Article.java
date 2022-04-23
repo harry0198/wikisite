@@ -1,7 +1,13 @@
 package com.harrydrummond.wikisite.articles;
 
 import com.harrydrummond.wikisite.articles.content.ArticleContent;
+import com.harrydrummond.wikisite.articles.tags.Tag;
 import lombok.*;
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -16,6 +22,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
+@Indexed
 @EqualsAndHashCode
 @ToString
 @Builder(access = AccessLevel.PUBLIC)
@@ -29,10 +36,12 @@ public class Article implements Comparable<Article> {
     @OneToMany(mappedBy = "knowledgeBase", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "content")
     @OrderBy("versionString DESC")
+    @IndexedEmbedded
     private @Nullable List<ArticleContent> possibleContents = new ArrayList<>();
 
     @Column(unique = true)
     @NonNull
+    @FullTextField
     private String title;
 
     @Column(name = "tag_line")
@@ -41,11 +50,13 @@ public class Article implements Comparable<Article> {
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @NonNull
+    @GenericField(sortable = Sortable.YES)
     @Column(name = "date_created")
     private Date dateCreated;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "kb_tag_relation", joinColumns = @JoinColumn(name = "kb_id"), inverseJoinColumns = @JoinColumn(name = "tag_name"))
+    @IndexedEmbedded
     private @Nullable Set<Tag> tags;
 
     @Nullable
