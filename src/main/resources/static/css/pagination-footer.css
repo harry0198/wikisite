@@ -15,19 +15,26 @@
 .pagination ul li {
     list-style: none;
     text-align: center;
-    padding: 0.5rem;
-    width: 3rem;
-    height: 3rem;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
     margin: 0 0.2rem;
+    padding: 0.5rem;
 }
+
+.pagination ul li a {
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+}
+
 
 .pagination ul .active {
     background-image: var(--background-orange-gradient);
+}
+
+.pagination ul .active a {
     color: white;
 }
 

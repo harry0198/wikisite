@@ -40,7 +40,7 @@ public class ArticleSearcherService {
      * @return A list of articles matching the query string on the provided page. Uses default page size.
      */
     @Transactional
-    public List<Article> searchArticles(String queryString, int pageNum) {
+    public Pagination<Article> searchArticles(String queryString, int pageNum) {
         return searchArticles(queryString, pageNum, PAGE_SIZE);
     }
 
@@ -55,12 +55,12 @@ public class ArticleSearcherService {
      * @return A list of articles matching the query string on the provided page.
      */
     @Transactional
-    public List<Article> searchArticles(String queryString, int pageNum, int pageSize) {
+    public Pagination<Article> searchArticles(String queryString, int pageNum, int pageSize) {
 
         SearchResult<Article> result = searchArticlesQueryFragment(queryString)
                 .fetch( calcOffset(pageNum,pageSize), pageSize );
 
-        return result.hits();
+        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize);
     }
 
     /**
@@ -73,13 +73,13 @@ public class ArticleSearcherService {
      * @return A list of articles matching the query string on the provided page. Sorted by date, newest to oldest
      */
     @Transactional
-    public List<Article> searchArticlesSortByDate(String queryString, int pageNum, int pageSize) {
+    public Pagination<Article> searchArticlesSortByDate(String queryString, int pageNum, int pageSize) {
 
         SearchResult<Article> result = searchArticlesQueryFragment(queryString)
                 .sort( f -> f.field( "dateCreated" ).desc())
                 .fetch( calcOffset(pageNum, pageSize), pageSize );
 
-        return result.hits();
+        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize);
     }
 
     /**
@@ -90,13 +90,13 @@ public class ArticleSearcherService {
      * @return A list of all articles on the provided page. Sorted by date, newest to oldest
      */
     @Transactional
-    public List<Article> getAllArticlesSortByDate(int pageNum, int pageSize) {
+    public Pagination<Article> getAllArticlesSortByDate(int pageNum, int pageSize) {
 
         SearchResult<Article> result = getAllArticlesQueryFragment()
                 .sort( f -> f.field( "dateCreated" ).desc())
                 .fetch( calcOffset(pageNum, pageSize), pageSize);
 
-        return result.hits();
+        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize);
     }
 
     /**
@@ -107,12 +107,12 @@ public class ArticleSearcherService {
      * @return A list of all articles on the provided page.
      */
     @Transactional
-    public List<Article> getAllArticles(int pageNum, int pageSize) {
+    public Pagination<Article> getAllArticles(int pageNum, int pageSize) {
 
         SearchResult<Article> result = getAllArticlesQueryFragment()
                 .fetch( calcOffset(pageNum, pageSize), pageSize);
 
-        return result.hits();
+        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize);
     }
 
     private int calcOffset(int pageNum, int pageSize) {

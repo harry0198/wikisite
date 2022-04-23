@@ -28,7 +28,7 @@ public class ArticleSearchController {
     @GetMapping("/")
     public String getSearchIndexPage(Model model) {
         model.addAttribute("totalViews", articleService.getTotalViews());
-        model.addAttribute("exploreArticles", articleSearcherService.getAllArticles(1,3));
+        model.addAttribute("exploreArticles", articleSearcherService.getAllArticles(1,3).getContent());
         return "index";
     }
 
@@ -44,15 +44,19 @@ public class ArticleSearchController {
         if (page == null) {
             page = 1;
         }
-        List<Article> results = articleSearcherService.searchArticles(query, page);
 
-        if (results.size() <= 0) {
-            model.addAttribute("topArticles", articleSearcherService.getAllArticles(1,3));
-            model.addAttribute("recentArticles", articleSearcherService.getAllArticlesSortByDate(1, 3));
+        Pagination<Article> results = articleSearcherService.searchArticles(query, page, 2);
+
+        if (results.getContent().size() <= 0) {
+            model.addAttribute("topArticles", articleSearcherService.getAllArticles(1,3).getContent());
+            model.addAttribute("recentArticles", articleSearcherService.getAllArticlesSortByDate(1, 3).getContent());
         }
-        model.addAttribute("resultsSize", ((Collection<?>) results).size());
-        model.addAttribute("kbs", results);
+        System.out.println(results);
+        model.addAttribute("resultsSize", ((Collection<?>) results.getContent()).size());
+        model.addAttribute("kbs", results.getContent());
         model.addAttribute("query", query);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", results.calcTotalPages());
 
         return "search";
     }

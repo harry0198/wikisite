@@ -37,6 +37,9 @@
         <div th:case="true">
           <div class="ResultsInfo" th:inline="text">Results found: [[${resultsSize}]]</div>
           <div th:replace="fragments/card-layout.html :: card(kbs=${kbs})"></div>
+          <div th:if="${totalPages > 1}" class="page-select">
+            <div th:replace="fragments/pagination :: pages (totalPages=${totalPages}, page=${page}, sendTo=@{/search}+'?query='+${query})"></div>
+          </div>
         </div>
         <div th:case="false">
           <div class="container">
@@ -51,7 +54,6 @@
       </div>
     </section>
 </main>
-
 
 <div th:replace="fragments/footer :: footer"></div>
 
