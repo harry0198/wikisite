@@ -6,7 +6,6 @@ import com.harrydrummond.wikisite.util.Validate;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,25 +19,6 @@ public class ArticleSearchController {
 
     private final ArticleSearcherService articleSearcherService;
     private final ArticleService articleService;
-
-    @GetMapping("/admin-panel")
-    public String showAdminPanel(@RequestParam(value = "search", required = false) String searchText,
-                                 @RequestParam(value = "pageNo", required = false) Integer pageNo,
-                                 ModelMap model) {
-
-        if (searchText == null && pageNo == null) {
-            return "index";
-        }
-
-        if (searchText != null && pageNo == null) {
-            pageNo = 1;
-            model.put("pageNo", 1);
-        }
-
-        articleSearcherService.searchArticles("lorem ipsum dolar sit amet", pageNo);
-
-        return "admin/admin-panel";
-    }
 
     /**
      * Gets the homepage for searching the knowledgebase and applies relevant attributes

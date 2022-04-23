@@ -27,24 +27,24 @@ public class AdminController {
         model.addAttribute("articles", articleService.loadAllArticles());
         return "admin/admin-panel";
     }
-
-    @GetMapping("/admim/articles/submission/preview")
-    public String previewArticleSubmission(Model model, Principal principal, ArticleContentSubmissionRequest articleContentRequest) {
-        Article article = articleService.loadArticleById(articleContentRequest.getArticleId());
-        AppUser appUser = appUserService.loadUserByUsername(principal.getName());
-
-        ArticleContent articleContent = ArticleContent.builder()
-                .views(0L)
-                .knowledgeBase(article)
-                .versionInfo(articleContentRequest.getVersionDescription())
-                .versionString(articleContentRequest.getVersion())
-                .appUser(appUser)
-                .content(articleContentRequest.getContent())
-                .build();
-
-        model.addAttribute("kb", article);
-        model.addAttribute("kbcontent", articleContent);
-
-        return "kbtemplate";
-    }
+//
+//    @GetMapping("/admin/articles/submission/preview")
+//    public String previewArticleSubmission(Model model, Principal principal, ArticleContentSubmissionRequest articleContentRequest) {
+//        Article article = articleService.loadArticleById(articleContentRequest.getArticleId());
+//        AppUser appUser = appUserService.loadUserByUsername(principal.getName());
+//
+//        ArticleContent articleContent = ArticleContent.builder()
+//                .views(0L)
+//                .knowledgeBase(article)
+//                .versionInfo(articleContentRequest.getVersionDescription())
+//                .versionString(articleContentRequest.getVersion())
+//                .appUser(appUser)
+//                .content(articleContentRequest.getContent())
+//                .build();
+//
+//        model.addAttribute("kb", article);
+//        model.addAttribute("kbcontent", articleContent);
+//
+//        return "kbtemplate";
+//    }
 }

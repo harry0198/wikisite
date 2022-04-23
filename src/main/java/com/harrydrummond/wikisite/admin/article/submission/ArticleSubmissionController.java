@@ -25,16 +25,6 @@ public class ArticleSubmissionController {
     private final ArticleRepository articleRepository;
     private final ArticleContentRepository articleContentRepository;
 
-//    @PostMapping
-//    public ResponseEntity submitNewArticle(Principal principal, @RequestBody ArticleSubmissionRequest articleRequest, @RequestBody ArticleContentSubmissionRequest articleContentSubmissionRequest) {
-//
-//        System.out.println(articleRequest);
-//        submitNewArticle(articleRequest);
-//        submitNewArticleContent(principal, articleContentSubmissionRequest);
-//
-//        return ResponseEntity.ok().build();
-//    }
-
     @PostMapping("article")
     public ResponseEntity submitNewArticle(ArticleSubmissionRequest articleRequest) {
         Article article = Article.builder()
@@ -44,7 +34,6 @@ public class ArticleSubmissionController {
                 .build();
 
         articleRepository.save(article);
-        System.out.println("here");
         return ResponseEntity.ok().build();
     }
 
