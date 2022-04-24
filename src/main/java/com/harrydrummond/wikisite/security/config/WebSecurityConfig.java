@@ -23,7 +23,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() /* Should enable? */
                 .authorizeRequests()
                 .antMatchers("/admin/**","/api/v1/components/article/submission/**")
                 .authenticated()

@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class ArticleSearcherService {
 
-    private static final int PAGE_SIZE = 10;
+    private static final int PAGE_SIZE = 6;
     private static final int TIMEOUT_MS = 500;
 
     private final EntityManager entityManager;

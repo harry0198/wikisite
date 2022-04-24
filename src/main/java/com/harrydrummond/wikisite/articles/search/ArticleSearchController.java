@@ -45,14 +45,13 @@ public class ArticleSearchController {
             page = 1;
         }
 
-        Pagination<Article> results = articleSearcherService.searchArticles(query, page, 2);
+        Pagination<Article> results = articleSearcherService.searchArticles(query, page);
 
         if (results.getContent().size() <= 0) {
             model.addAttribute("topArticles", articleSearcherService.getAllArticles(1,3).getContent());
             model.addAttribute("recentArticles", articleSearcherService.getAllArticlesSortByDate(1, 3).getContent());
         }
-        System.out.println(results);
-        model.addAttribute("resultsSize", ((Collection<?>) results.getContent()).size());
+        model.addAttribute("resultsSize", results.getTotalHits());
         model.addAttribute("kbs", results.getContent());
         model.addAttribute("query", query);
         model.addAttribute("page", page);

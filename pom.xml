@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.harrydrummond</groupId>
     <artifactId>wikisite</artifactId>
-    <version>0.0.10</version>
+    <version>0.0.12</version>
     <name>wikisite</name>
     <description>wikisite</description>
     <properties>
@@ -73,12 +73,12 @@
 <!--            <artifactId>thymeleaf-extras-springsecurity5</artifactId>-->
 <!--        </dependency>-->
 <!--Remove on production-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
 
         <!-- Markdown parser official -->
         <dependency>
