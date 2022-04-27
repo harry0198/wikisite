@@ -87,7 +87,7 @@ public class ArticleContent {
      * @return Author of content
      */
     public String getAuthor() {
-        return appUser.getUsername();
+        return appUser.getName();
     }
 
     /**

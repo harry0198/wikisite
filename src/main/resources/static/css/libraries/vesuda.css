@@ -9,13 +9,13 @@ p {
   margin: 0;
 }
 
-a, a.emphasis, a.secondary {
-  transition: 0.3s all !important;
+.emphasis, .secondary, a {
+  transition: 0.1s all !important;
   text-decoration: none !important;
   color: #f45a2a;
 }
 
-a:hover, a.secondary:hover {
+a:hover, .emphasis:hover {
   color: #eb3c06;
 }
 
@@ -285,6 +285,7 @@ CARDS
 }
 
 .card__footer {
+  margin-top: auto;
   padding-bottom: 20px;
 }
 
@@ -340,4 +341,8 @@ form.SearchBar button {
 form.SearchBar button:hover {
   background: #eb3c06;
   color: #fff;
+}
+
+button {
+  background: none;
 }

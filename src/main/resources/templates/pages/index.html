@@ -7,21 +7,20 @@
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" th:attr="content=@{/}" />
+  <meta property="og:url" th:attr="content=@{/static}" />
   <meta property="og:title" content="VesudaTutorials" />
   <meta property="og:description" content="Homepage for VesudaTutorials" />
 
   <!-- More CSS -->
-  <link rel="stylesheet" th:href="@{/css/landing-page.css}">
+  <link rel="stylesheet" th:href="@{/css/pages/imports/index-imports.css}">
 
   <div th:replace="fragments/head-fragment :: analytics"></div>
-
+  <script defer th:src="@{/js/core.js}"></script>
 </head>
 
 <body>
 
-  <div th:replace="fragments/navbar.html"></div>
-
+  <div th:replace="modules/navbar.html"></div>
   <header>
       <div class="image-text w-75">
         <div class="flex-i-text">
@@ -71,7 +70,7 @@
     </section>
   </main>
 
-  <div th:replace="fragments/footer :: footer"></div>
+  <div th:replace="modules/footer :: footer"></div>
 </body>
 
 </html>

@@ -4,15 +4,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 @Getter
 @Setter
@@ -20,15 +21,17 @@ import java.util.Collections;
 @NoArgsConstructor
 @Entity
 @Table(name = "app_user")
-public class AppUser implements UserDetails {
+public class AppUser implements OAuth2User, Serializable {
+
+    private static final List<GrantedAuthority> ROLE_USER = Collections
+            .unmodifiableList(AuthorityUtils.createAuthorityList("USER"));
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NonNull
-    private String username;
+    @Column(name = "username")
+    private String name;
     private String email;
-    private String password;
     @Enumerated(EnumType.STRING)
     @Column(name = "app_user_role")
     private AppUserRole appUserRole;
@@ -37,48 +40,31 @@ public class AppUser implements UserDetails {
     @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
-    public AppUser(String username, String email, String password, AppUserRole appUserRole) {
-        this.username = username;
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+    private transient Map<String, Object> attributes;
+
+    public AppUser(String name, String email, AppUserRole appUserRole) {
+        this.name = name;
         this.email = email;
-        this.password = password;
         this.appUserRole = appUserRole;
         this.dateCreated = LocalDateTime.now();
     }
 
+    public AppUser(AppUser appUser) {
+        this.id = appUser.id;
+        this.email = appUser.email;
+        this.name = appUser.name;
+        this.appUserRole = appUser.appUserRole;
+        this.locked = appUser.locked;
+        this.enabled = appUser.enabled;
+        this.dateCreated = appUser.dateCreated;
+        this.provider = appUser.provider;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
-
-        return Collections.singletonList(authority);
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
+        return ROLE_USER;
     }
 }

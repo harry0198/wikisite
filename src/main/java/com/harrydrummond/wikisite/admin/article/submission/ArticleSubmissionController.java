@@ -39,22 +39,22 @@ public class ArticleSubmissionController {
 
     @PostMapping("content")
     public ResponseEntity submitNewArticleContent(Principal principal, ArticleContentSubmissionRequest articleContentRequest) {
-        AppUser user = appUserService.loadUserByUsername(principal.getName());
-        Article article = articleRepository.findById((long) articleContentRequest.getArticleId())
-                .orElseThrow(() -> new IllegalStateException("Article to submit content to did not exist!"));
-
-        ArticleContent articleContent = ArticleContent.builder()
-                .appUser(user)
-                .dateCreated(new Date(System.currentTimeMillis()))
-                .content(articleContentRequest.getContent())
-                .versionString(articleContentRequest.getVersion())
-                .versionInfo(articleContentRequest.getVersionDescription())
-                .knowledgeBase(article)
-                .views(0L)
-                .build();
-
-        articleContentRepository.save(articleContent);
-        System.out.println("contenet ehre");
+//        AppUser user = appUserService.loadUserByUsername(principal.getName());
+//        Article article = articleRepository.findById((long) articleContentRequest.getArticleId())
+//                .orElseThrow(() -> new IllegalStateException("Article to submit content to did not exist!"));
+//
+//        ArticleContent articleContent = ArticleContent.builder()
+//                .appUser(user)
+//                .dateCreated(new Date(System.currentTimeMillis()))
+//                .content(articleContentRequest.getContent())
+//                .versionString(articleContentRequest.getVersion())
+//                .versionInfo(articleContentRequest.getVersionDescription())
+//                .knowledgeBase(article)
+//                .views(0L)
+//                .build();
+//
+//        articleContentRepository.save(articleContent);
+//        System.out.println("contenet ehre");
         return ResponseEntity.ok().build();
     }
 

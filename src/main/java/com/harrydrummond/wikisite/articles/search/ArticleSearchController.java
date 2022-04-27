@@ -9,9 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collection;
-import java.util.List;
-
 
 @Controller
 @AllArgsConstructor
@@ -29,7 +26,7 @@ public class ArticleSearchController {
     public String getSearchIndexPage(Model model) {
         model.addAttribute("totalViews", articleService.getTotalViews());
         model.addAttribute("exploreArticles", articleSearcherService.getAllArticles(1,3).getContent());
-        return "index";
+        return "pages/index";
     }
 
 
@@ -57,6 +54,6 @@ public class ArticleSearchController {
         model.addAttribute("page", page);
         model.addAttribute("totalPages", results.calcTotalPages());
 
-        return "search";
+        return "pages/search";
     }
 }

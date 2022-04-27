@@ -1,59 +1,55 @@
 package com.harrydrummond.wikisite.appuser;
 
-import com.harrydrummond.wikisite.registration.token.ConfirmationToken;
-import com.harrydrummond.wikisite.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
-public class AppUserService implements UserDetailsService {
+public class AppUserService extends DefaultOAuth2UserService {
 
     private final AppUserRepository appUserRepository;
-    private final ConfirmationTokenService confirmationTokenService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
-    public AppUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        return appUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username could not be found"));
+    public AppUser getAppUserByEmail(String email) {
+        return appUserRepository.findByEmail(email).orElseThrow(() -> new IllegalStateException("user does not exist"));
     }
 
-    public String signUpUser(AppUser appUser) {
+    public void signUpUser(AppUser appUser) {
+
         boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
 
         if (userExists) {
             throw new IllegalStateException("email already taken");
         }
-        boolean usernameExists = appUserRepository.findByUsername(appUser.getUsername()).isPresent();
-        if (usernameExists) {
-            throw new IllegalStateException("username already exists");
+
+        appUserRepository.save(appUser);
+    }
+
+    @Override
+    public AppUser loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
+        OAuth2User user =  super.loadUser(oAuth2UserRequest);
+        String email = user.getAttributes().get("email").toString();
+        Optional<AppUser> appUserOptional = appUserRepository.findByEmail(email);
+
+        if (appUserOptional.isEmpty()) {
+            AppUser appUser = new AppUser();
+            appUser.setEmail(email);
+            appUser.setAppUserRole(AppUserRole.USER);
+            appUser.setProvider(Provider.GOOGLE);
+            appUser.setAttributes(user.getAttributes()); //to the useer at the top of this method
+            appUser.setName(email);
+
+            return appUser;
         }
-
-        String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
-        appUser.setPassword(encodedPassword);
-
-        appUserRepository.save(appUser);
-
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                appUser
-        );
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return token;
+        return appUserOptional.get();
     }
 
-    public void enableAppUser(AppUser appUser) {
-        appUser.setEnabled(true);
-        appUserRepository.save(appUser);
-    }
 }

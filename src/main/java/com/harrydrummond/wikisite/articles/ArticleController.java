@@ -34,7 +34,7 @@ public class ArticleController {
         content.incrementViews();
         kbContentRepository.save(content);
 
-        return "kbtemplate";
+        return "article-template";
     }
 
 
