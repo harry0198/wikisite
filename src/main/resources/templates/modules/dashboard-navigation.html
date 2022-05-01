@@ -4,8 +4,8 @@
     <h2 class="mobile-hide">Menu</h2>
     <a th:classappend="${activeNum == 1 ? 'selected' : ''}" th:href="@{/user/dashboard}" class="dashboard__sidebar__item menu-link"><i class="fa fa-house icon"></i> <span class="mobile-hide">Home</span></a>
     <a th:classappend="${activeNum == 2 ? 'selected' : ''}" th:href="@{/user/dashboard/settings}" class="dashboard__sidebar__item menu-link"><i class="fa fa-user icon"></i> <span class="mobile-hide">Account</span></a>
-    <a th:classappend="${activeNum == 3 ? 'selected' : ''}" class="dashboard__sidebar__item menu-link"><i class="fa fa-bookmark icon"></i> <span class="mobile-hide">Saved</span></a>
-    <a th:classappend="${activeNum == 4 ? 'selected' : ''}" class="dashboard__sidebar__item menu-link"><i class="fa fa-newspaper icon"></i> <span class="mobile-hide">Publish</span></a>
+    <a th:classappend="${activeNum == 3 ? 'selected' : ''}" th:href="@{/user/dashboard/saved}" class="dashboard__sidebar__item menu-link"><i class="fa fa-bookmark icon"></i> <span class="mobile-hide">Saved</span></a>
+    <a th:classappend="${activeNum == 4 ? 'selected' : ''}" th:href="@{/user/dashboard/publish}" class="dashboard__sidebar__item menu-link"><i class="fa fa-newspaper icon"></i> <span class="mobile-hide">Publish</span></a>
 
     <a th:href="@{/}" class="dashboard__sidebar__item dashboard__sidebar__back-home mobile-hide"><i class="fa fa-chevron-left"></i>Back Home</a>
 </nav>

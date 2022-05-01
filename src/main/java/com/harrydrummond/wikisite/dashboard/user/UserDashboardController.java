@@ -18,11 +18,23 @@ public class UserDashboardController {
     public String getUserDashboard(Model model, @AuthenticationPrincipal AppUser appUser) {
         model.addAttribute("articles", articleSearcherService.getAllArticles(1,6).getContent());
         model.addAttribute("suggested_articles", articleSearcherService.getAllArticlesSortByDate(1,6).getContent());
-        return "pages/user-dashboard";
+        return "pages/dashboard";
     }
 
     @GetMapping("/user/dashboard/settings")
     public String getUserSettingsDashboard(Model model, @AuthenticationPrincipal AppUser appUser) {
-        return "pages/user-dashboard-settings";
+        return "pages/dashboard-settings";
+    }
+
+    @GetMapping("/user/dashboard/saved")
+    public String getUserSavedDashboard(Model model, @AuthenticationPrincipal AppUser appUser) {
+        model.addAttribute("articles", articleSearcherService.getAllArticles(1,6).getContent());
+
+        return "pages/dashboard-saved";
+    }
+
+    @GetMapping("/user/dashboard/publish")
+    public String getUserPublishDashboard(Model model, @AuthenticationPrincipal AppUser appUser) {
+        return "pages/dashboard-publish";
     }
 }

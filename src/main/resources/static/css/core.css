@@ -15,6 +15,7 @@ This file is used on all pages and is required for the core basic functionality
     # Sign in form (specific styling)
     # Footer
     # Navbar
+    # Carousel
 # Mini Lib
     # Glass (.glass)
     # Notification Bell Ring
@@ -376,6 +377,18 @@ a:hover {
     color: var(--site-color-selected);
 }
 
+.primary-btn, .secondary-btn {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    min-width: 8rem;
+}
+
+.primary-btn {
+    background-color: var(--site-color-selected);
+    color: white;
+}
+
 
 
 
@@ -507,6 +520,30 @@ a:hover {
     }
 }
 
+
+
+/* Carousel */
+
+.__carousel{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 1rem;
+    gap: 1rem;
+    overflow-x: auto;
+}
+
+@media(max-width: 768px) {
+    .__carousel > * {
+        min-width: 49%;
+    }
+}
+
+@media(max-width: 550px) {
+    .__carousel > * {
+        min-width: 98%;
+    }
+}
 
 /*
     Mini Lib

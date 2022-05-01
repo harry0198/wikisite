@@ -6,7 +6,7 @@
     <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
-    <link rel="stylesheet" th:href="@{/css/pages/imports/user-dashboard-imports.css}">
+    <link rel="stylesheet" th:href="@{/css/pages/imports/dashboard-settings-imports.css}">
 </head>
 <body>
 
@@ -14,7 +14,7 @@
     <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=2)"></th:block>
 
     <div class="dashboard__body settings_layout">
-        <nav class="dashboard__settings_sidebar">
+        <nav class="dashboard_sidebar_secondary">
             <h2 class="mobile-hide">Settings</h2>
             <a class="dashboard__sidebar__item menu-link selected"><i class="fa fa-address-card"></i>Personal Profile</a>
             <a class="dashboard__sidebar__item menu-link"><i class="fa fa-bell"></i>Notifications</a>
@@ -33,7 +33,17 @@
                 <label for="bio">Bio:</label>
                 <textarea type="text" id="bio" name="bio" placeholder="Hello, I am..."></textarea>
                 <p class="small-print">A brief description of yourself. Let your readers get to know you!</p>
+                <label for="imageUpload">Upload Profile Picture:</label>
+                <div id="profileImageUploadContainer">
+                    <image id="profileImageUpload" th:src="@{/images/Astronaut.png}"></image>
+                    <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" required="" capture>
+                </div>
             </form>
+
+            <div class="submission-btns">
+                <button class="primary-btn">Save</button>
+                <button class="secondary-btn">Cancel</button>
+            </div>
         </section>
     </div>
 </div>

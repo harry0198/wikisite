@@ -1,0 +1,74 @@
+.settings_layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "settings_sidebar settings_profile_form";
+}
+
+.dashboard__settings_profile {
+    padding: 1rem 1rem 0 1rem;
+}
+
+.settings_form {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings_form label{
+    margin-top: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.settings_form input, .settings_form textarea{
+    max-width: 70rem;
+    padding: 0.5rem;
+    border: 1px solid var(--site-text-grey-color);
+    border-radius: 0.5rem;
+}
+
+@media (max-width: 60rem) {
+    .settings_layout {
+        grid-template-columns: 100%;
+        grid-template-rows: 6rem 1fr;
+        grid-template-areas: 'settings_sidebar' 'settings_profile_form';
+    }
+}
+
+@media (max-width: 35rem) {
+    .submission-btns {
+        flex-direction: column;
+    }
+}
+
+.submission-btns {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.submission-btns button {
+    width: 100%;
+    max-width: 35rem;
+}
+
+#profileImageUpload {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+#imageUpload {
+    display: inline-block;
+    background-color: white;
+}
+
+#profileImageUploadContainer {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}

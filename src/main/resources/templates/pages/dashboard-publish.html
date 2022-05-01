@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+  <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
+  <link rel="stylesheet" th:href="@{/css/pages/imports/dashboard-imports.css}">
+</head>
+<body>
+
+<div class="dashboard__container">
+  <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=4)"></th:block>
+
+  <div class="dashboard__body">
+    <h2 class="article__module-title dashboard__saved-title">Publish</h2>
+
+    <P contenteditable="true">content edit</P>
+
+
+<!--      <li>-->
+<!--        <button class="md-editor__btn js-tooltip-trigger js-tab-focus" data-md-action="heading" type="button" title="Heading" data-tooltip-class="tooltip&#45;&#45;sm">-->
+<!--          <i class="fa fa-heading"></i>-->
+<!--        </button>-->
+<!--      </li>-->
+
+
+  </div>
+</div>
+
+</body>
+</html>

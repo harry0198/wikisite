@@ -200,6 +200,7 @@ form.SearchBar button:hover {
     height: 100%;
     padding: 1rem;
     border-radius: 1rem;
+    width: 18rem;
     min-width: 18rem;
     background-color: white;
     box-shadow: 0px 0px 17px -10px #000000;
@@ -339,8 +340,8 @@ form.SearchBar button:hover {
 }
 
 
-.pagination ul .active {
-    background-image: var(--background-orange-gradient);
+.pagination ul .active, .pagination ul .active:hover {
+    background-color: var(--site-color-selected);
 }
 
 .pagination ul .active a {
@@ -348,5 +349,6 @@ form.SearchBar button:hover {
 }
 
 .pagination ul li:hover {
-    background-color: #eeeeee;
+    background-color: var(--site-color-light-hover);
+    color: var(--site-color-selected);
 }

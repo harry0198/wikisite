@@ -7,7 +7,7 @@
     <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
-    <link rel="stylesheet" th:href="@{/css/pages/imports/user-dashboard-imports.css}">
+    <link rel="stylesheet" th:href="@{/css/pages/imports/dashboard-home-imports.css}">
 </head>
 <body>
 
@@ -16,10 +16,10 @@
     <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=1)"></th:block>
 
    <div class="dashboard__body">
-       <div class="article__popular-module">
-           <div class="article__popular-header">
-               <h3 class="article__module-title ">Popular Posts</h3>
-               <div class="article__popular-btns">
+       <div class="dashboard__module">
+           <div class="dashboard__module-header">
+               <h3 class="dashboard__module-title">Popular Posts</h3>
+               <div class="module__carousel-nav">
                    <button id="article__popular-move-left"><i class="fa fa-chevron-left"></i></button>
                    <button id="article__popular-move-right"><i class="fa fa-chevron-right"></i></button>
                </div>
@@ -32,15 +32,15 @@
 
        </div>
 
-       <div class="write__module">
+       <div class="dashboard__module write__module">
            <h3 class="write__heading">We want your Knowledge.</h3>
            <p class="write_subtext">On our website, knowledge is power! We want you to share your insights on developer topics to help and inspire people! It's as easy as pressing a button.</p>
-           <a class="write_link">Lets get Started <i class="fa fa-feather-pointed"></i></a>
+           <a th:href="@{/user/dashboard/publish}" class="write_link">Lets get Started <i class="fa fa-feather-pointed"></i></a>
        </div>
-       <div class="article__recommended-module">
-           <div class="article__popular-header">
-               <h3 class="article__module-title ">You may also like</h3>
-               <div class="article__popular-btns">
+       <div class="dashboard__module">
+           <div class="dashboard__module-header">
+               <h3 class="dashboard__module-title">You may also like</h3>
+               <div class="module__carousel-nav">
                    <button id="article__recommended-move-left"><i class="fa fa-chevron-left"></i></button>
                    <button id="article__recommended-move-right"><i class="fa fa-chevron-right"></i></button>
                </div>
