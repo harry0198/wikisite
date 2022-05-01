@@ -215,3 +215,19 @@ main.KnowledgeBase {
   gap: 30px;
   width: 100%;
 }
+
+.tag a {
+  color: #000;
+}
+
+main {
+  margin: 0px 0px;
+}
+main .container {
+  display: flex;
+  gap: 30px;
+}
+
+.KnowledgeBase .container {
+  flex-direction: column;
+}

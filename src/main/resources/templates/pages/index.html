@@ -15,7 +15,6 @@
   <link rel="stylesheet" th:href="@{/css/pages/imports/index-imports.css}">
 
   <div th:replace="fragments/head-fragment :: analytics"></div>
-  <script defer th:src="@{/js/core.js}"></script>
 </head>
 
 <body>
@@ -29,7 +28,7 @@
           <p>View university grade articles and guides to help bring you into the world of programming. Be one step ahead of everybody else.</p>
           <p>Our articles have a combined total of <strong><mark class="low orange"><span th:text="${totalViews}">x</span> views</mark></strong> and counting!</p>
           <div class="button-holder">
-            <a class="emphasis" th:href="@{/search}">Start Reading</a>
+            <a class="emphasis-btn" th:href="@{/search}">Start Reading</a>
 <!--            <a class="secondary" th:href="@{/about}">Contact us</a>-->
           </div>
         </div>
@@ -46,27 +45,8 @@
 
     <section class="top-articles">
       <h1><mark class="yellow">Explore</mark> Articles</h1>
-      <div class="card-container">
-        <div class="card__wrap--outer">
-          <div th:each="article: ${exploreArticles}" class="card__wrap--inner">
-            <div class="carde">
-              <img src="https://www.vesudatutorials.com/images/stock-bg.jpg" alt="Background Image">
-              <div class="card__item card-content card__header">
-                <h2><mark class="low orange" th:text="${article.getTitle()}">Custom CSS</mark></h2>
-              </div>
-              <div class="card__item card-content flexible tag_line">
-                <small th:text="${article.getTagLine()}">
-                  A heavily simplified version of how to load and paste schematics into a world using the worldedit api. Includes recommended pre-requisites, step-by-step tutorial, final example code and relevant links to the official docs.
-                </small>
-              </div>
-              <div class="card__footer card-content">
-                <a class="emphasis" th:href="@{/articles/} + ${article.getArticleUrlSafe()}">Read More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a class="emphasis more-button" th:href="@{/search}">More Articles +</a>
+        <div th:replace="layouts/card-layout.html :: card(articles=${exploreArticles})"></div>
+      <a class="emphasis-btn more-button" th:href="@{/search}">More Articles +</a>
     </section>
   </main>
 

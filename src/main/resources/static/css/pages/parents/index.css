@@ -75,6 +75,34 @@ div.w-75 {
 }
 
 
+.top-articles h1 {
+  font-weight: bolder;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 1000px) {
+
+  .top-articles {
+    margin: 0 auto 0 auto;
+  }
+
+  .image-text {
+    text-align: center;
+    margin: auto;
+    background-image: url("img/Work-risk-free.png");
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+.top-articles {
+  background-color: #e4e7ff;
+  text-align: center;
+  margin: -100px auto 0 auto;
+  padding-bottom: 50px;
+}
+
+
 
 .java {
   background-color: rgb(217,238,235);

@@ -1,13 +1,113 @@
-._modal {
-    text-align: center;
+/*
+Core CSS File.
+This file is used on all pages and is required for the core basic functionality
+
+# Sections
+# Common Styles
+    # General
+    # Small Print (.small-print)
+    # Emphasis (.emphasis) and (.secondary) and (a) and (.emphasis-btn and .secondary-btn)
+    # Code (pre code) styling TODO move
+    # Mark (.yellow) and (.low.blue and .low.orange)
+    # profile pic
+# Modules
+    # Modal Popup (._modal) and (#overlay) and (.close-btn)
+    # Sign in form (specific styling)
+    # Footer
+    # Navbar
+# Mini Lib
+    # Glass (.glass)
+    # Notification Bell Ring
+ */
+
+/*
+    Common Styles
+*/
+
+/* General */
+:root {
+    --highlight-color: rgb(0,120,250);
+    --selector-color: rgb(240,250,255);
+}
+* {
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
 }
 
-._modal h4 {
-    font-size: 1rem;
-    margin-top: 2rem;
-    font-weight: normal;
+body {
+    /* For navbar */
+    margin-top: 5.2rem;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
+p {
+    margin: 0;
+}
+
+button {
+    background: none;
+}
+
+
+
+
+
+
+
+
+/* Emphasis */
+
+.emphasis, .secondary, a, .emphasis-btn {
+    transition: 0.1s all;
+    text-decoration: none !important;
+    color: var(--selector-color);
+}
+
+.emphasis-btn {
+    transition: 0.3s all;
+}
+
+a:hover, .emphasis:hover {
+    color: var(--highlight-color);
+}
+
+.emphasis-btn:hover {
+    letter-spacing: 2px;
+    color: white;
+}
+
+.emphasis-btn {
+    border: none;
+    border-radius: 40px;
+    height: 70px;
+    padding: 15px 20px;
+    font-weight: 600;
+    /*background-image: linear-gradient(to right, red, #f06d06);*/
+    color: white;
+    background-image: linear-gradient(147deg, #fe8a39 0%, #fd3838 74%);
+}
+
+
+a.secondary-btn {
+    border: none;
+    background: none;
+    font-weight: 250;
+    color: black;
+}
+
+
+
+
+
+
+
+
+
+
+/* Small Print */
 .small-print {
     color: rgb(117, 117, 117);
     font-size: 0.7rem;
@@ -23,6 +123,124 @@
 
 .small-print a:hover {
     color: #eb3c06;
+}
+
+
+
+
+
+
+/* Elements with code inside */
+pre code {
+    border-left: #eb3c06 solid 3px;
+    border-radius: 4px 15px 15px 4px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    position: relative;
+}
+
+
+
+
+
+/* Mark */
+mark {
+    margin: 0;
+    padding: 0;
+}
+
+mark.yellow {
+    margin: 0 -0.2em;
+    padding: 0.1em 0.3em;
+    border-radius: 0.8em 0.3em;
+    background: transparent linear-gradient(
+            to right,
+            rgba(255, 225, 0, 0.1),
+            rgba(255, 225, 0, 0.7) 4%,
+            rgba(255, 225, 0, 0.3)
+    );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+mark.low.orange {
+    background: linear-gradient(180deg, rgba(255,255,255,0) 65%, #FFD0AE 65%);
+}
+
+mark.low.blue {
+    background: linear-gradient(180deg, rgba(255,255,255,0) 65%, powderblue 65%);
+}
+
+
+/* profile picture */
+.profile-picture {
+    border-radius: 100px;
+}
+
+
+
+/*
+    Modules
+ */
+
+
+/* Modal Popup */
+._modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    background-color: white;
+    z-index: 10;
+    border-radius: 5px;
+    padding: 5rem;
+    width: 40rem;
+    height: 40rem;
+    overflow-y: scroll;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    display: flex;
+    flex-direction: column;
+}
+
+._modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255,255,255,0.95);
+    pointer-events: none;
+    opacity: 0;
+}
+
+#overlay.active {
+    pointer-events: all;
+    opacity: 1;
+}
+
+@media (max-width: 800px) {
+    ._modal {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* Sign in form */
+#modal-signin {
+    text-align: center;
+}
+
+._modal h4 {
+    font-size: 1rem;
+    margin-top: 2rem;
+    font-weight: normal;
 }
 
 ._modal .login-signup-options {
@@ -77,28 +295,267 @@
 }
 
 .login-btn:hover {
-     box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
- }
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
+}
 
 .login-btn:active {
-     background-color: #eeeeee;
+    background-color: #eeeeee;
 }
 
 .login-btn:focus {
-     outline: none;
-     box-shadow:
-             0 -1px 0 rgba(0, 0, 0, .04),
-             0 2px 4px rgba(0, 0, 0, .25),
-             0 0 0 3px #c8dafc;
- }
+    outline: none;
+    box-shadow:
+            0 -1px 0 rgba(0, 0, 0, .04),
+            0 2px 4px rgba(0, 0, 0, .25),
+            0 0 0 3px #c8dafc;
+}
 
 .login-with-google-btn:disabled {
-     filter: grayscale(100%);
-     background-color: #ebebeb;
-     box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-     cursor: not-allowed;
+    filter: grayscale(100%);
+    background-color: #ebebeb;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+    cursor: not-allowed;
 }
 
 .login-options-footer {
     margin-top: 2rem;
+}
+
+
+
+
+
+/* Footer */
+
+/*@media (max-width: 786px) {*/
+
+/*    footer .Copyright {*/
+/*        text-align: center;*/
+/*        margin-top: 50px;*/
+/*    }*/
+/*}*/
+
+/*footer {*/
+/*    background: #323232;*/
+/*    color: #fff;*/
+/*    padding: 75px;*/
+/*}*/
+/*footer .Links {*/
+/*    display: flex;*/
+/*    list-style: none;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    gap: 50px;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+/*footer .Links a {*/
+/*    color: #fff;*/
+/*    font-weight: 600;*/
+/*    font-size: 24px;*/
+/*}*/
+/*footer .Copyright {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    font-size: 14px;*/
+/*    color: rgba(255,255,255,0.4);*/
+/*    gap: 50px;*/
+/*}*/
+/*footer .Copyright p {*/
+/*    margin: 0px;*/
+/*}*/
+
+footer .small-print {
+    text-decoration: underline;
+}
+a {
+    color: var(--site-text-grey-color);
+    cursor: pointer;
+}
+a:hover {
+    color: var(--site-color-selected);
+}
+
+
+
+
+/* Nav Bar */
+
+.navbar-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.logo:hover {
+    color: #eb3c06;
+}
+
+.logo-icon {
+    margin-right: 10px;
+    color: #f45a2a;
+}
+
+.logo {
+    color: black;
+    transition: 0.2s ease all;
+}
+
+.navbar-header .item {
+    flex: 1 1 0;
+}
+
+.navbar-header .navbar a {
+    font-size: 1rem;
+    padding: .5rem .5rem;
+    color: black;
+    display: inline-block;
+    border-radius: .5rem;
+    transition: 0.3s ease all;
+}
+
+.navbar-header .navbar a:hover {
+    background: #eb3c06;
+    color: white;
+}
+
+.navbar-header .icons {
+    text-align: right;
+}
+
+.navbar-header .icons i, .navbar-header.icons a {
+    cursor: pointer;
+    height: 2.5rem;
+    width: 2.5rem;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 50%;
+    line-height: 2.5rem;
+    margin-left: .5rem;
+    background: #eee;
+    transition: 0.3s all ease;
+}
+
+.navbar-header .icons i:hover, .navbar-header.icons a:hover {
+    color: white;
+    transform: rotate(360deg);
+    background: #eb3c06;
+}
+
+.navbar-header .icons #menu-bars {
+    display: none;
+}
+
+
+@media (max-width: 728px) {
+    .navbar-header {
+        padding: 1rem 2rem;
+    }
+
+    .navbar-header .logo {
+        font-size: 1.3rem;
+    }
+
+    .navbar-header .item {
+        flex: 0 1 auto;
+    }
+
+    .navbar-header .icons #menu-bars {
+        display: inline-block;
+    }
+    .navbar-header .icons #search {
+        display: none;
+    }
+
+
+    .navbar-header .navbar {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: .1rem solid rgba(0,0,0,0.2);
+        padding: 1rem;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: 0.3s all ease;
+    }
+
+    .navbar-header .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .navbar-header .navbar a {
+        display: block;
+        padding: 1rem;
+        margin: 1rem;
+        font-size: 1rem;
+        background: #eee;
+    }
+}
+
+
+/*
+    Mini Lib
+ */
+
+/* Glass */
+.glass {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+
+
+
+
+
+.ring {
+    animation: ring 1.5s ease;
+}
+
+
+@keyframes ring {
+    0% {
+        transform: rotate(35deg);
+    }
+    12.5% {
+        transform: rotate(-30deg);
+    }
+    25% {
+        transform: rotate(25deg);
+    }
+    37.5% {
+        transform: rotate(-20deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+    62.5% {
+        transform: rotate(-10deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }

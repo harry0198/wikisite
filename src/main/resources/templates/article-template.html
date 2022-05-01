@@ -4,21 +4,19 @@
 
     <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
     <!-- Generic Meta -->
-    <title th:text="${kb.title}">Article Page</title>
+    <title th:text="${kb.title}"></title>
     <meta name=“description” th:attr="content=${kb.tagLine}" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" th:attr="content=@{/kb/view} + ${kb.getArticleUrlSafe()}" />
+    <meta property="og:url" th:attr="content=@{/articles/} + ${kb.getArticleUrlSafe()}" />
     <meta property="og:title" th:attr="content=${kb.getTitle()}" />
     <meta property="og:description" th:attr="content=${kb.getTagLine()}" />
 
-
-    <!-- More CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" th:href="@{/css/articlepage.css}">
-
+    <!-- Ads Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6787754437771899" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{/css/pages/imports/article-page-imports.css}">
 
     <div th:replace="fragments/head-fragment :: analytics"></div>
     <div th:replace="fragments/head-fragment :: code-syntax-highlights"></div>
@@ -33,7 +31,7 @@
             <h1 th:text="${kb.title}" class="SiteTitle">Was this article helpful?</h1>
 
             <div class="authorblock">
-                <img src="https://cdn.discordapp.com/avatars/281088015219032064/293f42162f4ffeddf7a060a30d27d12a.webp?size=96" width="36px" height="36px" />
+                <img src="https://cdn.discordapp.com/avatars/281088015219032064/293f42162f4ffeddf7a060a30d27d12a.webp?size=96" width="36px" height="36px"  alt="Author Profile Picture"/>
                 <span>Author: <span th:text="${kb.getLatestArticleContent().getAuthor()}">Author</span></span>
             </div>
 

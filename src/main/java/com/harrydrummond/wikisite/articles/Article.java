@@ -109,6 +109,15 @@ public class Article implements Comparable<Article> {
         return contents.stream().findFirst().get();
     }
 
+    public int getViews() {
+        int views = 0;
+        for (ArticleContent possibleContent : getPossibleContents()) {
+            if (possibleContent == null) continue;
+            views += possibleContent.getViews();
+        }
+        return views;
+    }
+
     /**
      * Gets KnowledgeBase numerical ID
      * @return Gets ID of KnowledgeBase
@@ -138,6 +147,7 @@ public class Article implements Comparable<Article> {
      * @return Date KnowledgeBase was created
      */
     public Date getDateCreated() {
+
         return dateCreated;
     }
 
@@ -170,7 +180,7 @@ public class Article implements Comparable<Article> {
      * @return Single-stringed title for URL usage
      */
     public String getArticleUrlSafe() {
-        return title.replaceAll(" ", "-");
+        return title.replaceAll(" ", "-").toLowerCase();
     }
 
     /**

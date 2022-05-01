@@ -1,6 +1,3 @@
 @import url("/css/pages/parents/index.css");
-@import url("/css/modules/modal.css");
-@import url("/css/libraries/vesuda.css");
-@import url("/css/libraries/normalize.css");
-@import url("/css/modules/navbar.css");
-@import url("/css/modules/login.css");
+@import url("/css/core.css");
+@import url("/css/modules.css");

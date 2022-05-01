@@ -11,13 +11,12 @@
 
   <div th:replace="fragments/head-fragment :: analytics"></div>
 
-  <!-- Page Specific CSS -->
-  <link rel="stylesheet" th:href="@{/css/searchpage.css}">
-  <link rel="stylesheet" th:href="@{/css/pagination-footer.css}">
+  <!-- More CSS -->
+  <link rel="stylesheet" th:href="@{/css/pages/imports/search-imports.css}">
 </head>
 <body>
 
-<div th:replace="fragments/core.html"></div>
+<div th:replace="modules/navbar.html"></div>
 
 <header></header>
 
@@ -28,7 +27,7 @@
         <p th:if="${query == null || query.isEmpty()}">Search for Articles</p>
         <p th:unless="${query == null || query.isEmpty()}">Articles for: <span th:text="${query}">Query</span></p>
       </div>
-      <div th:replace="fragments/search.html"></div>
+      <div th:replace="modules/search.html"></div>
     </div>
   </div>
 
@@ -36,26 +35,26 @@
       <div th:switch="${resultsSize > 0}">
         <div th:case="true">
           <div class="ResultsInfo" th:inline="text">Results found: [[${resultsSize}]]</div>
-          <div th:replace="fragments/card-layout.html :: card(kbs=${kbs})"></div>
+          <div th:replace="layouts/card-layout.html :: card(articles=${articles})"></div>
           <div th:if="${totalPages > 1}" class="page-select">
-            <div th:replace="fragments/pagination :: pages (totalPages=${totalPages}, page=${page}, sendTo=@{/search}+'?query='+${query})"></div>
+            <div th:replace="modules/pagination :: pages (totalPages=${totalPages}, page=${page}, sendTo=@{/search}+'?query='+${query})"></div>
           </div>
         </div>
         <div th:case="false">
           <div class="container">
             <h3 class="card-segment-header">Top Articles</h3>
-            <div th:replace="fragments/card-layout.html :: card(kbs=${topArticles})"></div>
+            <div th:replace="layouts/card-layout.html :: card(articles=${topArticles})"></div>
           </div>
           <div class="container">
             <h3 class="card-segment-header">Recent Articles</h3>
-            <div th:replace="fragments/card-layout.html :: card(kbs=${recentArticles})"></div>
+            <div th:replace="layouts/card-layout.html :: card(articles=${recentArticles})"></div>
           </div>
         </div>
       </div>
     </section>
 </main>
 
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="modules/footer :: footer"></div>
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

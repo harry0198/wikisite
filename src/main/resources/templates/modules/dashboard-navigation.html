@@ -1,0 +1,18 @@
+<th:block th:fragment="navbars (activeNum)">
+<nav class="dashboard__sidebar">
+    <a th:href="@{/}" class="logo branding mobile-hide"><i class="fas fa-code logo-icon"></i>thedevblog</a>
+    <h2 class="mobile-hide">Menu</h2>
+    <a th:classappend="${activeNum == 1 ? 'selected' : ''}" th:href="@{/user/dashboard}" class="dashboard__sidebar__item menu-link"><i class="fa fa-house icon"></i> <span class="mobile-hide">Home</span></a>
+    <a th:classappend="${activeNum == 2 ? 'selected' : ''}" th:href="@{/user/dashboard/settings}" class="dashboard__sidebar__item menu-link"><i class="fa fa-user icon"></i> <span class="mobile-hide">Account</span></a>
+    <a th:classappend="${activeNum == 3 ? 'selected' : ''}" class="dashboard__sidebar__item menu-link"><i class="fa fa-bookmark icon"></i> <span class="mobile-hide">Saved</span></a>
+    <a th:classappend="${activeNum == 4 ? 'selected' : ''}" class="dashboard__sidebar__item menu-link"><i class="fa fa-newspaper icon"></i> <span class="mobile-hide">Publish</span></a>
+
+    <a th:href="@{/}" class="dashboard__sidebar__item dashboard__sidebar__back-home mobile-hide"><i class="fa fa-chevron-left"></i>Back Home</a>
+</nav>
+<div class="dashboard__header">
+    <a th:href="@{/}" class="logo branding desktop-hide"><i class="fas fa-code logo-icon"></i>thedevblog</a>
+    <th:block th:replace="modules/simple-search.html"></th:block>
+    <button class="notification-btn mobile-hide"><i class="fa fa-bell notification-icon"></i></button>
+    <button><img class="profile-picture" src="https://cdn.discordapp.com/avatars/281088015219032064/293f42162f4ffeddf7a060a30d27d12a.webp?size=96" width="36px" height="36px"  alt="User Profile Picture"/></button>
+</div>
+</th:block>

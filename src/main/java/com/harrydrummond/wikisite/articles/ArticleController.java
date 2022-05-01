@@ -28,7 +28,7 @@ public class ArticleController {
         } else {
             content = kb.getLatestArticleContent();
         }
-        model.addAttribute("kb", kb);
+        model.addAttribute("articles", kb);
         model.addAttribute("kbcontent", content);
 
         content.incrementViews();

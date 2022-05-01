@@ -49,7 +49,7 @@ public class ArticleSearchController {
             model.addAttribute("recentArticles", articleSearcherService.getAllArticlesSortByDate(1, 3).getContent());
         }
         model.addAttribute("resultsSize", results.getTotalHits());
-        model.addAttribute("kbs", results.getContent());
+        model.addAttribute("articles", results.getContent());
         model.addAttribute("query", query);
         model.addAttribute("page", page);
         model.addAttribute("totalPages", results.calcTotalPages());
