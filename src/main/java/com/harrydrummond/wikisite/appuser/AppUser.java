@@ -1,13 +1,13 @@
 package com.harrydrummond.wikisite.appuser;
 
+
+import com.harrydrummond.wikisite.articles.Article;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
@@ -42,6 +42,13 @@ public class AppUser implements OAuth2User, Serializable {
 
     @Enumerated(EnumType.STRING)
     private Provider provider;
+
+    @ManyToMany(mappedBy = "likes")
+    private List<Article> likedArticles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_saves", joinColumns = @JoinColumn(name = "kb_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Article> savedArticles;
 
     private transient Map<String, Object> attributes;
 

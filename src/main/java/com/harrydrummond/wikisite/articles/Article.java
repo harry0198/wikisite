@@ -1,5 +1,6 @@
 package com.harrydrummond.wikisite.articles;
 
+import com.harrydrummond.wikisite.appuser.AppUser;
 import com.harrydrummond.wikisite.articles.content.ArticleContent;
 import com.harrydrummond.wikisite.articles.tags.Tag;
 import lombok.*;
@@ -58,6 +59,13 @@ public class Article implements Comparable<Article> {
     @JoinTable(name = "kb_tag_relation", joinColumns = @JoinColumn(name = "kb_id"), inverseJoinColumns = @JoinColumn(name = "tag_name"))
     @IndexedEmbedded
     private @Nullable Set<Tag> tags;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_likes", joinColumns = @JoinColumn(name = "kb_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<AppUser> likes;
+
+    @ManyToMany(mappedBy = "savedArticles")
+    private List<AppUser> usersWhoSaved;
 
     @Nullable
     private int rating = 5;
