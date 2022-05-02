@@ -6,7 +6,9 @@
   <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
-  <link rel="stylesheet" th:href="@{/css/pages/imports/dashboard-imports.css}">
+  <link rel="stylesheet" th:href="@{/css/pages/imports/dashboard-publish-imports.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 </head>
 <body>
 
@@ -14,18 +16,19 @@
   <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=4)"></th:block>
 
   <div class="dashboard__body">
-    <h2 class="article__module-title dashboard__saved-title">Publish</h2>
+    <form class="dashboard__form">
+      <label for='title'>Title:</label>
+      <input id="title" type="text" placeholder="Eg: How to use a sort algorithm efficiently" required>
 
-    <P contenteditable="true">content edit</P>
+      <label for='content-editor'>Body:</label>
+      <textarea id='content-editor' placeholder="Begin writing in markdown..." required></textarea>
 
+      <div class="submission-btns">
+        <button class="primary-btn">Publish</button>
+        <button class="secondary-btn">Discard</button>
+      </div>
 
-<!--      <li>-->
-<!--        <button class="md-editor__btn js-tooltip-trigger js-tab-focus" data-md-action="heading" type="button" title="Heading" data-tooltip-class="tooltip&#45;&#45;sm">-->
-<!--          <i class="fa fa-heading"></i>-->
-<!--        </button>-->
-<!--      </li>-->
-
-
+    </form>
   </div>
 </div>
 

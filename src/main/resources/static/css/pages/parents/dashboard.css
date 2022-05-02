@@ -245,7 +245,7 @@ body *::-webkit-scrollbar {
     flex-direction: column;
     padding: 1rem;
     background-color: var(--site-nav-second-depth-color);
-    grid-area: settings_sidebar;
+    grid-area: sidebar;
     height: 100%;
     overflow-x: scroll;
 }
@@ -255,11 +255,13 @@ body *::-webkit-scrollbar {
     margin-bottom: 2rem;
 }
 
-.dashboard_sidebar_secondary a {
+.dashboard_sidebar_secondary .menu-link {
     min-width: 10rem;
+    transition: all 0.3s ease;
+    text-align: left;
 }
 
-.dashboard_sidebar_secondary a i {
+.dashboard_sidebar_secondary .menu-link i {
     margin-right: 1rem;
     width: 1rem;
 }
@@ -286,6 +288,12 @@ body *::-webkit-scrollbar {
         overflow-x: scroll;
         align-items: center;
     }
+
+    .dashboard_sidebar_secondary .menu-link:hover {
+        background-color: var(--site-color-selected);
+        color: white;
+    }
+
 }
 
 .card-layout {
@@ -301,4 +309,57 @@ body *::-webkit-scrollbar {
 
 .dashboard__saved-title {
     padding: 1rem;
+}
+
+.sidebar_layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "sidebar content";
+}
+
+@media (max-width: 60rem) {
+    .sidebar_layout {
+        grid-template-columns: 100%;
+        grid-template-rows: 6rem 1fr;
+        grid-template-areas: 'sidebar' 'content';
+    }
+}
+
+
+.dashboard__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard__form label{
+    margin-top: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+
+.dashboard__form input, .dashboard__form textarea{
+    max-width: 70rem;
+    padding: 0.5rem;
+    border: 1px solid var(--site-text-grey-color);
+    border-radius: 0.5rem;
+}
+
+@media (max-width: 35rem) {
+    .submission-btns {
+        flex-direction: column;
+    }
+}
+
+.submission-btns {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.submission-btns button {
+    width: 100%;
+    max-width: 35rem;
 }
