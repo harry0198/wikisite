@@ -1,11 +1,12 @@
 package com.harrydrummond.wikisite.appuser;
 
 
-import com.harrydrummond.wikisite.articles.Article;
-import lombok.EqualsAndHashCode;
+import com.harrydrummond.wikisite.appuser.likes.AppUserLikes;
+import com.harrydrummond.wikisite.appuser.saves.AppUserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -17,7 +18,6 @@ import java.util.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 @Table(name = "app_user")
@@ -43,12 +43,11 @@ public class AppUser implements OAuth2User, Serializable {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
-    @ManyToMany(mappedBy = "likes")
-    private List<Article> likedArticles;
+    @OneToMany(mappedBy="post", fetch = FetchType.EAGER)
+    private Set<AppUserLikes> likes = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_saves", joinColumns = @JoinColumn(name = "kb_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<Article> savedArticles;
+    @OneToMany(mappedBy="post", fetch = FetchType.EAGER)
+    private Set<AppUserSaves> saves = new HashSet<>();
 
     private transient Map<String, Object> attributes;
 
@@ -68,10 +67,57 @@ public class AppUser implements OAuth2User, Serializable {
         this.enabled = appUser.enabled;
         this.dateCreated = appUser.dateCreated;
         this.provider = appUser.provider;
+        this.likes = appUser.likes;
+        this.saves = appUser.saves;
+    }
+
+    public void addLike(AppUserLikes appUserLikes) {
+        likes.add(appUserLikes);
+    }
+
+    public void removeLike(AppUserLikes appUserLikes) {
+        likes.remove(appUserLikes);
+    }
+
+    public boolean isLiked(long articleId) {
+        for (AppUserLikes save : likes) {
+            long article = save.getPost().getId();
+            if (article == articleId) return true;
+        }
+        return false;
+    }
+
+    public void addSave(AppUserSaves appUserSaves) {
+        saves.add(appUserSaves);
+    }
+
+    public void removeSave(AppUserSaves appUserSaves) {
+        saves.remove(appUserSaves);
+    }
+
+    public boolean isSaved(long articleId) {
+        for (AppUserSaves save : saves) {
+            long article = save.getPost().getId();
+            if (article == articleId) return true;
+        }
+        return false;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return ROLE_USER;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        AppUser appUser = (AppUser) o;
+        return id != null && Objects.equals(id, appUser.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

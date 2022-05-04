@@ -25,8 +25,8 @@
                </div>
            </div>
            <div id="article__popular-cards" class="__carousel">
-               <th:block th:each="article: ${articles}">
-                   <th:block th:replace="modules/article-cards.html"></th:block>
+               <th:block th:each="post: ${posts}">
+                   <th:block th:replace="modules/post-cards.html"></th:block>
                </th:block>
            </div>
 
@@ -47,8 +47,8 @@
            </div>
 
            <div id="article__recommended-cards" class="__carousel">
-               <th:block th:each="article: ${suggested_articles}">
-                   <th:block th:replace="modules/article-cards.html"></th:block>
+               <th:block th:each="post: ${suggested_posts}">
+                   <th:block th:replace="modules/post-cards.html"></th:block>
                </th:block>
            </div>
        </div>

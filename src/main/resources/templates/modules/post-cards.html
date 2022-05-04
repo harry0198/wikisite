@@ -1,0 +1,23 @@
+<div class="article__card" th:fragment="card" th:attr="data-el_id=${post.getId()}">
+  <div class="article__card-header">
+    <span class="article__card-difficulty"><span>Beginner</span><i class="fa fa-circle-dot difficulty-icon easy"></i></span>
+  </div>
+  <h3 class="article__card-title"><a th:text="${post.getTitle()}" th:href="@{/post/} + ${post.getTitleUrlSafe()}"></a></h3>
+  <p class="article__card-overview">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+  <div class="article__card-author">
+    <img class="profile-picture" src="https://cdn.discordapp.com/avatars/281088015219032064/293f42162f4ffeddf7a060a30d27d12a.webp?size=96" width="36px" height="36px"  alt="User Profile Picture"/>
+    <p>Harry Drummond</p>
+  </div>
+  <div class="article__card-info">
+    <div class="article__card-stats">
+      <span><i class="fa fa-eye"></i><span>1k</span></span>
+      <button class="card__like_btn" th:attr="data-el_liked=${user.isLiked(post.getId())}" th:classappend="${user.isLiked(post.getId())} ? 'selected' : ''"><i class="fa fa-thumbs-up"></i>120</button>
+      <button class="card__save_btn" th:attr="data-el_saved=${user.isSaved(post.getId())}" th:classappend="${user.isSaved(post.getId())} ? 'selected' : ''"><i class="fa fa-bookmark"></i>13</button>
+    </div>
+    <hr>
+    <div class="article__card-footer">
+      <span>4m Read</span>
+      <span th:text="${post.getDatePosted().toString()}"></span>
+    </div>
+  </div>
+</div>

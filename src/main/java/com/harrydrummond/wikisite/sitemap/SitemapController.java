@@ -1,7 +1,7 @@
 package com.harrydrummond.wikisite.sitemap;
 
-import com.harrydrummond.wikisite.articles.Article;
-import com.harrydrummond.wikisite.articles.search.ArticleSearcherService;
+import com.harrydrummond.wikisite.posts.Post;
+import com.harrydrummond.wikisite.posts.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import java.util.Date;
 @Controller
 public class SitemapController {
 
-    private final ArticleSearcherService articleSearcherService;
+    private final PostService postService;
 
 
     @RequestMapping(value = "/sitemap.xml", method = RequestMethod.GET, produces = { "application/xml",
@@ -22,8 +22,8 @@ public class SitemapController {
     @ResponseBody
     public XmlUrlSet getSitemap() {
         XmlUrlSet xmlUrlSet = new XmlUrlSet();
-        for (Article allKnowledgeBase : articleSearcherService.getAllArticles(1, Integer.MAX_VALUE).getContent()) {
-            create(xmlUrlSet, allKnowledgeBase.getArticleUrlSafe(), getPriorityRating(allKnowledgeBase.getRating()), allKnowledgeBase.getDateCreated());
+        for (Post post : postService.getAllPosts(1, Integer.MAX_VALUE).getContent()) {
+            create(xmlUrlSet, post.getTitleUrlSafe(), XmlUrl.Priority.MEDIUM, post.getDatePosted());
         }
 
         return xmlUrlSet;
@@ -38,7 +38,7 @@ public class SitemapController {
     }
 
     private void create(XmlUrlSet xmlUrlSet, String link, XmlUrl.Priority priority, Date date) {
-        xmlUrlSet.addUrl(new XmlUrl("https://www.vesudatutorials.com/articles/" + link, priority, date));
+        xmlUrlSet.addUrl(new XmlUrl("https://www.vesudatutorials.com/post/" + link, priority, date));
     }
 
 

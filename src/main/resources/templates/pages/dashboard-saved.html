@@ -16,8 +16,8 @@
   <div class="dashboard__body">
     <h2 class="dashboard__module-title">Saved Posts</h2>
     <div class="card-layout">
-      <th:block th:each="article: ${articles}">
-        <th:block th:replace="modules/article-cards.html"></th:block>
+      <th:block th:each="post: ${posts}">
+        <th:block th:replace="modules/post-cards.html"></th:block>
       </th:block>
     </div>
     <th:block th:replace="modules/pagination :: pages (totalPages=3, page=2, sendTo='http://localhost:8080/user/dashboard/saved?page=')"></th:block>

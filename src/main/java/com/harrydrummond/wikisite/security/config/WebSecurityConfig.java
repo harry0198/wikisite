@@ -30,8 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authenticated().antMatchers("/**")
 //                .permitAll().and()
 //                .oauth2Login().and().httpBasic();
-        http.authorizeRequests()
-                .antMatchers("/admin/**", "/api/v1/components/article/submission/**")
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/admin/**")
                 .authenticated()
                 .anyRequest().permitAll()
                 .and()

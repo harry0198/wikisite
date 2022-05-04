@@ -1,10 +1,15 @@
 package com.harrydrummond.wikisite.appuser;
 
+import com.harrydrummond.wikisite.appuser.likes.AppUserLikes;
+import com.harrydrummond.wikisite.appuser.likes.AppUserLikesRepository;
+import com.harrydrummond.wikisite.appuser.saves.AppUserSaves;
+import com.harrydrummond.wikisite.appuser.saves.AppUserSavesRepository;
+import com.harrydrummond.wikisite.posts.Post;
+import com.harrydrummond.wikisite.posts.PostService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -17,20 +22,43 @@ import java.util.Optional;
 public class AppUserService extends DefaultOAuth2UserService {
 
     private final AppUserRepository appUserRepository;
+    private final AppUserSavesRepository appUserSavesRepository;
+    private final AppUserLikesRepository appUserLikesRepository;
 
-    public AppUser getAppUserByEmail(String email) {
-        return appUserRepository.findByEmail(email).orElseThrow(() -> new IllegalStateException("user does not exist"));
+    private final PostService postService;
+
+    public void savePost(AppUser appUser, int postId, boolean save) {
+        Post post = postService.getPostById(postId);
+
+        AppUserSaves appUserSaves =  appUserSavesRepository.findByPostAndAppUser(post, appUser);
+        if (save) {
+            if (appUserSaves == null) {
+                appUserSaves = new AppUserSaves(post, appUser);
+                appUser.addSave(appUserSaves);
+                appUserRepository.save(appUser);
+            }
+
+        } else {
+            appUser.removeSave(appUserSaves);
+            appUserRepository.save(appUser);
+        }
     }
 
-    public void signUpUser(AppUser appUser) {
+    public void likePost(AppUser appUser, int postId, boolean like) {
+        Post post = postService.getPostById(postId);
 
-        boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
+        AppUserLikes appUserLikes = appUserLikesRepository.findByPostAndAppUser(post, appUser);
+        if (like) {
+            if (appUserLikes == null) {
+                appUserLikes = new AppUserLikes(post, appUser);
+                appUser.addLike(appUserLikes);
+                appUserRepository.save(appUser);
+            }
 
-        if (userExists) {
-            throw new IllegalStateException("email already taken");
+        } else {
+            appUser.removeLike(appUserLikes);
+            appUserRepository.save(appUser);
         }
-
-        appUserRepository.save(appUser);
     }
 
     @Override
@@ -44,9 +72,10 @@ public class AppUserService extends DefaultOAuth2UserService {
             appUser.setEmail(email);
             appUser.setAppUserRole(AppUserRole.USER);
             appUser.setProvider(Provider.GOOGLE);
-            appUser.setAttributes(user.getAttributes()); //to the useer at the top of this method
+            appUser.setAttributes(user.getAttributes()); //to the user at the top of this method
             appUser.setName(email);
 
+            appUserRepository.save(appUser);
             return appUser;
         }
         return appUserOptional.get();

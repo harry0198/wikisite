@@ -16,17 +16,19 @@
   <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=4)"></th:block>
 
   <div class="dashboard__body">
-    <form class="dashboard__form">
+    <form class="dashboard__form" th:action="@{/api/v1/post/new}" method="post">
       <label for='title'>Title:</label>
       <input id="title" type="text" placeholder="Eg: How to use a sort algorithm efficiently" required>
 
       <label for='content-editor'>Body:</label>
-      <textarea id='content-editor' placeholder="Begin writing in markdown..." required></textarea>
+      <textarea id='content-editor' placeholder="Begin writing in markdown..."></textarea>
 
-      <div class="submission-btns">
-        <button class="primary-btn">Publish</button>
-        <button class="secondary-btn">Discard</button>
-      </div>
+      <input type="submit" value="Submit">
+
+<!--      <div class="submission-btns">-->
+<!--        <button class="primary-btn">Publish</button>-->
+<!--        <button class="secondary-btn">Discard</button>-->
+<!--      </div>-->
 
     </form>
   </div>

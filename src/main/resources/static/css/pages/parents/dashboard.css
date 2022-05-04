@@ -363,3 +363,7 @@ body *::-webkit-scrollbar {
     width: 100%;
     max-width: 35rem;
 }
+
+.selected {
+    color: var(--site-color-selected);
+}

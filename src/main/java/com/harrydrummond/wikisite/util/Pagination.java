@@ -1,4 +1,4 @@
-package com.harrydrummond.wikisite.articles.search;
+package com.harrydrummond.wikisite.util;
 
 
 import lombok.AllArgsConstructor;
