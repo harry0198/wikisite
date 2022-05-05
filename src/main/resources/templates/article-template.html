@@ -66,7 +66,7 @@
                                     <div th:text="${log.getVersionString()}" class="changeversion">v1.0.3</div>
                                 </div>
                                 <div class="changes">
-                                    <div th:text="${T(com.harrydrummond.wikisite.util.DateUtil).getDateCreatedFormatted(log.getDateCreated())}" class="changedate">Changelog 14/2/2069</div>
+                                    <div th:text="${T(com.harrydrummond.projecthjd.util.DateUtil).getDateCreatedFormatted(log.getDateCreated())}" class="changedate">Changelog 14/2/2069</div>
                                     <ul>
                                         <li th:text="${log.getVersionInfo()}"></li>
                                     </ul>
