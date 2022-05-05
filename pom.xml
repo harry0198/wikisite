@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.harrydrummond</groupId>
-    <artifactId>wikisite</artifactId>
+    <artifactId>projecthjd</artifactId>
     <version>0.0.12</version>
-    <name>wikisite</name>
-    <description>wikisite</description>
+    <name>projecthjd</name>
+    <description>Project HJD</description>
     <properties>
         <lucene.version>8.11.1</lucene.version>
         <java.version>11</java.version>
