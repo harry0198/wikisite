@@ -1,0 +1,23 @@
+.dashboard__settings_profile {
+    padding: 1rem 1rem 0 1rem;
+}
+
+#profileImageUpload {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+#imageUpload {
+    display: inline-block;
+    background-color: white;
+}
+
+#profileImageUploadContainer {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}

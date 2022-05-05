@@ -1,0 +1,233 @@
+@media (max-width: 786px) {
+
+  .tagsblock, main .Content, .sidebar {
+    width: 100% !important;
+  }
+
+  main .container {
+    flex-direction: column;
+  }
+}
+header {
+  background: #f1f2f6;
+  padding: 70px;
+}
+
+.template-title {
+  background-image: url("https://www.vesudatutorials.com/images/article-header-bg.jpg");
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: bottom;
+}
+
+.SiteTitle {
+  font-weight: 700;
+  color: white;
+}
+.authorblock {
+  font-weight: 600;
+  /*color: rgba(0,0,0,0.5);*/
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.authorblock img {
+  background: rgba(0,0,0,0.1);
+  border-radius: 100px;
+}
+.tagsblock {
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px auto 0;
+  gap: 5px;
+}
+.tag {
+  border-radius: 100px;
+  font-weight: 600;
+  padding: 2px 12px;
+  width: fit-content;
+  transition: 0.3s all !important;;
+  cursor: pointer;
+}
+
+.tag a:hover {
+  letter-spacing: 0.4rem;
+  /* Removes last letter spacing */
+  margin-right:-0.4rem;
+}
+
+.tag a {
+  color: white;
+}
+
+/*.tag {*/
+/*  background: #f2d2ca;*/
+/*  border-radius: 100px;*/
+/*  font-weight: 600;*/
+/*  border: 3px solid #f2997f;*/
+/*  padding: 2px 12px;*/
+/*  width: fit-content;*/
+/*  transition: 0.3s all !important;*/
+/*  cursor: pointer;*/
+/*}*/
+/*.tag:hover {*/
+/*  background: rgb(244 193 180);*/
+/*  border: 3px solid rgb(244 90 42);*/
+/*}*/
+/*.tag a:hover {*/
+/*  color: #000;*/
+/*}*/
+
+.panel {
+  /*background: #fff;*/
+  /*border-radius: 8px;*/
+  margin-bottom: 30px;
+}
+
+/**
+Inside the article content
+ */
+.panel-body h1, h2, h3, h4, h5 {
+  font-weight: 550;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.panel-body h1 {
+  margin-top: 0.5em !important;
+  margin-bottom: 1em !important;
+  padding-bottom: 0.5em;
+  border-bottom: rgba(0,0,0,0.1) solid 1px;
+}
+
+.panel-changelog {
+  background-color: #f1f2f6;
+}
+
+
+.panel-body {
+  padding: 15px;
+}
+.information .panel-body {
+  padding: 40px 45px;
+}
+
+main {
+  margin: 50px 0;
+}
+main .container {
+  display: flex;
+  gap: 30px;
+}
+main .Content {
+  width: 75%;
+}
+.sidebar {
+  width: 25%;
+}
+
+.ShareBTN {
+  display: block;
+  background: #f45a2a;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 18px;
+  border-radius: 100px;
+  padding: 10px;
+  color: #fff;
+  margin-bottom: 15px;
+}
+.ShareBTN:hover {
+  background: #ff6702;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.changeloginfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+.viewlog {
+  background: #f45a2a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 2px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  display: block;
+}
+.viewlog:hover {
+  background: #eb3c06;
+  color: #fff;
+}
+.changeversion {
+  font-weight: 700;
+}
+
+.changedate {
+  color: rgba(0,0,0,0.4);
+  margin-bottom: 2px;
+}
+.changelog {
+  margin-bottom: 15px;
+}
+.changelog ul {
+  margin: 0;
+  color: rgba(0,0,0,0.6);
+}
+.changelog ul {
+  list-style-type: none;
+}
+.changelog ul > li {
+  text-indent: -5px;
+}
+.changelog ul > li:before {
+  content: "-";
+  text-indent: -5px;
+  margin-right: 5px;
+}
+hr.changelogdivider {
+  margin: 1rem -15px;
+  background: rgba(0,0,0,0.3);
+}
+
+main.KnowledgeBase {
+  margin: 0;
+  background: #f1f2f6;
+  padding: 70px 0;
+}
+.KnowledgeBase .container {
+  flex-direction: column;
+}
+.InfoBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+}
+
+.tag a {
+  color: #000;
+}
+
+main {
+  margin: 0px 0px;
+}
+main .container {
+  display: flex;
+  gap: 30px;
+}
+
+.KnowledgeBase .container {
+  flex-direction: column;
+}

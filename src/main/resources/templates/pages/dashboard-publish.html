@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+  <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
+  <link rel="stylesheet" th:href="@{/css/pages/imports/dashboard-publish-imports.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+</head>
+<body>
+
+<div class="dashboard__container">
+  <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=4)"></th:block>
+
+  <div class="dashboard__body">
+    <form class="dashboard__form" th:action="@{/api/v1/post/new}" method="post">
+      <label for='title'>Title:</label>
+      <input id="title" type="text" placeholder="Eg: How to use a sort algorithm efficiently" required>
+
+      <label for='content-editor'>Body:</label>
+      <textarea id='content-editor' placeholder="Begin writing in markdown..."></textarea>
+
+      <input type="submit" value="Submit">
+
+<!--      <div class="submission-btns">-->
+<!--        <button class="primary-btn">Publish</button>-->
+<!--        <button class="secondary-btn">Discard</button>-->
+<!--      </div>-->
+
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

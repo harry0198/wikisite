@@ -1,0 +1,26 @@
+<nav th:fragment="pages (totalPages, page, sendTo)" class="pagination">
+    <ul class="pagination">
+        <!-- If page > 1 add prev button -->
+        <li th:if="${page > 1}"><a th:href="${sendTo} + ${page -1}" class="fas fa-angle-left"></a></li>
+
+        <!-- if page > 2, add page number 1 -->
+        <th:block th:if="${page > 2}">
+            <li><a th:href="${sendTo} + '1'">1</a></li>
+            <!-- if page num > 3 add dots -->
+            <li th:if="${page > 3}" class="dots"><span>...</span></li>
+        </th:block>
+
+        <th:block th:each="i : ${#numbers.sequence(page - 1, page + 1)}">
+            <li th:unless="${i <= 0} or ${i > totalPages} " th:classappend="${page == i ? 'active' : 'a'}"><a th:href="${sendTo} + ${i}" th:text="${i}">1</a></li>
+
+        </th:block>
+        <th:block th:if="${page < (totalPages - 1)}">
+            <li th:if="${page < (totalPages - 2)}" class="dots"><span>...</span></li>
+            <li><a th:href="${sendTo} + ${totalPages}" th:text="${totalPages}">1</a></li>
+
+        </th:block>
+
+        <li th:if="${page < totalPages}"><a th:href="${sendTo} + ${page +1}" class="fas fa-angle-right"></a></li>
+    </ul>
+
+</nav>

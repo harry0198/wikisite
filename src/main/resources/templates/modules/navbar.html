@@ -1,0 +1,17 @@
+<div class="navbar-header">
+    <a th:href="@{/}" class="logo item"><i class="fas fa-code logo-icon"></i>VESUDATT</a>
+
+    <nav class="navbar item">
+        <a th:href="@{/}">home</a>
+        <a th:href="@{/articles/contact-us}">contact</a>
+        <a th:href="@{/search}">articles</a>
+    </nav>
+
+    <div class="icons item">
+        <button data-modal-target="#modal-signin" class="sign-in-btn">Sign in</button>
+        <div th:replace="modules/login.html"></div>
+        <i class="fas fa-search" id="search"></i>
+        <i class="fas fa-bars" id="menu-bars"></i>
+    </div>
+
+</div>
