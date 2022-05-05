@@ -4,7 +4,7 @@ import com.harrydrummond.wikisite.api.post.PostLikeRequest;
 import com.harrydrummond.wikisite.api.post.PostSaveRequest;
 import com.harrydrummond.wikisite.appuser.User;
 import com.harrydrummond.wikisite.appuser.UserRole;
-import com.harrydrummond.wikisite.appuser.UserService;
+import com.harrydrummond.wikisite.appuser.UserServiceImpl;
 import com.harrydrummond.wikisite.util.Validate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserActionsController extends AbstractUserController{
 
 
-    public UserActionsController(UserService userService) {
+    public UserActionsController(UserServiceImpl userService) {
         super(userService);
     }
 
@@ -25,7 +25,7 @@ public class UserActionsController extends AbstractUserController{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        getUserService().savePost(user, postSaveRequest.getPostId(), postSaveRequest.isSave());
+//        getUserService().savePost(user, postSaveRequest.getPostId(), postSaveRequest.isSave());
     }
 
     @PostMapping("/api/v1/post/like")
@@ -34,7 +34,7 @@ public class UserActionsController extends AbstractUserController{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        getUserService().likePost(user, postLikeRequest.getPostId(), postLikeRequest.isLike());
+//        getUserService().likePost(user, postLikeRequest.getPostId(), postLikeRequest.isLike());
     }
 
     /**
@@ -67,7 +67,7 @@ public class UserActionsController extends AbstractUserController{
         }
 
         user.setUsername(username);
-        getUserService().save(user);
+        getUserService().saveUser(user);
     }
 
     /**

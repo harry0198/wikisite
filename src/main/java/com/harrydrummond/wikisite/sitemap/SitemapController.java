@@ -1,7 +1,7 @@
 package com.harrydrummond.wikisite.sitemap;
 
 import com.harrydrummond.wikisite.posts.Post;
-import com.harrydrummond.wikisite.posts.PostService;
+import com.harrydrummond.wikisite.posts.PostServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import java.util.Date;
 @Controller
 public class SitemapController {
 
-    private final PostService postService;
+    private final PostServiceImpl postService;
 
 
     @RequestMapping(value = "/sitemap.xml", method = RequestMethod.GET, produces = { "application/xml",
@@ -22,9 +22,9 @@ public class SitemapController {
     @ResponseBody
     public XmlUrlSet getSitemap() {
         XmlUrlSet xmlUrlSet = new XmlUrlSet();
-        for (Post post : postService.getAllPosts(1, Integer.MAX_VALUE).getContent()) {
-            create(xmlUrlSet, post.getTitleUrlSafe(), XmlUrl.Priority.MEDIUM, post.getDatePosted());
-        }
+//        for (Post post : postService.getAllPosts(1, Integer.MAX_VALUE).getContent()) {
+//            create(xmlUrlSet, post.getTitleUrlSafe(), XmlUrl.Priority.MEDIUM, post.getDatePosted());
+//        }//TODO
 
         return xmlUrlSet;
     }

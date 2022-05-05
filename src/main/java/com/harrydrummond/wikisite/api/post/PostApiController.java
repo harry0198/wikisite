@@ -22,7 +22,7 @@ import java.util.Set;
 @RestController
 public class PostApiController {
 
-    private final PostService postService;
+    private final PostServiceImpl postService;
 
 
     @PostMapping("/api/v1/post/new")

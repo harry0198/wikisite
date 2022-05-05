@@ -1,6 +1,6 @@
 package com.harrydrummond.wikisite.security.config;
 
-import com.harrydrummond.wikisite.appuser.UserService;
+import com.harrydrummond.wikisite.appuser.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

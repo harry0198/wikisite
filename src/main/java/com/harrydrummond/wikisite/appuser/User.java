@@ -43,10 +43,10 @@ public class User implements OAuth2User, Serializable {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
-    @OneToMany(mappedBy="post", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
     private Set<UserLikes> likes = new HashSet<>();
 
-    @OneToMany(mappedBy="post", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
     private Set<UserSaves> saves = new HashSet<>();
 
     private transient Map<String, Object> attributes;

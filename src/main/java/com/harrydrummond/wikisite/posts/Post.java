@@ -1,6 +1,8 @@
 package com.harrydrummond.wikisite.posts;
 
 import com.harrydrummond.wikisite.appuser.User;
+import com.harrydrummond.wikisite.appuser.likes.UserLikes;
+import com.harrydrummond.wikisite.appuser.saves.UserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,6 +50,13 @@ public class Post {
     @GenericField(sortable = Sortable.YES)
     @Column(name = "posted_at", nullable = false)
     private Date datePosted;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserLikes> likes = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserSaves> saves = new HashSet<>();
+
 
     public String getTitleUrlSafe() {
         return title.toLowerCase().replaceAll(" ", "-");

@@ -33,6 +33,7 @@ class UserRepositoryTest {
         user.setUserRole(UserRole.USER);
         user.setProvider(Provider.LOCAL);
         user.setDateCreated(LocalDateTime.now());
+        user.setId(1L);
     }
 
 
