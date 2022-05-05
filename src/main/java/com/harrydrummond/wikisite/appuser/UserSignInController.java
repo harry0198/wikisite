@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @Controller
-public class AppUserSignInController {
+public class UserSignInController {
 
     @GetMapping("/signin")
     public String signInController(Model model) {

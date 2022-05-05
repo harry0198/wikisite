@@ -1,4 +1,4 @@
-package com.harrydrummond.wikisite.converter;
+package com.harrydrummond.wikisite.util.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

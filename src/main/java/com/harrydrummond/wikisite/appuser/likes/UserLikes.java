@@ -1,6 +1,6 @@
 package com.harrydrummond.wikisite.appuser.likes;
 
-import com.harrydrummond.wikisite.appuser.AppUser;
+import com.harrydrummond.wikisite.appuser.User;
 import com.harrydrummond.wikisite.posts.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity(name = "user_likes")
-public class AppUserLikes {
+public class UserLikes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +24,10 @@ public class AppUserLikes {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
-    private AppUser appUser;
+    private User user;
 
-    public AppUserLikes(Post post, AppUser appUser) {
+    public UserLikes(Post post, User user) {
         this.post = post;
-        this.appUser = appUser;
+        this.user = user;
     }
 }

@@ -1,4 +1,4 @@
-package com.harrydrummond.wikisite.parser;
+package com.harrydrummond.wikisite.util.parser;
 
 import fr.brouillard.oss.commonmark.ext.notifications.Notification;
 import fr.brouillard.oss.commonmark.ext.notifications.NotificationsExtension;

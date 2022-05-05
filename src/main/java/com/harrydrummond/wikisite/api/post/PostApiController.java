@@ -1,6 +1,6 @@
 package com.harrydrummond.wikisite.api.post;
 
-import com.harrydrummond.wikisite.appuser.AppUser;
+import com.harrydrummond.wikisite.appuser.User;
 import com.harrydrummond.wikisite.posts.*;
 import com.harrydrummond.wikisite.util.FileUtil;
 import com.harrydrummond.wikisite.util.exceptions.MissingFileException;
@@ -26,8 +26,7 @@ public class PostApiController {
 
 
     @PostMapping("/api/v1/post/new")
-    public ResponseEntity<?> createPostRequest(@AuthenticationPrincipal AppUser appUser, @RequestBody PostRequest postRequest) {
-        System.out.println(postRequest);
+    public ResponseEntity<?> createPostRequest(@AuthenticationPrincipal User user, @RequestBody PostRequest postRequest) {
 
         try {
 
@@ -37,10 +36,10 @@ public class PostApiController {
             post.setDatePosted(new Date(System.currentTimeMillis()));
             post.setDescription(postRequest.getDescription());
             post.setTitle(postRequest.getTitle());
-            post.setPoster(appUser);
+            post.setPoster(user);
 
             Set<MultipartFile> files = new HashSet<>();
-            String path = String.format("static/user-%s/posts/images/", appUser.getId());
+            String path = String.format("static/user-%s/posts/images/", user.getId());
 
             for (ImageRequest imageRequest : postRequest.getImageRequests()) {
                 FileUtil.validateImage(imageRequest.getFile());
@@ -56,7 +55,7 @@ public class PostApiController {
             // Re-looped to ensure nothing goes wrong with the above and mitigates excess files being saved when an
             // exception occurs.
             for (MultipartFile file : files) {
-                FileUtil.saveFile(file, appUser, new File(path).toPath());
+                FileUtil.saveFile(file, user, new File(path).toPath());
             }
 
             post.setImages(imageSet);

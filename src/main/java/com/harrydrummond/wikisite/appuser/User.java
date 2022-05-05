@@ -1,8 +1,8 @@
 package com.harrydrummond.wikisite.appuser;
 
 
-import com.harrydrummond.wikisite.appuser.likes.AppUserLikes;
-import com.harrydrummond.wikisite.appuser.saves.AppUserSaves;
+import com.harrydrummond.wikisite.appuser.likes.UserLikes;
+import com.harrydrummond.wikisite.appuser.saves.UserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +21,7 @@ import java.util.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "app_user")
-public class AppUser implements OAuth2User, Serializable {
+public class User implements OAuth2User, Serializable {
 
     private static final List<GrantedAuthority> ROLE_USER = Collections
             .unmodifiableList(AuthorityUtils.createAuthorityList("USER"));
@@ -30,11 +30,11 @@ public class AppUser implements OAuth2User, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "username")
-    private String name;
+    private String username;
     private String email;
     @Enumerated(EnumType.STRING)
     @Column(name = "app_user_role")
-    private AppUserRole appUserRole;
+    private UserRole userRole;
     private Boolean locked = false;
     private Boolean enabled = false;
     @Column(name = "date_created")
@@ -44,59 +44,63 @@ public class AppUser implements OAuth2User, Serializable {
     private Provider provider;
 
     @OneToMany(mappedBy="post", fetch = FetchType.EAGER)
-    private Set<AppUserLikes> likes = new HashSet<>();
+    private Set<UserLikes> likes = new HashSet<>();
 
     @OneToMany(mappedBy="post", fetch = FetchType.EAGER)
-    private Set<AppUserSaves> saves = new HashSet<>();
+    private Set<UserSaves> saves = new HashSet<>();
 
     private transient Map<String, Object> attributes;
 
-    public AppUser(String name, String email, AppUserRole appUserRole) {
-        this.name = name;
+    public User(String name, String email, UserRole userRole) {
+        this.username = name;
         this.email = email;
-        this.appUserRole = appUserRole;
+        this.userRole = userRole;
         this.dateCreated = LocalDateTime.now();
     }
 
-    public AppUser(AppUser appUser) {
-        this.id = appUser.id;
-        this.email = appUser.email;
-        this.name = appUser.name;
-        this.appUserRole = appUser.appUserRole;
-        this.locked = appUser.locked;
-        this.enabled = appUser.enabled;
-        this.dateCreated = appUser.dateCreated;
-        this.provider = appUser.provider;
-        this.likes = appUser.likes;
-        this.saves = appUser.saves;
+    public User(User user) {
+        this.id = user.id;
+        this.email = user.email;
+        this.username = user.username;
+        this.userRole = user.userRole;
+        this.locked = user.locked;
+        this.enabled = user.enabled;
+        this.dateCreated = user.dateCreated;
+        this.provider = user.provider;
+        this.likes = user.likes;
+        this.saves = user.saves;
     }
 
-    public void addLike(AppUserLikes appUserLikes) {
-        likes.add(appUserLikes);
+    public String getName() {
+        return username;
     }
 
-    public void removeLike(AppUserLikes appUserLikes) {
-        likes.remove(appUserLikes);
+    public void addLike(UserLikes userLikes) {
+        likes.add(userLikes);
+    }
+
+    public void removeLike(UserLikes userLikes) {
+        likes.remove(userLikes);
     }
 
     public boolean isLiked(long articleId) {
-        for (AppUserLikes save : likes) {
+        for (UserLikes save : likes) {
             long article = save.getPost().getId();
             if (article == articleId) return true;
         }
         return false;
     }
 
-    public void addSave(AppUserSaves appUserSaves) {
-        saves.add(appUserSaves);
+    public void addSave(UserSaves userSaves) {
+        saves.add(userSaves);
     }
 
-    public void removeSave(AppUserSaves appUserSaves) {
-        saves.remove(appUserSaves);
+    public void removeSave(UserSaves userSaves) {
+        saves.remove(userSaves);
     }
 
     public boolean isSaved(long articleId) {
-        for (AppUserSaves save : saves) {
+        for (UserSaves save : saves) {
             long article = save.getPost().getId();
             if (article == articleId) return true;
         }
@@ -112,8 +116,8 @@ public class AppUser implements OAuth2User, Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        AppUser appUser = (AppUser) o;
-        return id != null && Objects.equals(id, appUser.id);
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
     }
 
     @Override

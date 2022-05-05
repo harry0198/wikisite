@@ -8,6 +8,7 @@ import org.hibernate.search.engine.search.query.dsl.SearchQueryOptionsStep;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.search.loading.dsl.SearchLoadingOptionsStep;
 import org.hibernate.search.mapper.orm.session.SearchSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -26,6 +28,7 @@ public class PostService {
     private static final int PAGE_SIZE = 6;
     private static final int TIMEOUT_MS = 500;
 
+    @Autowired
     private final EntityManager entityManager;
     private final PostRepository postRepository;
 

@@ -1,6 +1,6 @@
 package com.harrydrummond.wikisite.posts;
 
-import com.harrydrummond.wikisite.appuser.AppUser;
+import com.harrydrummond.wikisite.appuser.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,7 +42,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "author_id")
-    private AppUser poster;
+    private User poster;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @GenericField(sortable = Sortable.YES)

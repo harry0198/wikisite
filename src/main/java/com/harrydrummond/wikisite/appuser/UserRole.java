@@ -1,6 +1,6 @@
 package com.harrydrummond.wikisite.appuser;
 
-public enum AppUserRole {
+public enum UserRole {
     USER,
     ADMIN
 }
