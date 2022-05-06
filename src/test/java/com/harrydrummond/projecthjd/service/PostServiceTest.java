@@ -3,7 +3,7 @@ package com.harrydrummond.projecthjd.service;
 import com.harrydrummond.projecthjd.user.*;
 import com.harrydrummond.projecthjd.user.likes.UserLikes;
 import com.harrydrummond.projecthjd.user.saves.UserSaves;
-import com.harrydrummond.projecthjd.posts.Image;
+import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.posts.Post;
 import com.harrydrummond.projecthjd.posts.PostRepository;
 import com.harrydrummond.projecthjd.posts.PostServiceImpl;

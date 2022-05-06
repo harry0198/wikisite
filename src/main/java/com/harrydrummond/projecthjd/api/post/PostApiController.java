@@ -1,5 +1,6 @@
 package com.harrydrummond.projecthjd.api.post;
 
+import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.user.User;
 import com.harrydrummond.projecthjd.posts.*;
 import com.harrydrummond.projecthjd.util.FileUtil;

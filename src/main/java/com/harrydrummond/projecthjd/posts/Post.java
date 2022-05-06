@@ -1,5 +1,6 @@
 package com.harrydrummond.projecthjd.posts;
 
+import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.user.User;
 import com.harrydrummond.projecthjd.user.likes.UserLikes;
 import com.harrydrummond.projecthjd.user.saves.UserSaves;

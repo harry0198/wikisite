@@ -1,6 +1,7 @@
-package com.harrydrummond.projecthjd.posts;
+package com.harrydrummond.projecthjd.posts.image;
 
 
+import com.harrydrummond.projecthjd.posts.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

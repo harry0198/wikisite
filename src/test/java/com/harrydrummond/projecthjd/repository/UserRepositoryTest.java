@@ -1,5 +1,9 @@
-package com.harrydrummond.projecthjd.user;
+package com.harrydrummond.projecthjd.repository;
 
+import com.harrydrummond.projecthjd.user.Provider;
+import com.harrydrummond.projecthjd.user.User;
+import com.harrydrummond.projecthjd.user.UserRepository;
+import com.harrydrummond.projecthjd.user.UserRole;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
