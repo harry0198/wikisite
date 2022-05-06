@@ -1,8 +1,10 @@
 package com.harrydrummond.projecthjd.user;
 
+import com.harrydrummond.projecthjd.user.roles.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -34,18 +36,26 @@ public class UserController {
      * @return ResponseEntity of updated values and http status. Returns NOT FOUND if user with id is not found.
      */
     @PatchMapping("/api/user/{uid}")
-    public ResponseEntity<User> updateUser(@PathVariable long uid, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<User> updateUser(@AuthenticationPrincipal User requestingUser, @PathVariable long uid, @RequestBody UserDTO userDTO) {
+
+        // If user is not the same user as requesting to update and user is not an admin. They're unauthorized.
+        if (!requestingUser.getId().equals(uid) && !requestingUser.containsRole(Role.ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         Optional<User> userOptional = userService.getUserById(uid);
         if (userOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         User user = userOptional.get();
+
         user.setEmail(userDTO.getEmail());
         // validation todo
         user.setUsername(userDTO.getUsername());
         user.setEnabled(userDTO.isEnabled());
+        // user cannot lock their own account
         user.setLocked(userDTO.isLocked());
-        user.setUserRole(userDTO.getUserRole());
+        // user cannot set their own roles unless admin
+        user.setUserRoles(userDTO.getUserRoles());
 
         User updatedUser = userService.updateUser(user);
 

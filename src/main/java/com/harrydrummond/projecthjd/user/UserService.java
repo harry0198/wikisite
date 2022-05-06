@@ -7,6 +7,8 @@ public interface UserService {
 
     Optional<User> getUserById(long id);
 
+    Optional<User> getUserByEmail(String email);
+
     User saveUser(User user);
 
     List<User> getAllUsers();

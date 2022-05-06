@@ -3,7 +3,8 @@ package com.harrydrummond.projecthjd.repository;
 import com.harrydrummond.projecthjd.user.Provider;
 import com.harrydrummond.projecthjd.user.User;
 import com.harrydrummond.projecthjd.user.UserRepository;
-import com.harrydrummond.projecthjd.user.UserRole;
+import com.harrydrummond.projecthjd.user.roles.Role;
+import com.harrydrummond.projecthjd.user.roles.UserRole;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,7 +36,7 @@ class UserRepositoryTest {
         user = new User();
         user.setEmail("example@email.com");
         user.setUsername("harry");
-        user.setUserRole(UserRole.USER);
+        user.setUserRoles(Set.of(new UserRole(Role.USER)));
         user.setProvider(Provider.LOCAL);
         user.setDateCreated(LocalDateTime.now());
         user.setId(1L);

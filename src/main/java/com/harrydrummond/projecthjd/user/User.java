@@ -2,6 +2,8 @@ package com.harrydrummond.projecthjd.user;
 
 
 import com.harrydrummond.projecthjd.user.likes.UserLikes;
+import com.harrydrummond.projecthjd.user.roles.Role;
+import com.harrydrummond.projecthjd.user.roles.UserRole;
 import com.harrydrummond.projecthjd.user.saves.UserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -31,10 +34,12 @@ public class User implements OAuth2User, Serializable {
     private Long id;
     @Column(name = "username")
     private String username;
+    @Email
     private String email;
     @Enumerated(EnumType.STRING)
     @Column(name = "app_user_role")
-    private UserRole userRole;
+    @OneToMany(mappedBy = "role")
+    private Set<UserRole> userRoles = new HashSet<>();
     private Boolean locked = false;
     private Boolean enabled = false;
     @Column(name = "date_created")
@@ -51,10 +56,10 @@ public class User implements OAuth2User, Serializable {
 
     private transient Map<String, Object> attributes;
 
-    public User(String name, String email, UserRole userRole) {
+    public User(String name, String email, UserRole userRoles) {
         this.username = name;
         this.email = email;
-        this.userRole = userRole;
+        this.userRoles = Set.of(userRoles);
         this.dateCreated = LocalDateTime.now();
     }
 
@@ -62,13 +67,17 @@ public class User implements OAuth2User, Serializable {
         this.id = user.id;
         this.email = user.email;
         this.username = user.username;
-        this.userRole = user.userRole;
+        this.userRoles = user.userRoles;
         this.locked = user.locked;
         this.enabled = user.enabled;
         this.dateCreated = user.dateCreated;
         this.provider = user.provider;
         this.likes = user.likes;
         this.saves = user.saves;
+    }
+
+    public boolean containsRole(Role role) {
+        return userRoles.stream().map(UserRole::getRole).anyMatch(x -> x == role);
     }
 
     public String getName() {

@@ -2,6 +2,8 @@ package com.harrydrummond.projecthjd.service;
 
 import com.harrydrummond.projecthjd.user.*;
 import com.harrydrummond.projecthjd.user.likes.UserLikes;
+import com.harrydrummond.projecthjd.user.roles.Role;
+import com.harrydrummond.projecthjd.user.roles.UserRole;
 import com.harrydrummond.projecthjd.user.saves.UserSaves;
 import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.posts.Post;
@@ -43,7 +45,7 @@ class PostServiceTest {
         User user = new User();
         user.setEmail("example@email.com");
         user.setUsername("harry");
-        user.setUserRole(UserRole.USER);
+        user.setUserRoles(Set.of(new UserRole(Role.USER)));
         user.setProvider(Provider.LOCAL);
         user.setDateCreated(LocalDateTime.now());
         user.setLocked(false);
@@ -101,7 +103,7 @@ class PostServiceTest {
         User user = new User();
         user.setEmail("example@email.com");
         user.setUsername("harry");
-        user.setUserRole(UserRole.USER);
+        user.setUserRoles(Set.of(new UserRole(Role.ADMIN)));
         user.setProvider(Provider.LOCAL);
         user.setDateCreated(LocalDateTime.now());
         user.setLocked(false);

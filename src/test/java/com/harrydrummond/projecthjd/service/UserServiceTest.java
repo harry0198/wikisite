@@ -2,6 +2,8 @@ package com.harrydrummond.projecthjd.service;
 
 import com.harrydrummond.projecthjd.user.*;
 import com.harrydrummond.projecthjd.user.likes.UserLikes;
+import com.harrydrummond.projecthjd.user.roles.Role;
+import com.harrydrummond.projecthjd.user.roles.UserRole;
 import com.harrydrummond.projecthjd.user.saves.UserSaves;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +42,7 @@ class UserServiceTest {
         user = new User();
         user.setEmail("example@email.com");
         user.setUsername("harry");
-        user.setUserRole(UserRole.USER);
+        user.setUserRoles(Set.of(new UserRole(Role.USER)));
         user.setProvider(Provider.LOCAL);
         user.setDateCreated(LocalDateTime.now());
         user.setLocked(false);
@@ -76,7 +78,7 @@ class UserServiceTest {
         User user1 = new User();
         user1.setEmail("example2@email.com");
         user1.setUsername("harryd");
-        user1.setUserRole(UserRole.USER);
+        user1.setUserRoles(Set.of(new UserRole(Role.USER)));
         user1.setProvider(Provider.LOCAL);
         user1.setDateCreated(LocalDateTime.now());
         user1.setId(2L);
@@ -110,9 +112,11 @@ class UserServiceTest {
         us.setPost(null);
         userSavesSet.add(us);
 
+        Set<UserRole> roles = Set.of(new UserRole(Role.ADMIN));
+
         user.setEmail("ram@gmail.com");
         user.setUsername("Ram");
-        user.setUserRole(UserRole.ADMIN);
+        user.setUserRoles(roles);
         user.setProvider(Provider.GOOGLE);
         user.setDateCreated(ldt);
         user.setEnabled(true);
@@ -125,7 +129,7 @@ class UserServiceTest {
         // then - verify the output
         assertThat(updatedUser.getEmail()).isEqualTo("ram@gmail.com");
         assertThat(updatedUser.getUsername()).isEqualTo("Ram");
-        assertThat(updatedUser.getUserRole()).isEqualTo(UserRole.ADMIN);
+        assertThat(updatedUser.getUserRoles()).isEqualTo(roles);
         assertThat(updatedUser.getProvider()).isEqualTo(Provider.GOOGLE);
         assertThat(updatedUser.getDateCreated()).isEqualTo(ldt);
         assertTrue(updatedUser.getEnabled());

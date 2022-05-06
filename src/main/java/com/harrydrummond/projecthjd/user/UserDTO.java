@@ -1,15 +1,16 @@
 package com.harrydrummond.projecthjd.user;
 
+import com.harrydrummond.projecthjd.user.roles.UserRole;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 public class UserDTO {
 
-    private final String username;
-    private final String email;
-    private final UserRole userRole;
-    private final boolean locked;
-    private final boolean enabled;
+    private String username;
+    private String email;
+    private Set<UserRole> userRoles;
+    private boolean locked;
+    private boolean enabled;
 }
