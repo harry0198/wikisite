@@ -10,4 +10,5 @@ import lombok.ToString;
 public class ImageGetDTO {
     private final String alt;
     private final String path;
+    private final int order;
 }

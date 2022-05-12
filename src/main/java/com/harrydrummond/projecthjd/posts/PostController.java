@@ -12,7 +12,6 @@ import com.harrydrummond.projecthjd.user.UserService;
 import com.harrydrummond.projecthjd.util.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +34,6 @@ public class PostController {
 
     @PostMapping(value = "/api/post/new")
     public ResponseEntity<Post> savePost(PostRequestDTO postDTO) {
-        System.out.println(postDTO);
 
         Optional<User> userOptional = userService.getUserById(postDTO.getAuthorId());
         if (userOptional.isEmpty()) {
@@ -51,10 +49,10 @@ public class PostController {
 
         Set<Image> images = new HashSet<>();
         for (ImageDTO imageRequest : postDTO.getImages()) {
-            System.out.println("here");
             Image image = new Image();
             image.setPost(post);
             image.setAlt(imageRequest.getAlt());
+            image.setOrder(imageRequest.getOrder());
             File savedFile;
             try {
                 savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile()).toFile();
@@ -65,10 +63,43 @@ public class PostController {
             image.setPath(savedFile.getPath());
         }
 
-        System.out.println(images);
         post.setImages(images);
         postService.savePost(post);
         return new ResponseEntity<>(post, HttpStatus.OK);
+    }
+
+    @PutMapping("/api/post/{uid}")
+    public ResponseEntity<Post> updatePostById(@PathVariable long uid, PostRequestDTO postDTO) {
+        Optional<Post> postOptional = postService.getPostById(uid);
+        if (postOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Post post = postOptional.get();
+
+        Set<Image> images = new HashSet<>();
+        for (ImageDTO imageRequest : postDTO.getImages()) {
+            Image image = new Image();
+            image.setPost(post);
+            image.setAlt(imageRequest.getAlt());
+            image.setOrder(imageRequest.getOrder());
+            File savedFile;
+            try {
+                savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile()).toFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            image.setPath(savedFile.getPath());
+        }
+
+        post.setTitle(postDTO.getTitle());
+        post.setImages(images);
+        post.setDescription(post.getDescription());
+        //todo author?
+
+        postService.updatePost(post);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/api/post/{uid}")
@@ -112,6 +143,7 @@ public class PostController {
             ImageGetDTO imageDTO = ImageGetDTO.builder()
                     .alt(image.getAlt())
                     .path(image.getPath())
+                    .order(image.getOrder())
                     .build();
             images[i] = imageDTO;
             i++;

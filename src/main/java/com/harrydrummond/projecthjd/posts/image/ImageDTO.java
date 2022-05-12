@@ -11,4 +11,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageDTO {
     private MultipartFile file;
     private String alt;
+    private int order;
 }

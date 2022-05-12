@@ -59,10 +59,4 @@ public class Post {
 
     @OneToMany(mappedBy = "user")
     private Set<UserSaves> saves = new HashSet<>();
-
-
-    public String getTitleUrlSafe() {
-        return title.toLowerCase().replaceAll(" ", "-");
-    }
-
 }
