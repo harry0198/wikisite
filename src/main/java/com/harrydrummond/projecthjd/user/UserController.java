@@ -40,7 +40,7 @@ public class UserController {
      * @return ResponseEntity of updated values and http status. Returns NOT FOUND if user with id is not found.
      */
     @PatchMapping("/api/user/{uid}")
-    public ResponseEntity<Void> updateUser(@AuthenticationPrincipal User requestingUser, @PathVariable long uid, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserGetDTO> updateUser(@AuthenticationPrincipal User requestingUser, @PathVariable long uid, @RequestBody UserDTO userDTO) {
 
         // If user is not the same user as requesting to update and user is not an admin. They're unauthorized.
         if (!requestingUser.getId().equals(uid) && !requestingUser.containsRole(Role.ADMIN)) {
@@ -61,9 +61,7 @@ public class UserController {
         // user cannot set their own roles unless admin
         user.setUserRoles(userDTO.getUserRoles());
 
-        userService.updateUser(user);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(new UserGetDTO(userService.updateUser(user)), HttpStatus.OK);
     }
 
     /**
