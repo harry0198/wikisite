@@ -1,4 +1,4 @@
-package com.harrydrummond.projecthjd.user;
+package com.harrydrummond.projecthjd.user.dto;
 
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import lombok.Data;

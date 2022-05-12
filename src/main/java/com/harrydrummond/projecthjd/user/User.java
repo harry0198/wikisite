@@ -1,6 +1,7 @@
 package com.harrydrummond.projecthjd.user;
 
 
+import com.harrydrummond.projecthjd.user.details.UserDetails;
 import com.harrydrummond.projecthjd.user.likes.UserLikes;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
@@ -56,6 +57,9 @@ public class User implements OAuth2User, Serializable {
 
     private transient Map<String, Object> attributes;
 
+    @OneToOne
+    private UserDetails userDetails;
+
     public User(String name, String email, UserRole userRoles) {
         this.username = name;
         this.email = email;
@@ -74,6 +78,7 @@ public class User implements OAuth2User, Serializable {
         this.provider = user.provider;
         this.likes = user.likes;
         this.saves = user.saves;
+        this.userDetails = user.userDetails;
     }
 
     public boolean containsRole(Role role) {

@@ -1,5 +1,7 @@
 package com.harrydrummond.projecthjd.user;
 
+import com.harrydrummond.projecthjd.user.dto.UserDTO;
+import com.harrydrummond.projecthjd.user.dto.UserGetDTO;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,12 +23,14 @@ public class UserController {
      * @return ResponseEntity with user details and http status. Returns NOT FOUND if user with id is not found.
      */
     @GetMapping("/api/user/{uid}")
-    public ResponseEntity<User> getUser(@PathVariable long uid) {
+    public ResponseEntity<UserGetDTO> getUser(@PathVariable long uid) {
         Optional<User> user = userService.getUserById(uid);
         if (user.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user.get(), HttpStatus.OK);
+
+
+        return new ResponseEntity<>(new UserGetDTO(user.get()), HttpStatus.OK);
     }
 
     /**
@@ -36,7 +40,7 @@ public class UserController {
      * @return ResponseEntity of updated values and http status. Returns NOT FOUND if user with id is not found.
      */
     @PatchMapping("/api/user/{uid}")
-    public ResponseEntity<User> updateUser(@AuthenticationPrincipal User requestingUser, @PathVariable long uid, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<Void> updateUser(@AuthenticationPrincipal User requestingUser, @PathVariable long uid, @RequestBody UserDTO userDTO) {
 
         // If user is not the same user as requesting to update and user is not an admin. They're unauthorized.
         if (!requestingUser.getId().equals(uid) && !requestingUser.containsRole(Role.ADMIN)) {
@@ -57,9 +61,9 @@ public class UserController {
         // user cannot set their own roles unless admin
         user.setUserRoles(userDTO.getUserRoles());
 
-        User updatedUser = userService.updateUser(user);
+        userService.updateUser(user);
 
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**

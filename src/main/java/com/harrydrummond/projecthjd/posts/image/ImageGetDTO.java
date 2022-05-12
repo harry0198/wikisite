@@ -8,7 +8,13 @@ import lombok.ToString;
 @ToString
 @Builder
 public class ImageGetDTO {
-    private final String alt;
-    private final String path;
-    private final int order;
+    private String alt;
+    private String path;
+    private int order;
+
+    public ImageGetDTO(Image image) {
+        this.alt = image.getAlt();
+        this.path = image.getPath();
+        this.order = -1;
+    }
 }
