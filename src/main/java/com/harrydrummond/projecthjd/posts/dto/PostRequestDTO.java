@@ -7,7 +7,8 @@ import lombok.ToString;
 @ToString
 @Data
 public class PostRequestDTO {
-    private final String title;
-    private final String description;
-    private final ImageDTO[] images;
+    private String title;
+    private String description;
+    private ImageDTO[] images;
+    private int authorId;
 }

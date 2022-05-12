@@ -1,14 +1,14 @@
 package com.harrydrummond.projecthjd.posts.image;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @ToString
 @Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class ImageDTO {
-    private final MultipartFile file;
-    private final String alt;
+    private MultipartFile file;
+    private String alt;
 }

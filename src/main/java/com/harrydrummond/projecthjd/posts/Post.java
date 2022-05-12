@@ -7,6 +7,7 @@ import com.harrydrummond.projecthjd.user.saves.UserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
@@ -34,6 +35,7 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @OneToMany(mappedBy = "post")
     @IndexedEmbedded
     private Set<Image> images = new HashSet<>();

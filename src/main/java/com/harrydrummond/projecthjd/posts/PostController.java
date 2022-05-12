@@ -7,14 +7,14 @@ import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.posts.image.ImageDTO;
 import com.harrydrummond.projecthjd.posts.image.ImageGetDTO;
 import com.harrydrummond.projecthjd.posts.image.ImageService;
+import com.harrydrummond.projecthjd.user.User;
+import com.harrydrummond.projecthjd.user.UserService;
 import com.harrydrummond.projecthjd.util.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -30,29 +30,42 @@ import java.util.Set;
 public class PostController {
 
     private final PostService postService;
+    private final UserService userService;
     private final ImageService imageService;
 
-    @PostMapping("/api/post/new")
+    @PostMapping(value = "/api/post/new")
     public ResponseEntity<Post> savePost(PostRequestDTO postDTO) {
+        System.out.println(postDTO);
+
+        Optional<User> userOptional = userService.getUserById(postDTO.getAuthorId());
+        if (userOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User user = userOptional.get();
+
         Post post = new Post();
         post.setDatePosted(new Date(System.currentTimeMillis()));
         post.setTitle(postDTO.getTitle());
         post.setDescription(postDTO.getDescription());
+        post.setPoster(user);
 
         Set<Image> images = new HashSet<>();
         for (ImageDTO imageRequest : postDTO.getImages()) {
+            System.out.println("here");
             Image image = new Image();
             image.setPost(post);
             image.setAlt(imageRequest.getAlt());
             File savedFile;
             try {
-                savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile());
+                savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile()).toFile();
             } catch (IOException e) {
+                e.printStackTrace();
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
             image.setPath(savedFile.getPath());
         }
 
+        System.out.println(images);
         post.setImages(images);
         postService.savePost(post);
         return new ResponseEntity<>(post, HttpStatus.OK);
