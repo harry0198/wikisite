@@ -1,5 +1,6 @@
 package com.harrydrummond.projecthjd.posts;
 
+import com.harrydrummond.projecthjd.posts.comment.Comment;
 import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.user.User;
 import com.harrydrummond.projecthjd.user.likes.UserLikes;
@@ -17,8 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -59,4 +59,15 @@ public class Post {
 
     @OneToMany(mappedBy = "user")
     private Set<UserSaves> saves = new HashSet<>();
+
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
+
+    public void removeCommentById(long id) {
+        comments.stream().filter(x -> x.getId() == id).findAny().ifPresent(comment -> comments.remove(comment));
+    }
 }

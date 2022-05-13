@@ -1,5 +1,8 @@
 package com.harrydrummond.projecthjd.posts;
 
+import com.harrydrummond.projecthjd.posts.comment.Comment;
+import com.harrydrummond.projecthjd.posts.comment.CommentService;
+import com.harrydrummond.projecthjd.posts.comment.dto.CommentRequestDTO;
 import com.harrydrummond.projecthjd.posts.dto.PostInfoDTO;
 import com.harrydrummond.projecthjd.posts.dto.PostRequestDTO;
 import com.harrydrummond.projecthjd.posts.dto.PostSearchDTO;
@@ -9,10 +12,12 @@ import com.harrydrummond.projecthjd.posts.image.ImageGetDTO;
 import com.harrydrummond.projecthjd.posts.image.ImageService;
 import com.harrydrummond.projecthjd.user.User;
 import com.harrydrummond.projecthjd.user.UserService;
+import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.util.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
@@ -20,6 +25,7 @@ import javax.validation.constraints.Min;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -28,6 +34,7 @@ import java.util.Set;
 @RestController
 public class PostController {
 
+    private final CommentService commentService;
     private final PostService postService;
     private final UserService userService;
     private final ImageService imageService;
@@ -112,6 +119,57 @@ public class PostController {
         PostInfoDTO dto = populatePostGetDTO(post);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/post/{uid}/comment")
+    public ResponseEntity<Void> deleteComment(@PathVariable long uid, @AuthenticationPrincipal User user, long commentId) {
+        Optional<Post> postOptional = postService.getPostById(uid);
+        if (postOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Post post = postOptional.get();
+        Optional<Comment> commentOptional = commentService.getCommentById(commentId);
+        if (commentOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Comment comment = commentOptional.get();
+        // if requesting user is owner of post OR requesting user is owner of comment OR requesting user is an admin
+        if (user.getId().equals(post.getPoster().getId()) || user.getId().equals(comment.getUser().getId()) || user.containsRole(Role.ADMIN)) {
+            post.removeCommentById(commentId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+
+    }
+
+    @PostMapping("/api/post/{uid}/comment")
+    public ResponseEntity<Void> saveComment(@PathVariable long uid, @AuthenticationPrincipal User user, CommentRequestDTO commentRequestDTO) {
+        Optional<Post> postOptional = postService.getPostById(uid);
+        if (postOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Post post = postOptional.get();
+        Comment comment = Comment.builder()
+                .user(user)
+                .post(post)
+                .comment(commentRequestDTO.getComment())
+                .datePosted(LocalDateTime.now())
+                .build();
+        if (commentRequestDTO.getParentCommentId() != null) {
+            Optional<Comment> repliedCommentOptional = post.getComments().stream().filter(x -> x.getId() == commentRequestDTO.getParentCommentId()).findAny();
+            if (repliedCommentOptional.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            Comment repliedComment = repliedCommentOptional.get();
+            repliedComment.addReply(comment);
+        } else {
+            post.addComment(comment);
+        }
+
+        postService.savePost(post);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/api/post/search")

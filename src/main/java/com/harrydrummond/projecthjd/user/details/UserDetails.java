@@ -1,6 +1,5 @@
 package com.harrydrummond.projecthjd.user.details;
 
-import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,11 +20,8 @@ public class UserDetails {
 
     private String bio;
 
-    @OneToOne
-    private Image profilePicture;
+    private String profilePicturePath;
 
     @OneToOne
     private User user;
-
-
 }

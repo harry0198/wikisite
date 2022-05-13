@@ -1,6 +1,5 @@
 package com.harrydrummond.projecthjd.user.dto;
 
-import com.harrydrummond.projecthjd.posts.image.ImageGetDTO;
 import com.harrydrummond.projecthjd.user.User;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import lombok.Data;
@@ -18,7 +17,7 @@ public class UserGetDTO {
     private boolean enabled;
     private String bio;
     private LocalDateTime dateCreated;
-    private ImageGetDTO profilePicture;
+    private String profilePicturePath;
 
     public UserGetDTO(User user) {
         this.username = user.getUsername();
@@ -28,7 +27,7 @@ public class UserGetDTO {
         this.enabled = user.getEnabled();
         this.bio = user.getUserDetails().getBio();
         this.dateCreated = user.getDateCreated();
-        this.profilePicture = new ImageGetDTO(user.getUserDetails().getProfilePicture());
+        this.profilePicturePath = user.getUserDetails().getProfilePicturePath();
     }
 
 }
