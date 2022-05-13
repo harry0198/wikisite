@@ -14,22 +14,26 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "img_table")
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @ManyToOne
     @JoinColumn(name="post_id", nullable=false)
     private Post post;
 
+    @Column
     private String path;
 
+    @Column
     @FullTextField
     private String alt;
 
-    @Column(name = "order")
+    @Column(name = "order_no")
     @NonNull
-    private int order;
+    private int orderNo;
 }

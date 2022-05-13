@@ -1,11 +1,12 @@
 package com.harrydrummond.projecthjd.posts.image;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ImageGetDTO {
     private String alt;

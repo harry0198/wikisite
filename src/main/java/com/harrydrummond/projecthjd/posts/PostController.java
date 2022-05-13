@@ -52,7 +52,7 @@ public class PostController {
             Image image = new Image();
             image.setPost(post);
             image.setAlt(imageRequest.getAlt());
-            image.setOrder(imageRequest.getOrder());
+            image.setOrderNo(imageRequest.getOrder());
             File savedFile;
             try {
                 savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile()).toFile();
@@ -82,7 +82,7 @@ public class PostController {
             Image image = new Image();
             image.setPost(post);
             image.setAlt(imageRequest.getAlt());
-            image.setOrder(imageRequest.getOrder());
+            image.setOrderNo(imageRequest.getOrder());
             File savedFile;
             try {
                 savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile()).toFile();
@@ -143,7 +143,7 @@ public class PostController {
             ImageGetDTO imageDTO = ImageGetDTO.builder()
                     .alt(image.getAlt())
                     .path(image.getPath())
-                    .order(image.getOrder())
+                    .order(image.getOrderNo())
                     .build();
             images[i] = imageDTO;
             i++;
