@@ -1,0 +1,26 @@
+.results {
+    background-color: var(--bg-color);
+    text-align: center;
+    padding: 5rem 1rem;
+}
+
+.results > * {
+    max-width: 60rem;
+    margin: auto;
+}
+
+.results-heading {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.results-sub {
+    font-weight: 300;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.results-heading, .results-sub {
+    color: var(--text-color);
+}

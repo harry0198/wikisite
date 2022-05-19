@@ -14,4 +14,10 @@ public class HomeController {
         model.addAttribute("user", user);
         return "pages/home";
     }
+
+    @GetMapping("/explore")
+    public String explore(Model model) {
+
+        return "pages/explore";
+    }
 }

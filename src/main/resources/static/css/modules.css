@@ -352,3 +352,25 @@ form.SearchBar button:hover {
     background-color: var(--site-color-light-hover);
     color: var(--site-color-selected);
 }
+
+
+
+.tags {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    align-items: center;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.tags * {
+    list-style: none;
+    margin: 0;
+    padding: 0.1rem 0.75rem;
+    background-color: white;
+    border: 1px solid rgba(0,0,0,0.25);
+    border-radius: 5px;
+    font-weight: 300;
+    cursor: pointer;
+}

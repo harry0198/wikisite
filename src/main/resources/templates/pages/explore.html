@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+  <title>Branding - Explore</title>
+  <meta name=“description” content="Explore the content on ETC ETC TODO" />
+
+  <div th:replace="fragments/head-fragment :: analytics"></div>
+
+  <!-- More CSS -->
+  <link rel="stylesheet" th:href="@{/css/pages/imports/explore-imports.css}">
+</head>
+<body>
+
+<div th:replace="modules/navbar.html"></div>
+
+<section class="results">
+  <h1 class="results-heading">What's Hot 🔥</h1>
+  <p class="results-sub">Top picks for the most viewed showcase this month!</p>
+  <ul class="tags">
+    <li>Tag</li>
+    <li>Random</li>
+    <li>Awesome</li>
+    <li>Amazing</li>
+    <li>Cool</li>
+    <li>Sick</li>
+    <li>Magic</li>
+  </ul>
+
+</section>
+
+</body>
+</html>
