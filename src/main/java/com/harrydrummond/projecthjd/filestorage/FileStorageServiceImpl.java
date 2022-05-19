@@ -6,8 +6,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Stream;
 import org.springframework.core.io.Resource;

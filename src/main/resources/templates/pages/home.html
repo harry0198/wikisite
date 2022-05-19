@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Content Creator Dashboard - VesudaTutorials</title>
+
+
+    <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
+    <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
+
+</head>
+<body>
+<section class="home__section" id="show-and-discover">
+    <div class="home__section_content">
+        <div class="home__sad_part">
+            <h1 class="home__section_title">Showcase & discover team build projects and individual developer works.</h1>
+            <p class="home__section_sub">Only 0.5% of people know how to code. Time to show off your skills and inspire others to join the top 0.5%</p>
+            <button class="emphasis-btn">Sign Up</button>
+        </div>
+        <div class="home__sad_img">
+            <img th:src="@{images/characterz-people.png}"/>
+        </div>
+    </div>
+</section>
+<section class="home__section" id="show-off-projects">
+    <div class="home__section_content">
+        <div>
+            <h1 class="home__section_title">Show off your Projects 🥇</h1>
+        </div>
+        <div class="flex__layout">
+            <th:block th:replace="modules/post-card.html"></th:block>
+            <th:block th:replace="modules/post-card.html"></th:block>
+            <th:block th:replace="modules/post-card.html"></th:block>
+            <th:block th:replace="modules/post-card.html"></th:block>
+        </div>
+
+    </div>
+</section>
+<section class="home__section" id="follow-creators">
+    <div class="home__section_content">
+        <div>
+            <h2 class="home__section_title">Follow your favourite creators</h2>
+            <p class="home__section_sub">Everybody likes recognition for their work. Follow creators, leave comments on their work and share to friends and family!</p>
+        </div>
+        <div class="home__dual-layout">
+            <div class="user_card">
+                <img class="user_card__author-img" th:src="@{images/Astronaut.png}">
+                <h3 class="user_card__author-text">Harry Drummond</h3>
+                <p class="user_card__author-bio">lorem ipsum dolar sit amet bio here with some sample text lorem ipsum was invented in</p>
+                <div class="user_card__preview">
+                    <img th:src="@{images/article-header-bg.jpg}">
+                    <img th:src="@{images/Work-risk-free.png}">
+                </div>
+            </div>
+            <div class="user_card">
+                <img class="user_card__author-img" th:src="@{images/Astronaut.png}">
+                <h3 class="user_card__author-text">Harry Drummond</h3>
+                <p class="user_card__author-bio">lorem ipsum dolar sit amet bio here with some sample text lorem ipsum was invented in</p>
+                <div class="user_card__preview">
+                    <img th:src="@{images/article-header-bg.jpg}">
+                    <img th:src="@{images/Work-risk-free.png}">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="site-footer">
+    <div>
+        <p>Branding. image?</p>
+        <p>&copy; 2022</p>
+    </div>
+    <div>
+        <h5>Page</h5>
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="">Search</a></li>
+            <li><a href="">Account</a></li>
+            <li><a href="">Contact</a></li>
+        </ul>
+    </div>
+    <div>
+        <h5>Site</h5>
+        <ul>
+            <li><a href="">Sitemap</a></li>
+            <li><a href="">Privacy Policy</a></li>
+            <li><a href="">Manage Cookies</a></li>
+        </ul>
+    </div>
+</footer>
+
+
+</body>
+</html>

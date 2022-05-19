@@ -11,6 +11,7 @@ This file is used on all pages and is required for the core basic functionality
     # Mark (.yellow) and (.low.blue and .low.orange)
     # profile pic
 # Modules
+    # Post card (card__...)
     # Modal Popup (._modal) and (#overlay) and (.close-btn)
     # Sign in form (specific styling)
     # Footer
@@ -27,6 +28,9 @@ This file is used on all pages and is required for the core basic functionality
 
 /* General */
 :root {
+    --bg-color: rgb(247,245,250);
+    --bg-color-dark: rgb(23,26,45);
+    --text-color: rgb(6,12,54);
     --highlight-color: rgb(0,120,250);
     --selector-color: rgb(240,250,255);
 }
@@ -64,7 +68,8 @@ button {
 .emphasis, .secondary, a, .emphasis-btn {
     transition: 0.1s all;
     text-decoration: none !important;
-    color: var(--selector-color);
+    color: white;
+    background-color: var(--text-color);
 }
 
 .emphasis-btn {
@@ -72,7 +77,7 @@ button {
 }
 
 a:hover, .emphasis:hover {
-    color: var(--highlight-color);
+    /*color: var(--highlight-color);*/
 }
 
 .emphasis-btn:hover {
@@ -82,13 +87,9 @@ a:hover, .emphasis:hover {
 
 .emphasis-btn {
     border: none;
-    border-radius: 40px;
-    height: 70px;
-    padding: 15px 20px;
-    font-weight: 600;
-    /*background-image: linear-gradient(to right, red, #f06d06);*/
-    color: white;
-    background-image: linear-gradient(147deg, #fe8a39 0%, #fd3838 74%);
+    border-radius: 5px;
+    padding: 7px 20px;
+    font-weight: bold;
 }
 
 
@@ -186,6 +187,100 @@ mark.low.blue {
     Modules
  */
 
+/* Post card */
+.card__module {
+    min-height: 6rem;
+    min-width: 8rem;
+    max-height: 18rem;
+    max-width: 25rem;
+    position: relative;
+}
+
+.card__module .card__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    font-size: 1rem;
+}
+
+.card__content {
+    position: relative;
+    min-height: 10rem;
+    min-width: 17rem;
+    max-height: 18rem;
+    max-width: 25rem;
+    border-radius: 15px;
+    background-color: white;
+    cursor: pointer;
+    overflow: clip;
+}
+
+.card__content img {
+
+    object-fit: cover;
+}
+
+.card__author {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+
+    background: linear-gradient(0deg, rgba(42,42,43,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+.card__content:hover .card__author {
+    visibility: visible;
+    opacity: 1;
+}
+
+.card__author img {
+    object-fit: cover;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    margin-right: 0.5rem;
+    border: #0f0f0f 2px ridge;
+}
+
+.card__author .card__author_name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card__stats {
+    position: absolute;
+    padding: 0.5rem 1rem;
+    min-height: 2.5rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background: linear-gradient(180deg, rgba(80,80,83,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+.card__stats > * {
+    padding: 0.2rem;
+    color: white;
+}
+
+.card__stats > p:first-child {
+    margin-right: auto;
+}
 
 /* Modal Popup */
 ._modal {
@@ -327,48 +422,23 @@ mark.low.blue {
 
 
 /* Footer */
-
-/*@media (max-width: 786px) {*/
-
-/*    footer .Copyright {*/
-/*        text-align: center;*/
-/*        margin-top: 50px;*/
-/*    }*/
-/*}*/
-
-/*footer {*/
-/*    background: #323232;*/
-/*    color: #fff;*/
-/*    padding: 75px;*/
-/*}*/
-/*footer .Links {*/
-/*    display: flex;*/
-/*    list-style: none;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    gap: 50px;*/
-/*    margin-bottom: 5px;*/
-/*}*/
-/*footer .Links a {*/
-/*    color: #fff;*/
-/*    font-weight: 600;*/
-/*    font-size: 24px;*/
-/*}*/
-/*footer .Copyright {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    font-size: 14px;*/
-/*    color: rgba(255,255,255,0.4);*/
-/*    gap: 50px;*/
-/*}*/
-/*footer .Copyright p {*/
-/*    margin: 0px;*/
-/*}*/
-
-footer .small-print {
-    text-decoration: underline;
+.site-footer {
+    background-color: var(--bg-color-dark);
+    color: white;
+    padding: 5rem;
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    flex-wrap: wrap;
 }
+
+.site-footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+
+
 a {
     color: var(--site-text-grey-color);
     cursor: pointer;

@@ -24,17 +24,17 @@
                    <button id="article__popular-move-right"><i class="fa fa-chevron-right"></i></button>
                </div>
            </div>
-           <div id="article__popular-cards" class="__carousel">
-               <th:block th:each="post: ${posts}">
-                   <th:block th:replace="modules/post-cards.html"></th:block>
-               </th:block>
-           </div>
+<!--           <div id="article__popular-cards" class="__carousel">-->
+<!--               <th:block th:each="post: ${posts}">-->
+<!--                   <th:block th:replace="modules/post-cards.html"></th:block>-->
+<!--               </th:block>-->
+<!--           </div>-->
 
        </div>
 
        <div class="dashboard__module write__module">
-           <h3 class="write__heading">We want your Knowledge.</h3>
-           <p class="write_subtext">On our website, knowledge is power! We want you to share your insights on developer topics to help and inspire people! It's as easy as pressing a button.</p>
+           <h3 class="write__heading">Show off your work.</h3>
+           <p class="write_subtext">On our website, knowledge is power! We want you to share your projects and insights on developer topics to help and inspire people! It's as easy as pressing a button.</p>
            <a th:href="@{/user/dashboard/publish}" class="write_link">Lets get Started <i class="fa fa-feather-pointed"></i></a>
        </div>
        <div class="dashboard__module">
@@ -46,11 +46,11 @@
                </div>
            </div>
 
-           <div id="article__recommended-cards" class="__carousel">
-               <th:block th:each="post: ${suggested_posts}">
-                   <th:block th:replace="modules/post-cards.html"></th:block>
-               </th:block>
-           </div>
+<!--           <div id="article__recommended-cards" class="__carousel">-->
+<!--               <th:block th:each="post: ${suggested_posts}">-->
+<!--                   <th:block th:replace="modules/post-cards.html"></th:block>-->
+<!--               </th:block>-->
+<!--           </div>-->
        </div>
    </div>
 </div>
