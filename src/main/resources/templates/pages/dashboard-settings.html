@@ -11,17 +11,15 @@
 <body>
 
 <div class="dashboard__container">
-    <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=2)"></th:block>
+    <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=1)"></th:block>
 
     <div class="dashboard__body sidebar_layout">
         <nav class="dashboard_sidebar_secondary">
-            <h2 class="mobile-hide">Settings</h2>
+            <h2 class="small-hide menu-title">Settings</h2>
             <a class="dashboard__sidebar__item menu-link selected"><i class="fa fa-address-card"></i>Personal Profile</a>
-            <a class="dashboard__sidebar__item menu-link"><i class="fa fa-bell"></i>Notifications</a>
-            <a class="dashboard__sidebar__item menu-link"><i class="fa fa-lock"></i>Security</a>
+            <a class="dashboard__sidebar__item menu-link"><i class="fa fa-lock"></i>Preferences</a>
         </nav>
         <section class="dashboard__settings_profile">
-            <h2>Personal Profile</h2>
             <h3>Profile</h3>
             <p>This information will be public so be careful what you share.</p>
 

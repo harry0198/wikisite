@@ -16,35 +16,29 @@
     <th:block th:replace="modules/dashboard-navigation :: navbars(activeNum=1)"></th:block>
 
    <div class="dashboard__body">
-       <div class="dashboard__module">
-           <div class="dashboard__module-header">
-               <h3 class="dashboard__module-title">Popular Posts</h3>
-               <div class="module__carousel-nav">
-                   <button id="article__popular-move-left"><i class="fa fa-chevron-left"></i></button>
-                   <button id="article__popular-move-right"><i class="fa fa-chevron-right"></i></button>
-               </div>
-           </div>
-<!--           <div id="article__popular-cards" class="__carousel">-->
-<!--               <th:block th:each="post: ${posts}">-->
-<!--                   <th:block th:replace="modules/post-cards.html"></th:block>-->
-<!--               </th:block>-->
+<!--       <div class="dashboard__module">-->
+<!--           <div class="dashboard__module-header">-->
+<!--               <h3 class="dashboard__module-title">Popular Posts</h3>-->
+<!--               <div class="module__carousel-nav">-->
+<!--                   <button id="article__popular-move-left"><i class="fa fa-chevron-left"></i></button>-->
+<!--                   <button id="article__popular-move-right"><i class="fa fa-chevron-right"></i></button>-->
+<!--               </div>-->
 <!--           </div>-->
+<!--&lt;!&ndash;           <div id="article__popular-cards" class="__carousel">&ndash;&gt;-->
+<!--&lt;!&ndash;               <th:block th:each="post: ${posts}">&ndash;&gt;-->
+<!--&lt;!&ndash;                   <th:block th:replace="modules/post-cards.html"></th:block>&ndash;&gt;-->
+<!--&lt;!&ndash;               </th:block>&ndash;&gt;-->
+<!--&lt;!&ndash;           </div>&ndash;&gt;-->
 
-       </div>
-
-       <div class="dashboard__module write__module">
-           <h3 class="write__heading">Show off your work.</h3>
-           <p class="write_subtext">On our website, knowledge is power! We want you to share your projects and insights on developer topics to help and inspire people! It's as easy as pressing a button.</p>
-           <a th:href="@{/user/dashboard/publish}" class="write_link">Lets get Started <i class="fa fa-feather-pointed"></i></a>
-       </div>
-       <div class="dashboard__module">
-           <div class="dashboard__module-header">
-               <h3 class="dashboard__module-title">You may also like</h3>
-               <div class="module__carousel-nav">
-                   <button id="article__recommended-move-left"><i class="fa fa-chevron-left"></i></button>
-                   <button id="article__recommended-move-right"><i class="fa fa-chevron-right"></i></button>
-               </div>
-           </div>
+<!--       </div>-->
+<!--       <div class="dashboard__module">-->
+<!--           <div class="dashboard__module-header">-->
+<!--               <h3 class="dashboard__module-title">You may also like</h3>-->
+<!--               <div class="module__carousel-nav">-->
+<!--                   <button id="article__recommended-move-left"><i class="fa fa-chevron-left"></i></button>-->
+<!--                   <button id="article__recommended-move-right"><i class="fa fa-chevron-right"></i></button>-->
+<!--               </div>-->
+<!--           </div>-->
 
 <!--           <div id="article__recommended-cards" class="__carousel">-->
 <!--               <th:block th:each="post: ${suggested_posts}">-->

@@ -179,7 +179,7 @@ form.SearchBar button:hover {
 
 .search__container .search__field {
     background-color: var(--bg-color);
-    border-radius: 1rem;
+    border-radius: 5px;
     padding: 0.5rem 1rem 0.5rem 2rem;
 }
 

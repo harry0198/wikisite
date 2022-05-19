@@ -18,6 +18,15 @@ if (search != null) {
     }
 }
 
+let openMenu = document.querySelectorAll('.nav-menu-btn');
+let m = document.querySelector('.site-nav');
+
+openMenu.forEach(btn => {
+    btn.onclick = () => {
+        m.classList.toggle('active');
+    }
+});
+
 // modal logic
 const openModalButtons = document.querySelectorAll("[data-modal-target]");
 const closeModalButtons = document.querySelectorAll("[data-close-button]");
@@ -27,6 +36,7 @@ if (overlay != null && openModalButtons != null && closeModalButtons != null) {
     openModalButtons.forEach(button => {
         button.addEventListener('click', () => {
             const modal = document.querySelector(button.dataset.modalTarget)
+            console.log('oka');
             openModal(modal);
         });
     })
@@ -253,15 +263,15 @@ function updateLikes(id, like) {
 
 }
 
-fetch("http://localhost:8080/api/v1/post/new", {
-    method: "POST",
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({"title":"test", "description":"test", "imageRequests":[]})
-})
-    .then(res => {
-
-    });
-
-let simplemde = new SimpleMDE({ element: document.getElementById("content-editor") });
+// fetch("http://localhost:8080/api/v1/post/new", {
+//     method: "POST",
+//     headers: {
+//         'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({"title":"test", "description":"test", "imageRequests":[]})
+// })
+//     .then(res => {
+//
+//     });
+//
+// let simplemde = new SimpleMDE({ element: document.getElementById("content-editor") });

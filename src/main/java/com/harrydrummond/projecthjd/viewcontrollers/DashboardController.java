@@ -11,7 +11,7 @@ public class DashboardController {
 
     @GetMapping
     public String getDashboard(Model model) {
-        return "pages/dashboard";
+        return "pages/dashboard-settings";
     }
 
     @GetMapping("/settings")

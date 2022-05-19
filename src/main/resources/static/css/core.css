@@ -43,8 +43,6 @@ This file is used on all pages and is required for the core basic functionality
 }
 
 body {
-    /* For navbar */
-    margin-top: 5.2rem;
     font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -65,7 +63,7 @@ button {
 
 /* Emphasis */
 
-.emphasis, .secondary, a, .emphasis-btn {
+.emphasis, .secondary, .emphasis-btn {
     transition: 0.1s all;
     text-decoration: none !important;
     color: white;
@@ -439,13 +437,13 @@ mark.low.blue {
 
 
 
-a {
-    color: var(--site-text-grey-color);
-    cursor: pointer;
-}
-a:hover {
-    color: var(--site-color-selected);
-}
+/*a {*/
+/*    color: var(--site-text-grey-color);*/
+/*    cursor: pointer;*/
+/*}*/
+/*a:hover {*/
+/*    color: var(--site-color-selected);*/
+/*}*/
 
 .primary-btn, .secondary-btn {
     padding: 1rem;
@@ -459,24 +457,124 @@ a:hover {
     color: white;
 }
 
+/* TODO */
+.account-pfp {
+    border-radius: 50%;
+    object-fit: cover;
+}
 
+/* Nav */
 
-
-/* Nav Bar */
-
-.navbar-header {
-    position: fixed;
+.site-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    padding: 1rem;
+    background-color: white;
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
-    background: white;
+    z-index: 100;
+    width: 100%;
+}
+
+#nav-open-btn, #nav-close-btn {
+    cursor: pointer;
+}
+
+.site-nav.active #nav-close-btn{
+    display: block;
+}
+
+.site-nav.active #nav-open-btn, .site-nav #nav-close-btn {
+    display: none;
+}
+
+.nav-mobile {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     padding: 1rem 7%;
+    background: white;
+    border-top: .1rem solid rgba(0,0,0,0.2);
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: 0.3s all ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-mobile > * {
+    max-height: 5rem;
+}
+
+.nav-mobile .search__container {
+    max-width: 100% !important;
+}
+
+.site-nav * {
+    text-decoration: none !important;
+}
+
+
+.site-nav-links > a{
+    padding: 0.5rem;
+    color: black;
+}
+
+.site-nav > * {
+    flex: 1;
+}
+
+.site-nav div {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    z-index: 100;
+    gap: 1rem;
+}
+
+.site-nav .search__container {
+     max-width: 15rem;
+}
+
+.site-nav div:last-child > *:first-child {
+    text-align: right;
+    margin-left: auto;
+}
+
+
+.site-nav .site-branding {
+    border-right: 2px solid var(--bg-color);
+    font-weight: bold;
+}
+
+.site-nav .account-pfp {
+    height: 3rem;
+    width: 3rem;
+}
+
+@media (max-width: 46rem) {
+    .mobile-hide {
+        display: none !important;
+    }
+    .site-nav .site-branding {
+        border-right: none;
+        margin: auto;
+        text-align: center;
+    }
+    .site-nav div:last-child > *:last-child {
+        text-align: right;
+        margin-left: auto;
+    }
+
+    .site-nav.active .nav-mobile {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
 
 }
+
+/* Nav Bar */
 
 .logo {
     font-size: 1.5rem;
@@ -497,97 +595,11 @@ a:hover {
     transition: 0.2s ease all;
 }
 
-.navbar-header .item {
-    flex: 1 1 0;
-}
-
-.navbar-header .navbar a {
-    font-size: 1rem;
-    padding: .5rem .5rem;
-    color: black;
-    display: inline-block;
-    border-radius: .5rem;
-    transition: 0.3s ease all;
-}
-
-.navbar-header .navbar a:hover {
-    background: #eb3c06;
-    color: white;
-}
-
-.navbar-header .icons {
-    text-align: right;
-}
-
-.navbar-header .icons i, .navbar-header.icons a {
-    cursor: pointer;
-    height: 2.5rem;
-    width: 2.5rem;
-    text-align: center;
-    font-size: 1rem;
-    border-radius: 50%;
-    line-height: 2.5rem;
-    margin-left: .5rem;
-    background: #eee;
-    transition: 0.3s all ease;
-}
-
-.navbar-header .icons i:hover, .navbar-header.icons a:hover {
-    color: white;
-    transform: rotate(360deg);
-    background: #eb3c06;
-}
-
-.navbar-header .icons #menu-bars {
-    display: none;
-}
 
 
 @media (max-width: 728px) {
-    .navbar-header {
-        padding: 1rem 2rem;
-    }
-
-    .navbar-header .logo {
-        font-size: 1.3rem;
-    }
-
-    .navbar-header .item {
-        flex: 0 1 auto;
-    }
-
-    .navbar-header .icons #menu-bars {
-        display: inline-block;
-    }
-    .navbar-header .icons #search {
-        display: none;
-    }
 
 
-    .navbar-header .navbar {
-        display: block;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border-top: .1rem solid rgba(0,0,0,0.2);
-        padding: 1rem;
-        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        transition: 0.3s all ease;
-    }
-
-    .navbar-header .navbar.active {
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-    }
-
-    .navbar-header .navbar a {
-        display: block;
-        padding: 1rem;
-        margin: 1rem;
-        font-size: 1rem;
-        background: #eee;
-    }
 }
 
 
@@ -632,6 +644,12 @@ a:hover {
 
 
 
+/* Media queries */
+@media (min-width: 46rem) {
+    .desktop-hide {
+        display: none !important;
+    }
+}
 
 
 

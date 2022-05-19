@@ -11,12 +11,16 @@
 
 </head>
 <body>
+
+
+<div th:replace="modules/navbar.html"></div>
+
 <section class="home__section" id="show-and-discover">
     <div class="home__section_content">
         <div class="home__sad_part">
             <h1 class="home__section_title">Showcase & discover team build projects and individual developer works.</h1>
             <p class="home__section_sub">Only 0.5% of people know how to code. Time to show off your skills and inspire others to join the top 0.5%</p>
-            <button class="emphasis-btn">Sign Up</button>
+            <button data-modal-target="#modal-signin" class="emphasis-btn">Sign Up</button>
         </div>
         <div class="home__sad_img">
             <img th:src="@{images/characterz-people.png}"/>
@@ -66,29 +70,7 @@
     </div>
 </section>
 
-<footer class="site-footer">
-    <div>
-        <p>Branding. image?</p>
-        <p>&copy; 2022</p>
-    </div>
-    <div>
-        <h5>Page</h5>
-        <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="">Search</a></li>
-            <li><a href="">Account</a></li>
-            <li><a href="">Contact</a></li>
-        </ul>
-    </div>
-    <div>
-        <h5>Site</h5>
-        <ul>
-            <li><a href="">Sitemap</a></li>
-            <li><a href="">Privacy Policy</a></li>
-            <li><a href="">Manage Cookies</a></li>
-        </ul>
-    </div>
-</footer>
+<th:block th:replace="modules/footer.html"></th:block>
 
 
 </body>
