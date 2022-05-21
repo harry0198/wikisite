@@ -17,14 +17,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/admin/**")
+        http.authorizeRequests()
+                .antMatchers("/dashboard", "/dashboard/**")
                 .authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()
-                .userInfoEndpoint().userService(userService);
+                .userInfoEndpoint().userService(userService)
+                .and().and()
+                .logout()
+                .logoutSuccessUrl("/");
 
-        http.headers().frameOptions().disable();
+//        http.headers().frameOptions().disable();
     }
 }

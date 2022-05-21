@@ -9,7 +9,7 @@
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/explore}">Explore</a></li>
             <li><a href="">Account</a></li>
-            <li><a href="">Contact</a></li>
+            <li><a data-modal-target="#modal-contact-form">Contact</a></li>
         </ul>
     </div>
     <div>
@@ -19,5 +19,27 @@
             <li><a href="">Privacy Policy</a></li>
             <li><a href="">Manage Cookies</a></li>
         </ul>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="_modal" id="modal-contact-form">
+        <div class="_modal_content contact-form-modal simple-modal">
+            <div>
+                <h2>Contact Us</h2>
+                <p>For all enquiries please use the following contact form</p>
+            </div>
+            <form class="site-form">
+                <label for="email">Email Address</label>
+                <input type="text" id="email" name="email" placeholder="example@gmail.com" required>
+                <label for="enquiry">Enquiry</label>
+                <textarea type="text" id="enquiry" name="enquiry" placeholder="Start writing..." required></textarea>
+                <p class="small-print">Make sure you include as much detail as possible</p>
+                <div class="submission-btns">
+                    <button class="emphasis-btn">Send</button>
+                    <button class="secondary-btn" data-close-button>Cancel</button>
+                </div>
+            </form>
+            <button data-close-button><i class="fa-solid fa-xmark close-btn"></i></button>
+        </div>
     </div>
 </footer>

@@ -1,5 +1,7 @@
 package com.harrydrummond.projecthjd.viewcontrollers;
 
+import com.harrydrummond.projecthjd.user.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,22 +12,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DashboardController {
 
     @GetMapping
-    public String getDashboard(Model model) {
+    public String getDashboard(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         return "pages/dashboard-settings";
     }
 
     @GetMapping("/settings")
-    public String getSettingsForDashboard(Model model) {
+    public String getSettingsForDashboard(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         return "pages/dashboard-settings";
     }
 
     @GetMapping("/saved")
-    public String getSavedForDashboard(Model model) {
+    public String getSavedForDashboard(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         return "pages/dashboard-saved";
     }
 
     @GetMapping("/publish")
-    public String getPublishForDashboard(Model model) {
+    public String getPublishForDashboard(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         return "pages/dashboard-publish";
     }
 }

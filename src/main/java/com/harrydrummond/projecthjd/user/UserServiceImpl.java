@@ -1,5 +1,7 @@
 package com.harrydrummond.projecthjd.user;
 
+import com.harrydrummond.projecthjd.user.details.UserDetails;
+import com.harrydrummond.projecthjd.user.details.UserDetailsRepository;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Validator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -22,6 +25,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     private Validator validator;
     private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -73,8 +77,14 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             appUser.setProvider(Provider.GOOGLE);
             appUser.setAttributes(user.getAttributes()); //to the user at the top of this method
             appUser.setUsername(email);
+            appUser.setDateCreated(LocalDateTime.now());
 
             userRepository.save(appUser);
+            UserDetails userDetails = new UserDetails();
+            userDetails.setUser(appUser);
+
+            userDetailsRepository.save(userDetails);
+            appUser.setUserDetails(userDetails);
             return appUser;
         }
         return appUserOptional.get();

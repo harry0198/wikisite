@@ -1,16 +1,17 @@
-<div class="card__module">
-  <h3 class="card__title">Utilising quick sorts in production using some long text which should have ellipsis</h3>
-  <div class="card__content">
+<div class="card__container">
+  <div class="card__header">
+    <img class="account-pfp" th:src="@{/images/pfp.jpeg}" alt="Author Profile Picture">
+    <div class="card__header_content">
+      <h3 class="card__title"><a th:href="@{/}">Some Example Text Hand Crafted For the Title</a></h3>
+      <p class="card__sub">Harry Drummond</p>
+    </div>
+  </div>
+  <div class="card__body">
+    <img th:src="@{/images/sample-bg.png}">
     <div class="card__stats">
       <p><i class="fa fa-eye"></i> 300k</p>
       <p class="get-rid"><i class="fa fa-bookmark"></i> 7.2k</p>
       <p><i class="fa fa-heart"></i> 1.4k</p>
-    </div>
-    <img th:src="@{/images/characterz-people.png}" alt="a">
-
-    <div class="card__author">
-      <img th:src="@{images/Astronaut.png}">
-      <p class="card__author_name">Harry Drummond</p>
     </div>
   </div>
 </div>

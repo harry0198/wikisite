@@ -1,32 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en">
 <head>
+  <title>Brand - Search</title>
+
+
   <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
-  <title>Branding - Explore</title>
-  <meta name=“description” content="Explore the content on ETC ETC TODO" />
+  <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
-  <div th:replace="fragments/head-fragment :: analytics"></div>
+  <link rel="stylesheet" th:href="@{/css/pages/imports/search-imports.css}">
 
-  <!-- More CSS -->
-  <link rel="stylesheet" th:href="@{/css/pages/imports/explore-imports.css}">
 </head>
 <body>
-
 <div th:replace="modules/navbar.html"></div>
 
 <section class="results">
-  <h1 class="results-heading">What's Hot 🔥</h1>
-  <p class="results-sub">Top picks for the most viewed showcase this month!</p>
-  <ul class="tags">
-    <li><button>Tag</button></li>
-    <li><button>Button</button></li>
-    <li><button>Awesome</button></li>
-    <li><button>Cool</button></li>
-    <li><button>Sick</button></li>
-    <li><button>Amazing</button></li>
-    <li><button>Brilliant</button></li>
+  <div class="search__with_dropdown">
+    <form class="search__input_form">
+      <input class="search__field" type="text" placeholder="Search..."/>
+      <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
+    </form>
 
-  </ul>
+  </div>
+  <h1 class="results-heading">Example Search</h1>
+  <p class="results-sub">1,248 results found</p>
 
 </section>
 
@@ -34,16 +30,13 @@
   <div class="search-options">
     <div class="dropdown__menu">
       <div class="dropdown__btn">
-        <button>Popular</button>
+        <button>Posts</button>
         <i class="fa fa-chevron-down"></i>
       </div>
       <div class="list-box dropdown__options">
         <ul class="list-box-list">
-          <li>Popular</li>
-          <li>Recent</li>
-          <li>Most Viewed</li>
-          <hr>
-          <li>Following</li>
+          <li>Posts</li>
+          <li>People</li>
         </ul>
       </div>
     </div>
@@ -64,6 +57,9 @@
     <div class="item item--8"></div>
   </div>
 </section>
+
+
 <th:block th:replace="modules/footer.html"></th:block>
+
 </body>
 </html>

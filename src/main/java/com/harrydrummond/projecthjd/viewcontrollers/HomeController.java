@@ -16,8 +16,16 @@ public class HomeController {
     }
 
     @GetMapping("/explore")
-    public String explore(Model model) {
+    public String explore(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
 
         return "pages/explore";
+    }
+
+    @GetMapping("/search")
+    public String search(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
+
+        return "pages/search";
     }
 }

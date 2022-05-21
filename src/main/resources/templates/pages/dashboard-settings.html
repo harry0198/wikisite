@@ -23,13 +23,14 @@
             <h3>Profile</h3>
             <p>This information will be public so be careful what you share.</p>
 
-            <form class="dashboard__form">
+            <form class="dashboard__form" th:action="@{/api/user/${user.getId()}}" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" placeholder="Your username...">
+                <input type="text" id="username" name="username" placeholder="Your username..." th:value="${user.getUsername()}">
                 <label for="email">Email:</label>
-                <input type="text" id="email" name="username" placeholder="example@thedevblog.co.uk">
+                <input type="text" id="email" name="username" placeholder="example@thedevblog.co.uk" th:value="${user.getEmail()}" disabled>
                 <label for="bio">Bio:</label>
-                <textarea type="text" id="bio" name="bio" placeholder="Hello, I am..."></textarea>
+                <textarea type="text" id="bio" name="bio" placeholder="Hello, I am..." th:text="${user.getUserDetails().getBio()}"></textarea>
                 <p class="small-print">A brief description of yourself. Let your readers get to know you!</p>
                 <label for="imageUpload">Upload Profile Picture:</label>
                 <div id="profileImageUploadContainer">

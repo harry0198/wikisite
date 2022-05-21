@@ -4,165 +4,12 @@ This file is used on some/most pages and is required for module functionality
 
 # Sections
     # Cards
-    # Search Bar
     # Simple search bar
     # Pagination
  */
 
 :root {
     --background-orange-gradient: linear-gradient(147deg, #fe8a39 0%, #fd3838 74%);
-}
-
-
-/*
-CARDS
- */
-
-.carde {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-.card__wrap--outer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: auto;
-    justify-content: center;
-}
-
-.card__wrap--inner {
-    display: flex;
-    flex-direction: row;
-    min-width: 200px;
-    max-width: 400px;
-    justify-content: center;
-}
-
-@media (max-width: 1000px) {
-    /*.card__wrap--inner {*/
-    /*  width: 70%;*/
-    /*  margin: auto;*/
-    /*}*/
-
-    .carde img {
-        max-height: 100px;
-    }
-}
-
-.card-content {
-    padding: 0 25px 0 25px;
-}
-
-.card-container {
-    width: 100%;
-    max-width: 1250px;
-    margin: auto;
-    background-color: #e4e7ff;
-}
-
-.tag_line {
-    text-align: left;
-    padding-bottom: 20px;
-}
-
-.carde img {
-    width: 100%;
-    display: block;
-    max-height: 200px;
-}
-
-/*Card Styling*/
-
-.carde img {
-    border-radius: 25px 25px 0 0;
-    object-fit: cover;
-}
-
-.carde {
-    border-radius: 25px;
-    background-color: white;
-}
-
-.card__wrap--inner {
-    padding: 12px;
-    transition: 0.3s all;
-    /*margin: auto;*/
-    object-fit: cover;
-}
-
-.card__wrap--inner:hover {
-    transform: translateY(-10px);
-}
-
-.card__wrap__item {
-    padding: 12px 18px 12px 18px;
-}
-
-.card__wrap__sub {
-    padding: 0 18px;
-}
-
-.card__wrap__footer {
-    padding: 18px;
-    overflow: hidden;
-    border-top: 1px solid #dedede;
-}
-
-.carde a.emphasis {
-    width: 100%;
-}
-
-.card__header {
-    padding-top: 20px;
-    font-weight: bolder;
-    text-align: center;
-}
-
-.card__footer {
-    margin-top: auto;
-    padding-bottom: 20px;
-    text-align: center;
-}
-
-
-
-
-
-
-
-
-
-
-
-/* Search bar */
-
-form.SearchBar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-form.SearchBar input {
-    box-sizing: border-box;
-    width: 50%;
-    border: none;
-    padding: 15px 55px 15px 30px;
-    border-radius: 100px;
-    margin-right: -50px;
-    box-shadow: 0 2px 15px rgb(0 0 0 / 5%);
-}
-form.SearchBar button {
-    background: #f45a2a;
-    border: none;
-    color: #fff;
-    border-radius: 100px;
-    padding: 8px;
-}
-form.SearchBar button:hover {
-    background: #eb3c06;
-    color: #fff;
 }
 
 /* Simple Search bar */
@@ -195,153 +42,41 @@ form.SearchBar button:hover {
 }
 
 
-
-.article__card {
-    height: 100%;
-    padding: 1rem;
-    border-radius: 1rem;
-    width: 18rem;
-    min-width: 18rem;
-    background-color: white;
-    box-shadow: 0px 0px 17px -10px #000000;
-}
-
-.article__card-header {
-    width: 100%;
-    border-radius: 0.5rem;
-    height: 10rem;
-    background-image: url("https://www.vesudatutorials.com/images/stock-bg.jpg");
-    position: relative;
-}
-
-.article__card-header, .article__card-title, .article__card-overview {
-    cursor: pointer;
-}
-
-.article__card-header .article__card-difficulty {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 0.5rem;
-    color: var(--site-text-grey-color);
-    background-color: white;
-    border-radius: 1rem;
-    padding: 0.25rem 0.5rem;
-}
-
-.article__card .article__card-header .difficulty-icon {
-    margin-left: 1rem;
-}
-
-.article__card .easy {
-    color: #07b707;
-}
-
-.article__card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-top: 0.5rem;
-}
-.article__card-title a {
-    color: var(--site-color-selected) !important;
-    text-decoration: none;
-}
-
-.article__card-overview {
-    font-size: 0.8rem;
-    font-weight: lighter;
-    margin-top: 0.5rem;
-}
-
-.article__card-author {
-    margin-top: auto !important;
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-.article__card-author > p {
-    margin-left: 0.5rem;
-    color: var(--site-text-grey-color);
-    font-weight: bold;
-
-}
-
-.article__card-info {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.article__card-stats {
-    display: flex;
-    justify-content: stretch;
-    align-items: center;
-}
-
-.article__card-stats > * {
-    color: var(--site-text-grey-color);
-    padding: 0 0.5rem;
-    flex-grow: 1;
-    text-align: center;
-}
-
-.article__card-stats > *:nth-child(2) {
-    border-left: 3px solid var(--site-icon-color);
-    border-right: 3px solid var(--site-icon-color);
-}
-
-.article__card-stats .fa {
-    margin-right: 0.5rem;
-}
-
-
-.article__card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.article__card-footer > * {
-    color: var(--site-text-grey-color);
-}
-
-
-
-
-
-
-
 /* Pagination */
 
 
 .pagination ul {
-    background: white;
     display: flex;
-    padding: 1rem;
-    border-radius: 1rem;
     justify-content: center;
     align-items: center;
+    margin-top: revert;
 }
 
 .pagination ul li {
     list-style: none;
+    text-decoration: none;
     text-align: center;
-    border-radius: 1rem;
+    border: 1px solid rgba(0,0,0,0.25);
+    border-radius: 5px;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 0.2rem;
-    padding: 0.5rem;
+    margin: auto 0.25rem;
+    padding: 0.25rem;
 }
 
 .pagination ul li a {
-    width: 3rem;
-    height: 3rem;
-    line-height: 3rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+
+    text-decoration: none;
 }
 
 
 .pagination ul .active, .pagination ul .active:hover {
-    background-color: var(--site-color-selected);
+    background-color: var(--bg-color-dark);
 }
 
 .pagination ul .active a {
@@ -349,8 +84,17 @@ form.SearchBar button:hover {
 }
 
 .pagination ul li:hover {
-    background-color: var(--site-color-light-hover);
-    color: var(--site-color-selected);
+    background-color: var(--bg-color);
+}
+
+.pagination ul li:hover a {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.pagination ul li.active:hover a {
+    color: white;
+    font-weight: normal;
 }
 
 
@@ -364,13 +108,190 @@ form.SearchBar button:hover {
     flex-wrap: wrap;
 }
 
-.tags * {
-    list-style: none;
-    margin: 0;
+.tags > * > * {
     padding: 0.1rem 0.75rem;
     background-color: white;
     border: 1px solid rgba(0,0,0,0.25);
-    border-radius: 5px;
-    font-weight: 300;
+    border-radius: 2px;
     cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+}
+
+.tags > * {
+    background-color: var(--text-color);
+    border-radius: 2px;
+}
+
+.tags * {
+    list-style: none;
+    margin: 0;
+    font-weight: 300;
+}
+
+.tags > *:hover > * {
+    transform: translateY(-2px);
+}
+
+.post-grid {
+    gap: 2rem;
+    display: grid;
+    width: 100%;
+    grid-template-rows: repeat(2, minmax(300px, min-content));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-auto-rows: minmax(250px, min-content)
+}
+/*.post-grid > * {*/
+/*    padding: 10px;*/
+/*    color: white;*/
+/*    background-color: orangered;*/
+/*}*/
+.post-grid .item--1 {
+    background-color: orangered;
+}
+.post-grid .item--2 {
+    background-color: yellowgreen;
+}
+.post-grid .item--3 {
+    background-color: blueviolet;
+}
+.post-grid .item--4 {
+    background-color: palevioletred;
+}
+.post-grid .item--5 {
+    background-color: royalblue;
+}
+.post-grid .item--6 {
+    background-color: goldenrod;
+}
+.post-grid .item--7 {
+    background-color: crimson;
+}
+.post-grid .item--8 {
+    background-color: darkslategray;
+}
+
+
+.card__container {
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.25);
+    overflow: clip;
+    position: relative;
+    cursor: pointer;
+}
+
+.card__header {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    height: 4rem;
+    color: black;
+    background-color: white;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+    padding: 1rem;
+}
+
+.card__header .account-pfp {
+    width: 2.75rem;
+    height: 2.75rem;
+}
+
+
+.card__header_content {
+    overflow: hidden;
+}
+
+.card__header .card__title a {
+    text-decoration: none;
+}
+
+.card__header .card__title a:hover {
+    color: black;
+}
+
+.card__header .card__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.card__header .card__sub {
+    font-size: 0.75rem;
+    font-weight: 300;
+}
+
+.card__body {
+    position: relative;
+    height: 100%;
+}
+
+.card__body img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.card__stats {
+    position: absolute;
+    padding: 0.5rem 1rem;
+    min-height: 2.5rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background: linear-gradient(180deg, rgba(80,80,83,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+.card__stats > * {
+    padding: 0.2rem;
+    color: white;
+}
+
+.card__stats > p:first-child {
+    margin-right: auto;
+}
+
+.dropdown__btn {
+    max-width: 15rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 5px;
+    gap: 0.25rem;
+    border: 1px solid rgba(0,0,0,0.25);
+}
+
+
+
+.dropdown__btn > * {
+    color: rgba(0,0,0,0.5);
+}
+
+.dropdown__options {
+    top: 100%;
+    left: 0;
+    padding: 0.5rem 1rem;
+}
+
+.dropdown__menu.open .dropdown__options {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.dropdown__menu {
+    position: relative;
+    z-index: 90;
+    cursor: pointer;
+}
+
+.dropdown__menu.open .dropdown__btn > * {
+    color: black;
 }

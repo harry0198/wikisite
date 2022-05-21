@@ -1,10 +1,11 @@
 <nav class="site-nav">
+    <div id="overlay"></div>
     <i class="fas fa-bars desktop-hide left-panel nav-menu-btn" id="nav-open-btn"></i>
     <i class="fas fa-xmark desktop-hide left-panel nav-menu-btn" id="nav-close-btn"></i>
     <div class="site-nav-links">
         <a class="site-branding" th:href="@{/}"><i class="fas fa-code logo-icon"></i>Branding.</a>
-        <a class="mobile-hide" th:href="@{/}">Explore</a>
-        <a class="mobile-hide" th:href="@{/}">Contact</a>
+        <a class="mobile-hide" th:href="@{/explore}">Explore</a>
+        <a class="mobile-hide" data-modal-target="#modal-contact-form">Contact</a>
     </div>
     <div class="nav-mobile">
         <div class="search__container">
@@ -28,7 +29,23 @@
             <button data-modal-target="#modal-signin" class="emphasis-btn">Sign In</button>
             <th:block th:replace="modules/login :: login(closeable=true)"></th:block>
         </div>
-        <img th:unless="${user == null}" class="account-pfp" th:src="@{images/Astronaut.png}" alt="Account Profile Picture">
+        <div th:unless="${user == null}">
+            <img class="account-pfp profile-btn" th:src="@{/images/Astronaut.png}" alt="Account Profile Picture">
+            <div class="list-box profile-list" id="profile-nav">
+                <h4 class="list-box-heading">Profile</h4>
+                <hr>
+                <ul class="list-box-list">
+                    <li><a th:href="@{/dashboard/settings}">Edit Profile</a></li>
+                    <li>View Profile</li>
+                    <li><a th:href="@{/dashboard/saved}">View Saved</a></li>
+                    <hr>
+                    <li class="nav-profile-icon-item nav-profile-important"><i class="fa fa-square-plus"></i>New Post</li>
+                    <hr>
+                    <li><a th:href="@{/dashboard}">Account Settings</a></li>
+                    <li><a th:href="@{/logout}">Sign Out</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
 </nav>

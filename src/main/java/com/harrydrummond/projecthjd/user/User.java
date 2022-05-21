@@ -57,7 +57,7 @@ public class User implements OAuth2User, Serializable {
 
     private transient Map<String, Object> attributes;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private UserDetails userDetails;
 
     public User(String name, String email, UserRole userRoles) {

@@ -28,6 +28,9 @@ openMenu.forEach(btn => {
 });
 
 // modal logic
+
+
+
 const openModalButtons = document.querySelectorAll("[data-modal-target]");
 const closeModalButtons = document.querySelectorAll("[data-close-button]");
 const overlay = document.getElementById('overlay');
@@ -36,7 +39,6 @@ if (overlay != null && openModalButtons != null && closeModalButtons != null) {
     openModalButtons.forEach(button => {
         button.addEventListener('click', () => {
             const modal = document.querySelector(button.dataset.modalTarget)
-            console.log('oka');
             openModal(modal);
         });
     })
@@ -71,99 +73,6 @@ if (overlay != null && openModalButtons != null && closeModalButtons != null) {
     }
 }
 
-let cards = document.getElementsByClassName('article__card');
-if (cards != null) {
-    for (let card of cards) {
-        let cardLink = card.getElementsByClassName('article__card-title');
-        let link;
-        for (let cardLinkElement of cardLink) {
-            link = cardLinkElement.querySelector('a').href;
-        }
-        let cardHeader = card.getElementsByClassName('article__card-header');
-        let cardOverview = card.getElementsByClassName('article__card-overview');
-        for (let cardHeaderElement of cardHeader) {
-            cardHeaderElement.onclick = () => {
-                window.location.href = link;
-            }
-        }
-        for (let cardInfoElement of cardOverview) {
-            cardInfoElement.onclick = () => {
-                window.location.href = link;
-            }
-        }
-    }
-}
-
-
-let left_mover_btn = document.getElementById('article__popular-move-left');
-let right_mover_btn = document.getElementById('article__popular-move-right');
-let cardTmp = document.getElementById('article__popular-cards');
-let carouselPosts;
-if (cardTmp != null) {
-    carouselPosts = cardTmp.getElementsByClassName('article__card');
-}
-if (left_mover_btn != null && right_mover_btn != null && carouselPosts != null) {
-    registerCarouselMovers(carouselPosts, left_mover_btn, right_mover_btn);
-}
-
-let left_mover_btn_rec = document.getElementById('article__recommended-move-left');
-let right_mover_btn_rec = document.getElementById('article__recommended-move-right');
-let pstTmp = document.getElementById('article__recommended-cards')
-let recommendedPosts;
-if (pstTmp != null) {
-    recommendedPosts = pstTmp.getElementsByClassName('article__card');
-}
-if (left_mover_btn_rec != null && right_mover_btn_rec != null && recommendedPosts != null) {
-    registerCarouselMovers(recommendedPosts, left_mover_btn_rec, right_mover_btn_rec);
-}
-
-function registerCarouselMovers(carouselPosts, left_mover_btn, right_mover_btn) {
-    let carousel_pages = Math.ceil(carouselPosts.length / 4);
-    let l = 0;
-    let movePer = 25.34;
-    let maxMove = 203;
-// mobile_view
-    let mob_view = window.matchMedia("(max-width: 768px)");
-    if (mob_view.matches) {
-        movePer = 50.36;
-        maxMove = 504;
-    }
-
-    let right_mover = () => {
-        l = l + movePer;
-        if (carouselPosts.length === 1) {
-            l = 0;
-        }
-        for (const i of carouselPosts) {
-            if (l >= maxMove) {
-                l = l - movePer;
-            } else {
-                i.style.left = '-' + l + '%';
-            }
-        }
-
-    }
-
-    let left_mover = () => {
-        l = l - movePer;
-        if (l <= 0) {
-            l = 0;
-        }
-        for (const i of carouselPosts) {
-            if (carousel_pages > 1) {
-                i.style.left = '-' + l + '%';
-            }
-        }
-    }
-
-    right_mover_btn.onclick = () => {
-        right_mover();
-    }
-    left_mover_btn.onclick = () => {
-        left_mover();
-    }
-}
-
 let profileImagePreview = document.getElementById('profileImageUpload');
 let profileImageUpload = document.getElementById('imageUpload');
 
@@ -176,37 +85,37 @@ if (profileImageUpload != null && profileImagePreview != null) {
     }
 }
 
-
-for (let card of cards) {
-    let cardId = card.getAttribute('data-el_id');
-    let cardSaveBtn = card.getElementsByClassName('card__save_btn');
-    let cardLikeBtn = card.getElementsByClassName('card__like_btn');
-    for (let cardSaveBtnElement of cardSaveBtn) {
-        cardSaveBtnElement.onclick = () => {
-            let saved = cardSaveBtnElement.getAttribute('data-el_saved');
-            if (saved == "true") {
-                updateSave(cardId, false);
-                cardSaveBtnElement.setAttribute('data-el_saved', 'false');
-            } else {
-                updateSave(cardId, true);
-                cardSaveBtnElement.setAttribute('data-el_saved', 'true');
-            }
-        }
-    }
-    for (let cardLikeBtnElement of cardLikeBtn) {
-        cardLikeBtnElement.onclick = () => {
-            let liked = cardLikeBtnElement.getAttribute('data-el_liked');
-            if (liked === "true") {
-                updateLikes(cardId, false);
-                cardLikeBtnElement.setAttribute('data-el_liked', 'false');
-            } else {
-                updateLikes(cardId, true);
-                cardLikeBtnElement.setAttribute('data-el_liked', 'true');
-            }
-        }
-    }
-
-}
+//
+// for (let card of cards) {
+//     let cardId = card.getAttribute('data-el_id');
+//     let cardSaveBtn = card.getElementsByClassName('card__save_btn');
+//     let cardLikeBtn = card.getElementsByClassName('card__like_btn');
+//     for (let cardSaveBtnElement of cardSaveBtn) {
+//         cardSaveBtnElement.onclick = () => {
+//             let saved = cardSaveBtnElement.getAttribute('data-el_saved');
+//             if (saved == "true") {
+//                 updateSave(cardId, false);
+//                 cardSaveBtnElement.setAttribute('data-el_saved', 'false');
+//             } else {
+//                 updateSave(cardId, true);
+//                 cardSaveBtnElement.setAttribute('data-el_saved', 'true');
+//             }
+//         }
+//     }
+//     for (let cardLikeBtnElement of cardLikeBtn) {
+//         cardLikeBtnElement.onclick = () => {
+//             let liked = cardLikeBtnElement.getAttribute('data-el_liked');
+//             if (liked === "true") {
+//                 updateLikes(cardId, false);
+//                 cardLikeBtnElement.setAttribute('data-el_liked', 'false');
+//             } else {
+//                 updateLikes(cardId, true);
+//                 cardLikeBtnElement.setAttribute('data-el_liked', 'true');
+//             }
+//         }
+//     }
+//
+// }
 
 function updateSave(id, save) {
     const url = "http://localhost:8080/api/v1/post/save";
@@ -274,4 +183,42 @@ function updateLikes(id, like) {
 //
 //     });
 //
-// let simplemde = new SimpleMDE({ element: document.getElementById("content-editor") });
+let contentEditor = document.getElementById("content-editor");
+if (contentEditor != null) {
+    let simplemde = new SimpleMDE({ element: contentEditor });
+}
+
+let dropdownMenus = document.getElementsByClassName('dropdown__menu');
+for (let dropdownMenu of dropdownMenus) {
+    for (let dropdownBtn of dropdownMenu.getElementsByClassName('dropdown__btn')) {
+
+        dropdownBtn.onclick = () => {
+            dropdownMenu.classList.toggle('open');
+        }
+    }
+
+    document.addEventListener("click", (event) => {
+        const isClickInside = dropdownMenu.contains(event.target);
+
+        if (dropdownMenu.classList.contains('open') && !isClickInside) {
+            dropdownMenu.classList.remove('open');
+        }
+    });
+}
+
+let cards = document.getElementsByClassName('card__container');
+for (let card of cards) {
+    let cardTitles = card.getElementsByClassName('card__title');
+    for (let cardTitle of cardTitles) {
+        let aTag = cardTitle.getElementsByTagName('a');
+        for (let aTagElement of aTag) {
+            let link = aTagElement.getAttribute("href");
+            if (link != null) {
+                card.onclick = () => {
+                    window.location.href = link;
+                }
+                 break;
+            }
+        }
+    }
+}
