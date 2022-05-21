@@ -772,7 +772,7 @@ a {
     margin-bottom: 1rem;
 }
 
-.contact-form-modal form textarea {
+form textarea {
     min-height: 3rem;
     height: 8rem;
 }

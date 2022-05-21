@@ -9,6 +9,7 @@ import com.harrydrummond.projecthjd.user.saves.UserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -22,6 +23,7 @@ import java.util.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "app_user")
@@ -58,6 +60,7 @@ public class User implements OAuth2User, Serializable {
     private transient Map<String, Object> attributes;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private UserDetails userDetails;
 
     public User(String name, String email, UserRole userRoles) {
@@ -83,6 +86,10 @@ public class User implements OAuth2User, Serializable {
 
     public boolean containsRole(Role role) {
         return userRoles.stream().map(UserRole::getRole).anyMatch(x -> x == role);
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getName() {

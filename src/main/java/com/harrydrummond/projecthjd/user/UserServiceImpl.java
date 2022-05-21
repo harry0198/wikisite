@@ -3,6 +3,7 @@ package com.harrydrummond.projecthjd.user;
 import com.harrydrummond.projecthjd.user.details.UserDetails;
 import com.harrydrummond.projecthjd.user.details.UserDetailsRepository;
 import com.harrydrummond.projecthjd.user.roles.Role;
+import com.harrydrummond.projecthjd.user.roles.RoleRepository;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import lombok.AllArgsConstructor;
 
@@ -26,6 +27,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     private Validator validator;
     private final UserRepository userRepository;
     private final UserDetailsRepository userDetailsRepository;
+    private final RoleRepository roleRepository;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -66,10 +68,10 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         OAuth2User user =  super.loadUser(oAuth2UserRequest);
         String email = user.getAttributes().get("email").toString();
         Optional<User> appUserOptional = userRepository.findByEmail(email);
+        System.out.println("lo");
 
         if (appUserOptional.isEmpty()) {
-            UserRole userRole = new UserRole();
-            userRole.setRole(Role.USER);
+            UserRole userRole = roleRepository.getByRole(Role.USER);
 
             User appUser = new User();
             appUser.setEmail(email);
@@ -79,12 +81,13 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             appUser.setUsername(email);
             appUser.setDateCreated(LocalDateTime.now());
 
-            userRepository.save(appUser);
             UserDetails userDetails = new UserDetails();
             userDetails.setUser(appUser);
 
-            userDetailsRepository.save(userDetails);
             appUser.setUserDetails(userDetails);
+
+            userDetailsRepository.save(userDetails);
+            userRepository.save(appUser);
             return appUser;
         }
         return appUserOptional.get();

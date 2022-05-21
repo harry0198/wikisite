@@ -1,6 +1,7 @@
 package com.harrydrummond.projecthjd.viewcontrollers;
 
 import com.harrydrummond.projecthjd.user.User;
+import com.harrydrummond.projecthjd.user.dto.UserDTO;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ public class DashboardController {
     @GetMapping("/settings")
     public String getSettingsForDashboard(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
+        model.addAttribute("userDTO", new UserDTO());
         return "pages/dashboard-settings";
     }
 

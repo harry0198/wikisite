@@ -28,7 +28,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Image saveImageWithFile(Image image, MultipartFile file) {
-        saveImageToFileOnly(image, file);
+        Path path = saveImageToFileOnly(image, file);
+        image.setPath(path.toString());
 
         return imageRepository.save(image);
     }

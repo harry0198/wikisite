@@ -2,6 +2,7 @@ package com.harrydrummond.projecthjd.user.dto;
 
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
@@ -11,6 +12,8 @@ public class UserDTO {
     private String username;
     private String email;
     private Set<UserRole> userRoles;
-    private boolean locked;
-    private boolean enabled;
+    private Boolean locked;
+    private Boolean enabled;
+    private String bio;
+    private MultipartFile profilePicture;
 }
