@@ -79,110 +79,41 @@ let profileImageUpload = document.getElementById('imageUpload');
 if (profileImageUpload != null && profileImagePreview != null) {
     profileImageUpload.onchange = () => {
         if (profileImageUpload.files && profileImageUpload.files[0]) {
+            if (!checkFileFormatIsImage(profileImageUpload.value)) {
+                alert('Invalid file type. Valid formats are .jpg, .png, .svg and .jpeg');
+                return;
+            }
+            if (!checkFileSize(profileImageUpload.files[0].size)) {
+                alert("File is too large! Max file size is 4MB");
+                return;
+            }
             profileImagePreview.setAttribute('src',
                 window.URL.createObjectURL(profileImageUpload.files[0]));
         }
     }
 }
-
-//
-// for (let card of cards) {
-//     let cardId = card.getAttribute('data-el_id');
-//     let cardSaveBtn = card.getElementsByClassName('card__save_btn');
-//     let cardLikeBtn = card.getElementsByClassName('card__like_btn');
-//     for (let cardSaveBtnElement of cardSaveBtn) {
-//         cardSaveBtnElement.onclick = () => {
-//             let saved = cardSaveBtnElement.getAttribute('data-el_saved');
-//             if (saved == "true") {
-//                 updateSave(cardId, false);
-//                 cardSaveBtnElement.setAttribute('data-el_saved', 'false');
-//             } else {
-//                 updateSave(cardId, true);
-//                 cardSaveBtnElement.setAttribute('data-el_saved', 'true');
-//             }
-//         }
-//     }
-//     for (let cardLikeBtnElement of cardLikeBtn) {
-//         cardLikeBtnElement.onclick = () => {
-//             let liked = cardLikeBtnElement.getAttribute('data-el_liked');
-//             if (liked === "true") {
-//                 updateLikes(cardId, false);
-//                 cardLikeBtnElement.setAttribute('data-el_liked', 'false');
-//             } else {
-//                 updateLikes(cardId, true);
-//                 cardLikeBtnElement.setAttribute('data-el_liked', 'true');
-//             }
-//         }
-//     }
-//
-// }
-
-function updateSave(id, save) {
-    const url = "http://localhost:8080/api/v1/post/save";
-    fetch(url, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-
-        },
-        body: JSON.stringify({"postId":id, "save":save})
-    })
-        .then(res => {
-            if (!res.ok) return; // error
-
-            let selector = "[data-el_id=\"" + id + "\"]";
-            let card = document.querySelectorAll(selector);
-            for (let cardElement of card) {
-                for (let cardSaveBtn of cardElement.getElementsByClassName('card__save_btn')) {
-                    if (save) {
-                        cardSaveBtn.classList.add('selected');
-                    } else {
-                        cardSaveBtn.classList.remove('selected');
-                    }
-                }
-            }
-        });
-
+function checkFileFormatIsImage(name) {
+    console.log(name)
+    var ext = name.match(/\.([^\.]+)$/)[1];
+    switch (ext) {
+        case 'jpg':
+        case 'png':
+        case 'svg':
+        case 'jpeg':
+            return true;
+        default:
+            this.value = '';
+            return false;
+    }
+}
+function checkFileSize(fileSize) {
+    if(fileSize > (2097152 * 2)){
+        this.value = "";
+        return false;
+    }
+    return true;
 }
 
-function updateLikes(id, like) {
-    const url = "http://localhost:8080/api/v1/post/like";
-    fetch(url, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({"postId":id, "like":like})
-    })
-        .then(res => {
-            if (!res.ok) return; // error
-
-            let selector = "[data-el_id=\"" + id + "\"]";
-            let card = document.querySelectorAll(selector);
-            for (let cardElement of card) {
-                for (let cardSaveBtn of cardElement.getElementsByClassName('card__like_btn')) {
-                    if (like) {
-                        cardSaveBtn.classList.add('selected');
-                    } else {
-                        cardSaveBtn.classList.remove('selected');
-                    }
-                }
-            }
-        });
-
-}
-
-// fetch("http://localhost:8080/api/v1/post/new", {
-//     method: "POST",
-//     headers: {
-//         'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({"title":"test", "description":"test", "imageRequests":[]})
-// })
-//     .then(res => {
-//
-//     });
-//
 let contentEditor = document.getElementById("content-editor");
 if (contentEditor != null) {
     let simplemde = new SimpleMDE({ element: contentEditor });
@@ -217,8 +148,82 @@ for (let card of cards) {
                 card.onclick = () => {
                     window.location.href = link;
                 }
-                 break;
+                break;
             }
         }
+    }
+}
+
+let dragndrops = document.getElementsByClassName('file-input');
+let dragndropcontainers = document.getElementsByClassName('file-container')
+for (let dragndrop of dragndrops) {
+    dragndrop.addEventListener("dragenter", event => {
+        // highlight potential drop target when the draggable element enters it
+
+        addClass2Container()
+    });
+
+    dragndrop.addEventListener("dragleave", event => {
+        // reset background of potential drop target when the draggable element leaves it
+        removeClass2Container()
+    });
+
+    dragndrop.addEventListener("mouseout", event => {
+        // reset background of potential drop target when the draggable element leaves it
+        removeClass2Container()
+    });
+}
+
+function addClass2Container() {
+    for (let dragndropcontainer of dragndropcontainers) {
+        dragndropcontainer.classList.add("drag-active");
+    }
+}
+function removeClass2Container() {
+    for (let dragndropcontainer of dragndropcontainers) {
+        dragndropcontainer.classList.remove("drag-active");
+    }
+}
+
+let cancelEnterSubmitInput = document.getElementsByClassName('no-submit');
+for (let el of cancelEnterSubmitInput) {
+    el.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault()
+        }
+    });
+}
+
+let enterNextPostCreate = document.getElementsByClassName('enter-next');
+for (let el of enterNextPostCreate) {
+    el.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            document.getElementById('post-flow-next').click();
+        }
+    });
+}
+
+let form = document.getElementById('form-carousel');
+if (form != null) {
+    for (let el of document.getElementsByClassName('title-input')) {
+        el.addEventListener('input', function (event) {
+            for (let title of document.getElementsByClassName('card__title')) {
+                title.textContent = this.value;
+            }
+        });
+    }
+    for (let el of document.getElementsByClassName('image-input')) {
+        el.addEventListener('input', function (event) {
+            if (!checkFileFormatIsImage(profileImageUpload.value)) {
+                return;
+            }
+            if (!checkFileSize(profileImageUpload.files[0].size)) {
+                return;
+            }
+            for (let image of document.getElementsByClassName('card__image')) {
+                image.setAttribute('src',
+                    window.URL.createObjectURL(profileImageUpload.files[0]));
+            }
+        });
     }
 }

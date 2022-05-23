@@ -22,4 +22,11 @@ public class UserDetails {
     @OneToOne
     @MapsId
     private User user;
+
+    public String getProfilePicturePath() {
+        if (profilePicturePath != null && profilePicturePath.length() != 0) {
+            return profilePicturePath;
+        }
+        return "images/default-pfp.png";
+    }
 }

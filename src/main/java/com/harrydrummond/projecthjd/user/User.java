@@ -41,7 +41,7 @@ public class User implements OAuth2User, Serializable {
     private String email;
     @Enumerated(EnumType.STRING)
     @Column(name = "app_user_role")
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
     private Boolean locked = false;
     private Boolean enabled = false;

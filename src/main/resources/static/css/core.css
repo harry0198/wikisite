@@ -69,8 +69,9 @@ button {
 .emphasis, .secondary, .emphasis-btn {
     transition: 0.1s all;
     text-decoration: none !important;
-    color: white;
+    color: white !important;
     background-color: var(--text-color);
+    cursor: pointer;
 }
 
 .warning-btn {
@@ -189,6 +190,7 @@ mark.low.blue {
 /* profile picture */
 .profile-picture {
     border-radius: 100px;
+    background-color: var(--bg-color-dark);
 }
 
 

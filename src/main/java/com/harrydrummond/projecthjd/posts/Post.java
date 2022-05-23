@@ -70,4 +70,10 @@ public class Post {
     public void removeCommentById(long id) {
         comments.stream().filter(x -> x.getId() == id).findAny().ifPresent(comment -> comments.remove(comment));
     }
+
+    public String getMainImagePath() {
+        Optional<Image> image = images.stream().findFirst();
+        if (image.isPresent()) return image.get().getPath();
+        return "";
+    }
 }

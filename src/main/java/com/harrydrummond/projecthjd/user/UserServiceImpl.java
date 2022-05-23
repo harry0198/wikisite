@@ -68,7 +68,6 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         OAuth2User user =  super.loadUser(oAuth2UserRequest);
         String email = user.getAttributes().get("email").toString();
         Optional<User> appUserOptional = userRepository.findByEmail(email);
-        System.out.println("lo");
 
         if (appUserOptional.isEmpty()) {
             UserRole userRole = roleRepository.getByRole(Role.USER);
@@ -87,8 +86,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             appUser.setUserDetails(userDetails);
 
             userDetailsRepository.save(userDetails);
-            userRepository.save(appUser);
-            return appUser;
+            return userRepository.save(appUser);
         }
         return appUserOptional.get();
     }

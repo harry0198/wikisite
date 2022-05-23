@@ -12,13 +12,17 @@ import com.harrydrummond.projecthjd.posts.image.ImageGetDTO;
 import com.harrydrummond.projecthjd.posts.image.ImageService;
 import com.harrydrummond.projecthjd.user.User;
 import com.harrydrummond.projecthjd.user.UserService;
+import com.harrydrummond.projecthjd.user.dto.UserDTO;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.util.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -31,7 +35,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @AllArgsConstructor
-@RestController
+@Controller
 public class PostController {
 
     private final CommentService commentService;
@@ -39,14 +43,26 @@ public class PostController {
     private final UserService userService;
     private final ImageService imageService;
 
-    @PostMapping(value = "/api/post/new")
-    public ResponseEntity<Post> savePost(PostRequestDTO postDTO) {
+    @PostMapping(value = "/api/post/new",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String savePostForm(@AuthenticationPrincipal User requestingUser, PostRequestDTO postRequestDTO) {
 
-        Optional<User> userOptional = userService.getUserById(postDTO.getAuthorId());
-        if (userOptional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        ResponseEntity<Post> postResponseEntity = savePost(requestingUser, postRequestDTO);
+        if (postResponseEntity.getStatusCode() == HttpStatus.OK && postResponseEntity.getBody() != null) {
+            return "redirect:/post/view/" + postResponseEntity.getBody().getId();
         }
-        User user = userOptional.get();
+
+        return "redirect:/search";
+    }
+
+    @PostMapping(value = "/api/post/new")
+    public ResponseEntity<Post> savePost(@AuthenticationPrincipal User user, @RequestBody PostRequestDTO postDTO) {
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if (postDTO.getDescription() == null || postDTO.getTitle() == null || postDTO.getImage() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         Post post = new Post();
         post.setDatePosted(new Date(System.currentTimeMillis()));
@@ -54,60 +70,60 @@ public class PostController {
         post.setDescription(postDTO.getDescription());
         post.setPoster(user);
 
-        Set<Image> images = new HashSet<>();
-        for (ImageDTO imageRequest : postDTO.getImages()) {
-            Image image = new Image();
-            image.setPost(post);
-            image.setAlt(imageRequest.getAlt());
-            image.setOrderNo(imageRequest.getOrder());
-            File savedFile;
-            try {
-                savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile()).toFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            image.setPath(savedFile.getPath());
-        }
+        Image image = new Image();
+        image.setPost(post);
+        image.setAlt("");
+        image.setOrderNo(1);
 
-        post.setImages(images);
+        MultipartFile imageFile = postDTO.getImage();
+
+        File savedFile;
+        try {
+            savedFile = imageService.saveImageToFileOnly(image, imageFile).toFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        image.setPath(savedFile.getPath());
+
+        post.setImages(Set.of(image));
         postService.savePost(post);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @PutMapping("/api/post/{uid}")
-    public ResponseEntity<Post> updatePostById(@PathVariable long uid, PostRequestDTO postDTO) {
-        Optional<Post> postOptional = postService.getPostById(uid);
-        if (postOptional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Post post = postOptional.get();
-
-        Set<Image> images = new HashSet<>();
-        for (ImageDTO imageRequest : postDTO.getImages()) {
-            Image image = new Image();
-            image.setPost(post);
-            image.setAlt(imageRequest.getAlt());
-            image.setOrderNo(imageRequest.getOrder());
-            File savedFile;
-            try {
-                savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile()).toFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            image.setPath(savedFile.getPath());
-        }
-
-        post.setTitle(postDTO.getTitle());
-        post.setImages(images);
-        post.setDescription(post.getDescription());
-        //todo author?
-
-        postService.updatePost(post);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @PutMapping("/api/post/{uid}")
+//    public ResponseEntity<Post> updatePostById(@PathVariable long uid, PostRequestDTO postDTO) {
+//        Optional<Post> postOptional = postService.getPostById(uid);
+//        if (postOptional.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        Post post = postOptional.get();
+//
+//        Set<Image> images = new HashSet<>();
+//        for (ImageDTO imageRequest : postDTO.getImages()) {
+//            Image image = new Image();
+//            image.setPost(post);
+//            image.setAlt(imageRequest.getAlt());
+//            image.setOrderNo(imageRequest.getOrder());
+//            File savedFile;
+//            try {
+//                savedFile = imageService.saveImageToFileOnly(image, imageRequest.getFile()).toFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//            }
+//            image.setPath(savedFile.getPath());
+//        }
+//
+//        post.setTitle(postDTO.getTitle());
+//        post.setImages(images);
+//        post.setDescription(post.getDescription());
+//        //todo author?
+//
+//        postService.updatePost(post);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @GetMapping("/api/post/{uid}")
     public ResponseEntity<PostInfoDTO> getPostById(@PathVariable long uid) {
@@ -122,7 +138,7 @@ public class PostController {
     }
 
     @DeleteMapping("/api/post/{uid}/comment")
-    public ResponseEntity<Void> deleteComment(@PathVariable long uid, @AuthenticationPrincipal User user, long commentId) {
+    public ResponseEntity<Void> deleteComment(@PathVariable long uid, @AuthenticationPrincipal User user, @RequestBody long commentId) {
         Optional<Post> postOptional = postService.getPostById(uid);
         if (postOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -145,7 +161,7 @@ public class PostController {
     }
 
     @PostMapping("/api/post/{uid}/comment")
-    public ResponseEntity<Void> saveComment(@PathVariable long uid, @AuthenticationPrincipal User user, CommentRequestDTO commentRequestDTO) {
+    public ResponseEntity<Void> saveComment(@PathVariable long uid, @AuthenticationPrincipal User user, @RequestBody CommentRequestDTO commentRequestDTO) {
         Optional<Post> postOptional = postService.getPostById(uid);
         if (postOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

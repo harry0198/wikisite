@@ -30,7 +30,7 @@
             <th:block th:replace="modules/login :: login(closeable=true)"></th:block>
         </div>
         <div th:unless="${user == null}">
-            <img class="account-pfp profile-btn" th:src="@{/images/Astronaut.png}" alt="Account Profile Picture">
+            <img class="account-pfp profile-btn" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
             <div class="list-box profile-list" id="profile-nav">
                 <h4 class="list-box-heading">Profile</h4>
                 <hr>
@@ -39,7 +39,7 @@
                     <li>View Profile</li>
                     <li><a th:href="@{/dashboard/saved}">View Saved</a></li>
                     <hr>
-                    <li class="nav-profile-icon-item nav-profile-important"><i class="fa fa-square-plus"></i>New Post</li>
+                    <li class="nav-profile-icon-item nav-profile-important"><a th:href="@{/post/new}"><i class="fa fa-square-plus"></i>New Post</a></li>
                     <hr>
                     <li><a th:href="@{/dashboard}">Account Settings</a></li>
                     <li><a th:href="@{/logout}">Sign Out</a></li>

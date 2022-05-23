@@ -43,7 +43,7 @@
     <th:block th:replace="modules/pagination.html :: pages (3, 1, 'http://localhost:8080/explore')"></th:block>
   </div>
   <div class="post-grid">
-    <th:block th:replace="modules/post-card.html"></th:block>
+    <th:block th:replace="modules/post-card :: post(post-card=${post})"></th:block>
 
 
 

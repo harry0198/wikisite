@@ -43,7 +43,7 @@ public class UserController {
 
     @PostMapping(value = "/api/user/update",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String updateUserForm(@AuthenticationPrincipal User requestingUser, UserDTO userDTO) {
-
+        System.out.println("jee");
         updateUserFields(requestingUser, requestingUser, userDTO);
 
         return "redirect:/search";
