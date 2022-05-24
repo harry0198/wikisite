@@ -15,14 +15,18 @@
 
 <section class="results">
   <div class="search__with_dropdown">
-    <form class="search__input_form">
-      <input class="search__field" type="text" placeholder="Search..."/>
+    <form class="search__input_form" th:action="@{/search}" method="get" name="page-search">
+      <input class="search__field" name="query" type="text" placeholder="Search..."/>
       <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
     </form>
 
   </div>
-  <h1 class="results-heading">Example Search</h1>
-  <p class="results-sub">1,248 results found</p>
+  <h1 th:if="${query == null}" class="results-heading">Let's make a search.</h1>
+  <h1 th:unless="${query == null}" th:text="${query}" class="results-heading"></h1>
+
+  <p th:if="${query == null}" class="results-sub">Find inspiring content from all over the world!</p>
+  <p th:unless="${query == null}" th:text="${posts.getTotalHits() + ' result(s) found!'}" class="results-sub">Find inspiring content from all over the world!</p>
+
 
 </section>
 
@@ -40,10 +44,12 @@
         </ul>
       </div>
     </div>
-    <th:block th:replace="modules/pagination.html :: pages (3, 1, 'http://localhost:8080/explore')"></th:block>
+    <th:block th:replace="modules/pagination.html :: pages (${posts.calcTotalPages()}, ${posts.getPageNum()}, ${#httpServletRequest.requestURI} + ${uriForPageParams})"></th:block>
   </div>
   <div class="post-grid">
-    <th:block th:replace="modules/post-card :: post(post-card=${post})"></th:block>
+    <th:block th:each="post : ${posts.getContent()}">
+      <th:block th:replace="modules/post-card :: post-card(${post})"></th:block>
+    </th:block>
 
 
 
@@ -55,6 +61,21 @@
     <div class="item item--6"></div>
     <div class="item item--7"></div>
     <div class="item item--8"></div>
+  </div>
+  <div class="search-options">
+    <div class="dropdown__menu">
+      <div class="dropdown__btn">
+        <button>Posts</button>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="list-box dropdown__options">
+        <ul class="list-box-list">
+          <li>Posts</li>
+          <li>People</li>
+        </ul>
+      </div>
+    </div>
+    <th:block th:replace="modules/pagination.html :: pages (${posts.calcTotalPages()}, ${page}, ${#httpServletRequest.requestURI} + ${uriForPageParams})"></th:block>
   </div>
 </section>
 

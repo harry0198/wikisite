@@ -65,7 +65,7 @@ public class PostController {
         }
 
         Post post = new Post();
-        post.setDatePosted(new Date(System.currentTimeMillis()));
+        post.setDatePosted(LocalDateTime.now());
         post.setTitle(postDTO.getTitle());
         post.setDescription(postDTO.getDescription());
         post.setPoster(user);

@@ -16,6 +16,8 @@ public class Pagination<T> {
     private final long totalHits;
     private final int pageSize;
 
+    private final int pageNum;
+
     public int calcTotalPages() {
         return (int) Math.ceil((double) totalHits / pageSize);
     }

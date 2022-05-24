@@ -622,6 +622,7 @@ a {
 
 .list-box-list li:hover a, .list-box-list li:hover {
     color: black;
+    text-decoration: none;
 }
 
 .nav-profile-important, .nav-profile-important * {
@@ -637,6 +638,17 @@ a {
     top: 1rem;
     right: 1rem;
     cursor: pointer;
+}
+
+
+.generic-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.generic-subtitle {
+    font-weight: 300;
+    font-size: 1rem;
 }
 
 
@@ -797,4 +809,25 @@ form textarea {
     padding: 0.5rem;
     width: 100%;
     background-color: var(--bg-color);
+}
+
+.no-pointer-events {
+    pointer-events: none;
+}
+
+.bookmark-btn {
+
+}
+
+.bookmark-btn.active {
+    animation: bounce;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
 }

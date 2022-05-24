@@ -62,7 +62,7 @@
     </div>
 </section>
 <section class="dual-panel-container preview-container">
-    <div class="info-panel">
+    <div class="info-panel no-pointer-events">
         <h2 class="generic-title">How it looks so far...</h2>
         <p class="generic-subtitle preview-el">Please be aware the image may be resized slightly upon posting</p>
         <th:block th:replace="modules/post-card :: post-card(post=${post})"></th:block>
@@ -71,5 +71,6 @@
         TBC
     </div>
 </section>
+<th:block th:replace="modules/footer.html"></th:block>
 </body>
 </html>

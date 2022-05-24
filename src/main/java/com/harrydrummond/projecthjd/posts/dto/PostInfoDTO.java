@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Builder
@@ -19,6 +20,6 @@ public class PostInfoDTO {
     private final int likes;
     private final int saves;
     private final long posterId;
-    private final Date datePosted;
+    private final LocalDateTime datePosted;
 
 }

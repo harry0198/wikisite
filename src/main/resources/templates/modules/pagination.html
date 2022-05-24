@@ -1,4 +1,4 @@
-<nav th:fragment="pages (totalPages, page, sendTo)" class="pagination">
+<nav th:fragment="pages(totalPages, page, sendTo)" class="pagination">
     <ul class="pagination">
         <!-- If page > 1 add prev button -->
         <li th:if="${page > 1}"><a th:href="${sendTo} + ${page -1}" class="fas fa-angle-left"></a></li>

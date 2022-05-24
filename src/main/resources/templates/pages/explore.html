@@ -15,8 +15,8 @@
 <div th:replace="modules/navbar.html"></div>
 
 <section class="results">
-  <h1 class="results-heading">What's Hot 🔥</h1>
-  <p class="results-sub">Top picks for the most viewed showcase this month!</p>
+  <h1 class="results-heading" th:text="${title}">Top picks</h1>
+  <p class="results-sub" th:text="${subtitle}">Top picks for the most viewed showcase this month!</p>
   <ul class="tags">
     <li><button>Tag</button></li>
     <li><button>Button</button></li>
@@ -34,23 +34,23 @@
   <div class="search-options">
     <div class="dropdown__menu">
       <div class="dropdown__btn">
-        <button>Popular</button>
+        <button th:text="${title}">Popular</button>
         <i class="fa fa-chevron-down"></i>
       </div>
       <div class="list-box dropdown__options">
         <ul class="list-box-list">
-          <li>Popular</li>
-          <li>Recent</li>
-          <li>Most Viewed</li>
+          <li><a th:href="@{/explore}">What's Hot</a></li>
+          <li><a th:href="@{/recent}">Recently Posted</a></li>
+          <li><a th:href="@{/most-viewed}">Most Viewed</a></li>
           <hr>
           <li>Following</li>
         </ul>
       </div>
     </div>
-    <th:block th:replace="modules/pagination.html :: pages (3, 1, 'http://localhost:8080/explore')"></th:block>
+    <th:block th:replace="modules/pagination.html :: pages (${posts.calcTotalPages()}, ${posts.getPageNum()}, ${#httpServletRequest.requestURI} + '?page=')"></th:block>
   </div>
   <div class="post-grid">
-    <th:block th:each="post : ${posts}">
+    <th:block th:each="post : ${posts.getContent()}">
       <th:block th:replace="modules/post-card :: post-card(${post})"></th:block>
     </th:block>
 
@@ -64,6 +64,24 @@
     <div class="item item--6"></div>
     <div class="item item--7"></div>
     <div class="item item--8"></div>
+  </div>
+  <div class="search-options">
+    <div class="dropdown__menu">
+      <div class="dropdown__btn">
+        <button th:text="${title}">Popular</button>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="list-box dropdown__options">
+        <ul class="list-box-list">
+          <li><a th:href="@{/explore}">What's Hot</a></li>
+          <li><a th:href="@{/recent}">Recently Posted</a></li>
+          <li><a th:href="@{/most-viewed}">Most Viewed</a></li>
+          <hr>
+          <li>Following</li>
+        </ul>
+      </div>
+    </div>
+    <th:block th:replace="modules/pagination.html :: pages (${posts.calcTotalPages()}, ${posts.getPageNum()}, ${#httpServletRequest.requestURI} + '?page=')"></th:block>
   </div>
 </section>
 <th:block th:replace="modules/footer.html"></th:block>

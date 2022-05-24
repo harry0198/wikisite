@@ -19,8 +19,8 @@
     </div>
     <div class="right-panel">
         <div class="mobile-hide search__container">
-            <form>
-                <input class="search__field" type="text" placeholder="Search..."/>
+            <form name="search" th:action="@{/search}" method="get">
+                <input class="search__field" name="query" type="text" placeholder="Search..."/>
                 <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
             </form>
         </div>

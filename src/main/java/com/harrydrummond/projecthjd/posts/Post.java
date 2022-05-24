@@ -18,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
@@ -37,7 +38,6 @@ public class Post {
 
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @OneToMany(mappedBy = "post")
-    @IndexedEmbedded
     private Set<Image> images = new HashSet<>();
 
     @FullTextField
@@ -52,7 +52,7 @@ public class Post {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @GenericField(sortable = Sortable.YES)
     @Column(name = "posted_at", nullable = false)
-    private Date datePosted;
+    private LocalDateTime datePosted;
 
     @OneToMany(mappedBy = "user")
     private Set<UserLikes> likes = new HashSet<>();
@@ -62,6 +62,9 @@ public class Post {
 
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
+
+    @GenericField(sortable = Sortable.YES)
+    private long views = 0L;
 
     public void addComment(Comment comment) {
         this.comments.add(comment);

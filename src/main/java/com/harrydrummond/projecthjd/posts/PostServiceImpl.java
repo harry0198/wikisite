@@ -53,7 +53,7 @@ public class PostServiceImpl implements PostService {
         SearchResult<Post> result = searchPostsQueryFragment(query)
                 .fetch( calcOffset(page,pageSize), pageSize );
 
-        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize);
+        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize, page);
     }
 
     // Offset for pages

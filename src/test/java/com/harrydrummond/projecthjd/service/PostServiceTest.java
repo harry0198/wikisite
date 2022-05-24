@@ -53,7 +53,7 @@ class PostServiceTest {
         user.setId(1L);
 
         post = new Post();
-        post.setDatePosted(new Date(System.currentTimeMillis()));
+        post.setDatePosted(LocalDateTime.now());
         post.setPoster(user);
         post.setDescription("Random desc");
         post.setTitle("Title");
@@ -129,9 +129,7 @@ class PostServiceTest {
         image.setPath("path/some");
         image.setAlt("alt");
 
-        Date date = new Date(System.currentTimeMillis());
-
-        post.setDatePosted(date);
+        post.setDatePosted(LocalDateTime.now());
         post.setId(2L);
         post.setPoster(user);
         post.setDescription("desc");
@@ -149,7 +147,7 @@ class PostServiceTest {
         assertThat(updatedPost.getLikes()).isEqualTo(userLikesSet);
         assertThat(updatedPost.getSaves()).isEqualTo(userSavesSet);
         assertThat(updatedPost.getImages()).isEqualTo(imageSet);
-        assertThat(updatedPost.getDatePosted()).isEqualTo(date);
+        assertThat(updatedPost.getDatePosted()).isEqualTo(LocalDateTime.now());
     }
 
     @Test

@@ -66,6 +66,11 @@ This file is used on some/most pages and is required for module functionality
     padding: 0.25rem;
 }
 
+.pagination ul li.dots {
+    border: none !important;
+    background-color: transparent !important;
+}
+
 .pagination ul li a {
     width: 2rem;
     height: 2rem;
@@ -177,7 +182,6 @@ This file is used on some/most pages and is required for module functionality
     border: 1px solid rgba(0,0,0,0.25);
     overflow: clip;
     position: relative;
-    cursor: pointer;
 }
 
 .card__header {
@@ -190,6 +194,10 @@ This file is used on some/most pages and is required for module functionality
     border-radius: 5px 5px 0 0;
     border-bottom: 1px solid rgba(0,0,0,0.25);
     padding: 1rem;
+}
+
+.card__image {
+    cursor: pointer;
 }
 
 .card__header .account-pfp {
@@ -251,6 +259,10 @@ This file is used on some/most pages and is required for module functionality
 .card__stats > * {
     padding: 0.2rem;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
 }
 
 .card__stats > p:first-child {
@@ -294,4 +306,95 @@ This file is used on some/most pages and is required for module functionality
 
 .dropdown__menu.open .dropdown__btn > * {
     color: black;
+}
+
+.dual-panel-container {
+    padding: 3rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+
+    transition: height 1s linear;
+
+    background-color: var(--bg-color);
+}
+
+.hidden {
+    display: none;
+}
+
+.dual-panel-container * {
+    color: var(--text-color);
+}
+
+.dual-panel-container > *:first-child {
+    max-width: 35rem;
+    align-self: start;
+}
+
+.dual-panel-container > *:last-child {
+    max-width: 45rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    overflow: clip;
+}
+
+@media (max-width: 55rem) {
+    .dual-panel-container {
+        flex-direction: column;
+    }
+
+    .dual-panel-container > *:first-child {
+        max-width: 100%;
+        width: 100%;
+        text-align: center;
+    }
+}
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.like-btn {
+    width: 24px;
+    height: 24px;
+
+}
+
+button:focus {
+    outline: none !important;
+}
+
+.like-btn--like, .like-btn--like::before {
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.like-btn--like {
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='%23bbbbbb'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z'/%3E%3C/svg%3E");
+}
+
+.like-btn--like::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='%23d50c0c'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.like-btn--like.checked {
+    animation: bounce .4s;
+}
+
+.like-btn--like.checked::before {
+    opacity: 1;
 }
