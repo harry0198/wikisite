@@ -19,6 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Getter
@@ -78,5 +79,10 @@ public class Post {
         Optional<Image> image = images.stream().findFirst();
         if (image.isPresent()) return image.get().getPath();
         return "";
+    }
+
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return datePosted.format(formatter);
     }
 }

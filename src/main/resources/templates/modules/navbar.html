@@ -10,17 +10,17 @@
     <div class="nav-mobile">
         <div class="search__container">
             <form>
-                <input class="search__field" type="text" placeholder="Search..."/>
+                <input class="search__field" type="text" placeholder="Search..." maxlength="60"/>
                 <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
             </form>
         </div>
         <a class="hide" th:href="@{/explore}">Explore</a>
-        <a class="hide" th:href="@{/}">Contact</a>
+        <a class="hide" data-modal-target="#modal-contact-form">Contact</a>
     </div>
     <div class="right-panel">
         <div class="mobile-hide search__container">
             <form name="search" th:action="@{/search}" method="get">
-                <input class="search__field" name="query" type="text" placeholder="Search..."/>
+                <input class="search__field" name="query" type="text" placeholder="Search..." maxlength="60"/>
                 <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
             </form>
         </div>

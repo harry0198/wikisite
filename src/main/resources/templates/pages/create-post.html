@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+    <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
 
     <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
     <title>Branding - New Post</title>
@@ -24,11 +24,11 @@
         <p class="generic-subtitle">Time to show the world what you can do! Make sure you only share what you have the rights to!</p>
     </div>
     <div class="form-panel">
-        <form id="form-carousel" class="carousel slide" data-interval="false" data-wrap="false" th:action="@{/api/post/new}" th:object="${postDTO}" method="post" enctype="multipart/form-data">
+        <form id="form-carousel" class="carousel slide" data-bs-interval="false" data-bs-wrap="false" th:action="@{/api/post/new}" th:object="${postDTO}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div class="carousel-item active">
                 <label for='title' class="generic-title">Give it a title.</label>
-                <input id="title" name="title" type="text" class="form-input no-submit enter-next title-input" placeholder="Eg. Zombies are now in my mobile game!" required>
+                <input id="title" name="title" type="text" class="form-input no-submit enter-next title-input" placeholder="Eg. Zombies are now in my mobile game!" maxlength="250" required>
             </div>
 
             <div class="carousel-item">
@@ -46,29 +46,30 @@
 
             <div class="carousel-item">
                 <label for='description' class="generic-title">Write a detailed description.</label>
-                <textarea id="description" type="text" class="form-input" name="description" placeholder="This project is..." required></textarea>
+                <textarea id="description" type="text" class="form-input description-input" name="description" placeholder="This project is..." maxlength="2500" required></textarea>
 <!--                <p class="small-print text-align-right">Max 2000 characters</p>-->
             </div>
-            <div class="carousel-item carousel-item-end">
+            <div class="carousel-item ">
                 <p class="generic-title">All done?</p>
                 <button class="emphasis-btn" type="submit">Create Post</button>
             </div>
 
         </form>
         <div class="flow-nav-btns">
-            <a href="#form-carousel" id="post-flow-back" role="button" data-slide="prev"><i class="fa fa-arrow-left-long"></i> Back a step</a>
-            <a href="#form-carousel" id="post-flow-next" role="button" data-slide="next">Next step <i class="fa fa-arrow-right-long"></i></a>
+            <a href="#form-carousel" id="post-flow-back" role="button" data-bs-slide="prev"><i class="fa fa-arrow-left-long"></i> Back a step</a>
+            <a href="#form-carousel" id="post-flow-next" role="button" data-bs-slide="next">Next step <i class="fa fa-arrow-right-long"></i></a>
         </div>
     </div>
 </section>
+
 <section class="dual-panel-container preview-container">
     <div class="info-panel no-pointer-events">
         <h2 class="generic-title">How it looks so far...</h2>
         <p class="generic-subtitle preview-el">Please be aware the image may be resized slightly upon posting</p>
         <th:block th:replace="modules/post-card :: post-card(post=${post})"></th:block>
     </div>
-    <div class="form-panel">
-        TBC
+    <div class="form-panel no-pointer-events">
+        <th:block th:replace="modules/main-post :: main(post=${post})"></th:block>
     </div>
 </section>
 <th:block th:replace="modules/footer.html"></th:block>

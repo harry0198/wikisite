@@ -116,3 +116,9 @@
 .info-panel .preview-el {
     margin-bottom: 2rem;
 }
+
+.form-panel {
+    background-color: var(--bg-color);
+    border-radius: 15px;
+    padding: 2rem;
+}

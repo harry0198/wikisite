@@ -3,7 +3,7 @@
     <div class="card__header">
       <img class="account-pfp" th:src="@{/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" alt="Author Profile Picture">
       <div class="card__header_content">
-        <h3 class="card__title"><a th:href="@{/post/view/} + ${post.getId()}" th:text="${post.getTitle()}">Some Example Text Hand Crafted For the Title</a></h3>
+        <h3 class="card__title"><a th:href="@{/post/view/} + ${post.getId()}" th:text="${post.getTitle() != null} ? ${post.getTitle()} : 'Example Title'">Some Example Text Hand Crafted For the Title</a></h3>
         <p class="card__sub" th:text="${post.getPoster().getUsername()}">Harry Drummond</p>
       </div>
     </div>

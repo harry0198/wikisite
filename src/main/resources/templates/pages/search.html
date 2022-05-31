@@ -16,7 +16,7 @@
 <section class="results">
   <div class="search__with_dropdown">
     <form class="search__input_form" th:action="@{/search}" method="get" name="page-search">
-      <input class="search__field" name="query" type="text" placeholder="Search..."/>
+      <input class="search__field" name="query" type="text" placeholder="Search..." maxlength="60"/>
       <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
     </form>
 

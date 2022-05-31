@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Controller
 public class HomeController {
@@ -96,8 +98,14 @@ public class HomeController {
 
     @GetMapping("/post/view/{postId}")
     public String viewPost(@AuthenticationPrincipal User user, Model model, @PathVariable Integer postId) {
+        Optional<Post> post = postService.getPostById(postId);
+        if (post.isEmpty()) {
+            return "pages/explore";
+        }
+
         model.addAttribute("user", user);
-        model.addAttribute("posts", postSearchService.findPopularThisMonth(1, 3));
+        model.addAttribute("post", post.get());
+        model.addAttribute("morePosts", postSearchService.findPopularThisMonth(1,3));
         return "pages/post-view";
     }
 }

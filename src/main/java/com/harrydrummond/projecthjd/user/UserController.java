@@ -2,6 +2,7 @@ package com.harrydrummond.projecthjd.user;
 
 import com.harrydrummond.projecthjd.filestorage.FileStorageService;
 import com.harrydrummond.projecthjd.posts.image.ImageService;
+import com.harrydrummond.projecthjd.user.details.UserDetailsRepository;
 import com.harrydrummond.projecthjd.user.dto.UserDTO;
 import com.harrydrummond.projecthjd.user.dto.UserGetDTO;
 import com.harrydrummond.projecthjd.user.roles.Role;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final UserDetailsRepository userDetailsRepository;
     private final FileStorageService fileStorageService;
 
     /**
@@ -43,9 +45,9 @@ public class UserController {
 
     @PostMapping(value = "/api/user/update",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String updateUserForm(@AuthenticationPrincipal User requestingUser, UserDTO userDTO) {
-        System.out.println("jee");
         updateUserFields(requestingUser, requestingUser, userDTO);
-
+        userService.updateUser(requestingUser);
+        userDetailsRepository.save(requestingUser.getUserDetails());
         return "redirect:/search";
     }
 
@@ -94,7 +96,7 @@ public class UserController {
             user.setUserRoles(Objects.nonNull(userDTO.getUserRoles()) ? userDTO.getUserRoles() : user.getUserRoles());
         }
         user.getUserDetails().setBio(Objects.nonNull(userDTO.getBio()) ? userDTO.getBio() : user.getUserDetails().getBio());
-        if (userDTO.getProfilePicture() != null) {
+        if (userDTO.getProfilePicture() != null && !userDTO.getProfilePicture().isEmpty() && userDTO.getProfilePicture().getSize() > 0) {
             MultipartFile pfp = userDTO.getProfilePicture();
             Path path = fileStorageService.save(pfp);
             user.getUserDetails().setProfilePicturePath(path.toString());

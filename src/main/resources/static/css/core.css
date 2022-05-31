@@ -31,6 +31,7 @@ This file is used on all pages and is required for the core basic functionality
     --bg-color: rgb(247,245,250);
     --bg-color-dark: rgb(23,26,45);
     --text-color: rgb(6,12,54);
+    --text-color-subtle: rgba(6,12,54,0.5);
     --color-highlighted: #4D4085;
 
 
@@ -275,12 +276,12 @@ mark.low.blue {
 }
 
 /* Modal Popup */
+
 ._modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    transition: 200ms ease-in-out;
     background-color: white;
     z-index: 1000;
     border-radius: 5px;
@@ -288,6 +289,7 @@ mark.low.blue {
     overflow-y: scroll;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
 }
+
 
 
 .nav_modal {
@@ -304,6 +306,7 @@ mark.low.blue {
 }
 
 ._modal.active {
+    transition: 200ms ease-in-out;
     transform: translate(-50%, -50%) scale(1);
 }
 
@@ -609,6 +612,7 @@ a {
 .list-box-list {
     list-style: none;
     padding: 0;
+    text-decoration: none;
 }
 
 .list-box-list li, .list-box-list a {
@@ -617,6 +621,7 @@ a {
     font-size: 1rem;
     padding: 0.25rem 0;
     cursor: pointer;
+    text-decoration: none;
 }
 
 
@@ -644,6 +649,7 @@ a {
 .generic-title {
     font-weight: bold;
     font-size: 1.5rem;
+    color: var(--text-color);
 }
 
 .generic-subtitle {
