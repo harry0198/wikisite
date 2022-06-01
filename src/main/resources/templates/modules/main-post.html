@@ -7,14 +7,14 @@
           <h3 class="user__widget_name" th:text="${post.getPoster().getUsername()}">Harry Drummond</h3>
           <div class="user__widget_interactables">
             <p class="follow-btn"><i class="fa fa-user-plus"></i> <span class="follow-text">follow</span></p>
-            <p th:text="${post.getFormattedDate()}">24/02/2022</p>
+            <p th:text="${post.getFormattedDate() != null} ? ${post.getFormattedDate()} : '00/00/0000'">24/02/2022</p>
           </div>
         </div>
       </div>
       <i id="share-btn" class="fa fa-arrow-up-from-bracket user__widget_btn"></i>
     </div>
     <div class="post_image_body">
-      <img id="active-image" class="post_image card__image" th:src="@{/images/characterz-people.png}">
+      <img id="active-image" class="post_image card__image" th:src="@{/} + ${post.getMainImagePath()}">
       <div class="post_images">
         <img class="post_image card__image" th:src="@{/} + ${post.getMainImagePath()}">
 <!--        <img class="post_image" th:src="@{/images/characterz-people.png}">-->
@@ -23,10 +23,9 @@
     <div class="post_footer">
       <div class="sidebar_btns_container">
         <p><i class="fa fa-eye"></i> 1212</p>
-        <p><i class="fa fa-heart"></i> 120</p>
+        <p><button type='button' class='like-btn like-btn--like'></button> 1.4k</p>
         <p><i class="fa fa-bookmark"></i> 10</p>
       </div>
-      <p class="post__title card__title" ></p>
       <p class="post_description"><span class="card__title post__title" th:text="${post.getTitle() != null} ? ${post.getTitle()} : 'Example Title'">Harry Drummond</span> <span class="post-description-content" th:text="${post.getDescription() != null} ? ${post.getDescription()} : '...'">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet autem delectus dicta expedita fuga itaque magni praesentium quidem quo, sunt.</span></p>
     </div>
   </div>

@@ -1,9 +1,121 @@
+let feedbackBtn = document.getElementById("feedback-btn");
+feedbackBtn && feedbackBtn.addEventListener('click', leaveFeedback);
+
+let editBtns = document.querySelectorAll('[data-feedback-edit]');
+for (let editBtn of editBtns) {
+    editBtn.onclick = () => {
+        let target = editBtn.getAttribute('data-feedback-edit');
+        let comment = document.querySelector('[data-feedback-edit-target="'+target+'"]');
+        if (comment == null) return;
+
+        comment.setAttribute("contenteditable", "true");
+        comment.focus();
+
+        var enterKeyFunc = function(event) {
+            // If the user presses the "Enter" key on the keyboard
+            if (event.key === "Enter") {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                comment.setAttribute("contenteditable", "false");
+                saveComment(comment.textContent, target);
+                comment.removeEventListener('keypress', enterKeyFunc);
+            }
+        }
+
+        var focusLostFunc = function(event) {
+            comment.setAttribute("contenteditable", "false");
+            saveComment(comment.textContent, target);
+            comment.removeEventListener('keypress', focusLostFunc);
+        }
+
+        comment.addEventListener("keypress", enterKeyFunc);
+        comment.addEventListener("focusout", focusLostFunc);
+    }
+}
+
+function saveComment(comment, id) {
+    var postId = document.querySelector('meta[name="_post_id"]').content;
+    let httpRequest = prepareRequest('http://localhost:8080/api/post/' + postId + "/comment/" + id, 'PATCH');
+
+    httpRequest.onreadystatechange = function () {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                //todo
+            }
+        }
+    }
+    httpRequest.send(comment);
+}
+
+let deleteBtns = document.querySelectorAll('[data-feedback-delete-id]');
+for (let deleteBtn of deleteBtns) {
+    deleteBtn.onclick = () => {
+        var postId = document.querySelector('meta[name="_post_id"]').content;
+        var commentId = deleteBtn.getAttribute('data-feedback-delete-id');
+        let httpRequest = prepareRequest('http://localhost:8080/api/post/'+postId+"/comment/"+commentId, 'DELETE');
+
+        let confirmed = confirm("Are you sure you want to delete this comment? This action cannot be undone!");
+
+        if (!confirmed) return;
+        console.log('here');
+
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    location.reload();
+                } else if (httpRequest.status === 401) {
+                    alert("You are not authorized to delete this comment!");
+                } else if (httpRequest.status === 404) {
+                    alert("Could not find comment to delete! Has it already been deleted?");
+                } else {
+                    alert("Could not delete comment. Status code: " + httpRequest.status);
+                }
+            }
+        }
+
+        httpRequest.send();
+    }
+}
+
+function leaveFeedback() {
+    var postId = document.querySelector('meta[name="_post_id"]').content;
+    var httpRequest = prepareRequest("http://localhost:8080/api/post/"+postId+"/comment", 'POST');
+
+    let feedback = document.getElementById('feedback-input');
+
+    // if (feedback.textContent === "" || feedback.textContent.length < 12) {
+    //     let feedbackInvalid = document.getElementById('feedback-invalid');
+    //     feedbackInvalid.textContent = "Please provide descriptive feedback! Min 12 characters";
+    //     feedbackInvalid.classList.remove('hidden');
+    //     return;
+    // }
+
+    httpRequest.onreadystatechange = () => {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            let feedbackInvalid = document.getElementById('feedback-invalid');
+            if (httpRequest.status === 200) {
+                location.reload();
+            } else if (httpRequest.status === 404) {
+                feedbackInvalid.textContent = "Sorry, we're unable to post your comment! Please try again later.";
+                feedbackInvalid.classList.remove('hidden');
+            } else {
+                feedbackInvalid.textContent = "Unknown Error! Status code: " + httpRequest.status;
+                feedbackInvalid.classList.remove('hidden');
+            }
+        }
+    }
+
+    httpRequest.send(feedback.value);
+}
+
 let btn = document.querySelectorAll('.like-btn');
 for (let btnElement of btn) {
     btnElement.onclick = () => {
         btnElement.classList.toggle('checked');
     }
 }
+
 
 // Navbar logic
 let menu = document.querySelector('#menu-bars');

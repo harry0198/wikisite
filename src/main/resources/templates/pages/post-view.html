@@ -10,6 +10,9 @@
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
     <link rel="stylesheet" th:href="@{/css/pages/imports/post-view-imports.css}">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_post_id" th:content="${post.getId()}"/>
 
 </head>
 <body>
@@ -24,34 +27,44 @@
             <h2 class="generic-title feedback-title">Feedback</h2>
             <button class="emphasis-btn leave-feedback" type="button" data-bs-toggle="collapse" data-bs-target="#feedback-form" aria-expanded="false" aria-controls="feedback-form">Leave Feedback</button>
         </div>
-        <form id="feedback-form" class="collapse">
+        <div id="feedback-form" class="collapse">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <label for="feedback-input" class="hidden">Feedback:</label>
-            <textarea id="feedback-input" placeholder="Begin writing feedback..."></textarea>
-            <button class="emphasis-btn">Post</button>
-        </form>
+            <textarea id="feedback-input" placeholder="Begin writing feedback..." name="comment" minlength="12"></textarea>
+            <div id="feedback-invalid" class="alert alert-danger hidden" role="alert">
+                Error: Could not process request!
+            </div>
+            <button id="feedback-btn" class="emphasis-btn">Post</button>
+        </div>
+        <div class="no-feedback" th:if="${post.getComments().size() < 1}">
+            <i class="fa-regular fa-face-frown"></i>
+            <p class="no-feedback-p">Nobody has left any feedback yet :(</p>
+        </div>
 
-        <div class="feedback-container">
-            <div class="flexing-row">
-                <div class="user__widget">
-                    <img th:src="@{/images/pfp.jpeg}" class="user__widget_pfp">
-                    <div>
-                        <h3 class="user__widget_name">Harry Drummond</h3>
-                        <div class="user__widget_interactables">
-                            <p class="follow-btn"><i class="fa fa-user-plus"></i> <span class="follow-text">follow</span></p>
-                            <p>24/02/2022</p>
+        <th:block th:each="comment : ${post.getComments()}">
+            <div class="feedback-container">
+                <div class="flexing-row">
+                    <div class="user__widget">
+                        <img th:src="@{/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" class="user__widget_pfp">
+                        <div>
+                            <h3 class="user__widget_name" th:text="${comment.getUser().getUsername()}">Harry Drummond</h3>
+                            <div class="user__widget_interactables">
+                                <p class="follow-btn"><i class="fa fa-user-plus"></i> <span class="follow-text">follow</span></p>
+                                <p th:text="${comment.getFormattedDate()}">24/02/2022</p>
+                            </div>
                         </div>
                     </div>
+                    <button class="user__widget_btn" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#feedback-id-' + ${comment.getId()},aria-controls='feedback-id-' + ${comment.getId()}" aria-expanded="false"><i class="fa fa-chevron-down user__widget_btn"></i></button>
                 </div>
-                <button class="user__widget_btn" type="button" data-bs-toggle="collapse" data-bs-target="#feedback-id-1" aria-expanded="false" aria-controls="feedback-id-1"><i class="fa fa-chevron-down user__widget_btn"></i></button>
-            </div>
-            <div id="feedback-id-1" class="collapse">
-                <p class="feedback-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dignissimos exercitationem, nesciunt non quae quod.</p>
-                <div class="feedback-actions">
-                    <button class="edit-btn"><i class="fa fa-pen-to-square"></i> Edit</button>
-                    <button class="delete-btn"><i class="fa fa-trash-can"></i> Delete</button>
+                <div th:id="'feedback-id-' + ${comment.getId()}" class="collapse">
+                    <p class="feedback-p" th:text="${comment.getComment()}" th:attr="data-feedback-edit-target=${comment.getId()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dignissimos exercitationem, nesciunt non quae quod.</p>
+                    <div th:if="${user != null}" class="feedback-actions">
+                        <button class="edit-btn" th:if="${user.getId().equals(comment.getUser().getId())}" th:attr="data-feedback-edit=${comment.getId()}"><i class="fa fa-pen-to-square"></i> Edit</button>
+                        <button class="delete-btn" th:if="${user.getId().equals(post.getId()) || user.getId().equals(comment.getUser().getId())}" th:attr="data-feedback-delete-id=${comment.getId()}"><i class="fa fa-trash-can"></i> Delete</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </th:block>
     </aside>
 </main>
 

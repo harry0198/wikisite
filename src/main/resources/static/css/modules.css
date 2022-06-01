@@ -368,7 +368,6 @@ button {
 .like-btn {
     width: 24px;
     height: 24px;
-
 }
 
 button:focus {
@@ -525,13 +524,17 @@ button:focus {
     transform: rotate(90deg);
 }
 
-
-
 .sidebar_btns_container {
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.sidebar_btns_container > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 /*.carousel-item-end {*/

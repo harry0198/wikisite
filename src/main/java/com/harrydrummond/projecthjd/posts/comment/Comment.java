@@ -2,12 +2,11 @@ package com.harrydrummond.projecthjd.posts.comment;
 
 import com.harrydrummond.projecthjd.posts.Post;
 import com.harrydrummond.projecthjd.user.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,8 @@ import java.util.List;
 @Setter
 @Entity
 @Table
+@NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
 
     @Id
@@ -35,14 +36,8 @@ public class Comment {
 
     private LocalDateTime datePosted;
 
-    @OneToMany
-    @JoinColumn(name ="parent_id")
-    private List<Comment> replies;
-
-    public void addReply(Comment comment) {
-        if (replies == null) {
-            replies = new ArrayList<>();
-        }
-        replies.add(comment);
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return datePosted != null ? datePosted.format(formatter) : "00/00/0000";
     }
 }

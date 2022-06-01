@@ -1,5 +1,6 @@
 package com.harrydrummond.projecthjd.posts;
 
+import com.harrydrummond.projecthjd.posts.comment.Comment;
 import com.harrydrummond.projecthjd.util.Pagination;
 import lombok.AllArgsConstructor;
 import org.hibernate.search.engine.search.query.SearchResult;
@@ -8,6 +9,7 @@ import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.search.loading.dsl.SearchLoadingOptionsStep;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class PostServiceImpl implements PostService {
 
@@ -25,7 +28,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<Post> getPostById(long id) {
-        return postRepository.findById(id);
+        Optional<Post> post = postRepository.findById(id);
+        if (post.isPresent()) {
+            Post p = post.get();
+            p.getComments();
+            p.getLikes();
+            p.getSaves();
+            for (Comment comment : p.getComments()) {
+                comment.getUser();
+            }
+        }
+        return post;
     }
 
     @Override

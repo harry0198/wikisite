@@ -13,7 +13,6 @@ import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -83,6 +82,7 @@ public class Post {
 
     public String getFormattedDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return datePosted.format(formatter);
+        return datePosted != null ? datePosted.format(formatter) : "00/00/0000";
+
     }
 }
