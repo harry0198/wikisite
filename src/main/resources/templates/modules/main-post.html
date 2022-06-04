@@ -12,12 +12,12 @@
         </div>
       </div>
       <div>
-      <a th:href="@{/post/edit/} + ${post.getId()}"><i id="edit-post-btn" class="fa fa-pen-to-square user__widget_btn"></i></a>
+      <a th:href="@{/post/edit/} + ${post.getId()}"><i id="edit-post-btn" class="fa fa-pen-to-square user__widget_btn secondary-faint-btn"></i></a>
       <i id="share-btn" class="fa fa-arrow-up-from-bracket user__widget_btn"></i>
       </div>
     </div>
     <div class="post_image_body">
-      <img id="active-image" class="post_image card__image" th:src="@{/} + ${post.getMainImagePath()}">
+      <img id="active-image" class="post_image card__image" th:src="@{/} + ${post.getMainImagePath()}" >
       <div class="post_images">
         <img class="post_image card__image" th:src="@{/} + ${post.getMainImagePath()}">
 <!--        <img class="post_image" th:src="@{/images/characterz-people.png}">-->

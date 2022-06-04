@@ -1,4 +1,5 @@
-const FETCH_URL = "http://localhost:8080";
+import {BASE_URL} from "./util.mjs";
+import Toast from "./toast.mjs";
 
 function getData(url, cb, data) {
     return submitRequest(url, cb, data,'GET');
@@ -20,10 +21,11 @@ function submitRequest(url, cb, data, type) {
     let httpRequest = new XMLHttpRequest();
 
     if (!httpRequest) {
-        alert('Giving up :( Cannot create an XMLHTTP instance. Some functions may not work as expected.');
+        Toast("Could not submit request", "fa-circle-exclamation");
+        console.log("Failed to create XMLHttpRequest!");
         return false;
     }
-    httpRequest.open(type.toUpperCase(), `${FETCH_URL}${url}`, true);
+    httpRequest.open(type.toUpperCase(), `${BASE_URL}${url}`, true);
     httpRequest.setRequestHeader(header, token);
 
     httpRequest.onreadystatechange = function() {

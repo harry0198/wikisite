@@ -2,6 +2,7 @@ import {isFileSizeSensible, isFileFormatImage} from "./validation.mjs";
 
 let profileImagePreview;
 let profileImageUpload;
+const BASE_URL = "http://localhost:8080";
 
 function initializeUtilities() {
     profileImagePreview = document.getElementById('profileImageUpload');
@@ -49,5 +50,6 @@ function initializeUtilities() {
 export {
     initializeUtilities,
     profileImageUpload,
-    profileImagePreview
+    profileImagePreview,
+    BASE_URL
 }

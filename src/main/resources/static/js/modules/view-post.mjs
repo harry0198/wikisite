@@ -1,4 +1,5 @@
 import {postData, patchData, deleteData} from "./ajax.mjs";
+import Toast from "./toast.mjs";
 
 function enableFeedbackFunctionality() {
 
@@ -24,13 +25,15 @@ function enableFeedbackFunctionality() {
                     comment.setAttribute("contenteditable", "false");
                     saveComment(comment.textContent, target);
                     comment.removeEventListener('keypress', enterKeyFunc);
+                    comment.removeEventListener('focusout', focusLostFunc);
                 }
             }
 
             let focusLostFunc = function () {
                 comment.setAttribute("contenteditable", "false");
                 saveComment(comment.textContent, target);
-                comment.removeEventListener('keypress', focusLostFunc);
+                comment.removeEventListener('keypress', enterKeyFunc);
+                comment.removeEventListener('focusout', focusLostFunc);
             }
 
             comment.addEventListener("keypress", enterKeyFunc);
@@ -49,13 +52,12 @@ function enableFeedbackFunctionality() {
 
             const cb = function (status) {
                     if (status === 200) {
+                        Toast("Feedback deleted successfully", "fa-circle-check");
                         location.reload();
                     } else if (status === 401) {
-                        alert("You are not authorized to delete this comment!");
-                    } else if (status === 404) {
-                        alert("Could not find comment to delete! Has it already been deleted?");
+                        Toast("You are not authorized to do this", "fa-circle-exclamation");
                     } else {
-                        alert("Could not delete comment. Status code: " + status);
+                        Toast("Error: "+status+" Please try again later.", "fa-circle-exclamation");
                     }
             }
 
@@ -88,7 +90,9 @@ function saveComment(comment, id) {
 
     let cb = function (status) {
             if (status === 200) {
-                //todo
+                Toast("Comment saved successfully", "fa-circle-check");
+            } else {
+                Toast("Failed to save comment. Try again later.", "fa-circle-exclamation");
             }
     }
     patchData("/api/post/"+postId+"/comment/"+id, cb, comment);
@@ -99,23 +103,17 @@ function leaveFeedback() {
 
     let feedback = document.getElementById('feedback-input');
 
-    // if (feedback.textContent === "" || feedback.textContent.length < 12) {
-    //     let feedbackInvalid = document.getElementById('feedback-invalid');
-    //     feedbackInvalid.textContent = "Please provide descriptive feedback! Min 12 characters";
-    //     feedbackInvalid.classList.remove('hidden');
-    //     return;
-    // }
+    if (feedback.value === "" || feedback.value.length < 12) {
+        Toast("Feedback must be min 12 characters long", "fa-circle-exclamation");
+        return;
+    }
 
     let cb = (status) => {
-            let feedbackInvalid = document.getElementById('feedback-invalid');
             if (status === 200) {
+                Toast("Successfully posted feedback", "fa-circle-check");
                 window.location.reload();
-            } else if (status === 404) {
-                feedbackInvalid.textContent = "Sorry, we're unable to post your comment! Please try again later.";
-                feedbackInvalid.classList.remove('hidden');
             } else {
-                feedbackInvalid.textContent = "Unknown Error! Status code: " + status;
-                feedbackInvalid.classList.remove('hidden');
+                Toast("Error: "+status+" Failed to post feedback", "fa-circle-exclamation");
             }
     }
 

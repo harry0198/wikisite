@@ -31,9 +31,6 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <label for="feedback-input" class="hidden">Feedback:</label>
             <textarea id="feedback-input" placeholder="Begin writing feedback..." name="comment" minlength="12"></textarea>
-            <div id="feedback-invalid" class="alert alert-danger hidden" role="alert">
-                Error: Could not process request!
-            </div>
             <button id="feedback-btn" class="emphasis-btn">Post</button>
         </div>
         <div class="no-feedback" th:if="${post.getComments().size() < 1}">
@@ -59,7 +56,7 @@
                 <div th:id="'feedback-id-' + ${comment.getId()}" class="collapse">
                     <p class="feedback-p" th:text="${comment.getComment()}" th:attr="data-feedback-edit-target=${comment.getId()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dignissimos exercitationem, nesciunt non quae quod.</p>
                     <div th:if="${user != null}" class="feedback-actions">
-                        <button class="edit-btn" th:if="${user.getId().equals(comment.getUser().getId())}" th:attr="data-feedback-edit=${comment.getId()}"><i class="fa fa-pen-to-square"></i> Edit</button>
+                        <button class="edit-btn secondary-faint-btn" th:if="${user.getId().equals(comment.getUser().getId())}" th:attr="data-feedback-edit=${comment.getId()}"><i class="fa fa-pen-to-square"></i> Edit</button>
                         <button class="delete-btn" th:if="${user.getId().equals(post.getId()) || user.getId().equals(comment.getUser().getId())}" th:attr="data-feedback-delete-id=${comment.getId()}"><i class="fa fa-trash-can"></i> Delete</button>
                     </div>
                 </div>

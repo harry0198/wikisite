@@ -101,16 +101,11 @@ public class HomeController {
     public String editPost(@AuthenticationPrincipal User user, Model model, @PathVariable Integer postId) {
         Optional<Post> postOptional = postService.getPostById(postId);
         if (postOptional.isEmpty()) {
-            System.out.println("ye");
             return "pages/explore";
         }
 
         Post post = postOptional.get();
-        System.out.println(post.getPoster());
-        System.out.println(post.getPoster().getId());
-        System.out.println(user.getId());
         if (!post.getPoster().getId().equals(user.getId()) && !user.containsRole(Role.ADMIN)) {
-            System.out.println("this");
             return "pages/explore"; //todo
         }
 

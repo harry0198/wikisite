@@ -511,12 +511,6 @@ button:focus {
 
 #edit-post-btn {
     margin-right: 0.5rem;
-    color: rgba(0,0,0,0.5);
-    transition: color 0.2s ease;
-}
-
-#edit-post-btn:hover {
-    color: var(--text-color);
 }
 
 .flexing-row {
@@ -550,3 +544,79 @@ button:focus {
 /*.carousel-item-end {*/
 /*    transform: none !important;*/
 /*}*/
+
+.gui-toast-group {
+    position: fixed;
+    z-index: 1;
+    inset-block-end: 0;
+    inset-inline: 0;
+    padding-block-end: 5vh;
+
+    display: grid;
+    justify-items: center;
+    justify-content: center;
+    gap: 1vh;
+
+    /* optimizations */
+    pointer-events: none;
+}
+
+
+.gui-toast {
+    --_duration: 3s;
+    --_bg-lightness: 90%;
+    --_travel-distance: 0;
+
+    font-family: system-ui, sans-serif;
+    color: white;
+    background: hsl(0 0% var(--_bg-lightness) / 90%);
+
+    max-inline-size: min(50ch, 90vw);
+    /*padding-block: .5ch;*/
+    padding: 1rem 0.5rem;
+    padding-inline: 1ch;
+    border-radius: 5px;
+    font-size: 1rem;
+
+    will-change: transform;
+    animation: fade-in .3s ease,
+    slide-in .3s ease,
+    fade-out .3s ease var(--_duration);
+}
+
+.gui-toast-icon {
+    margin-right: 0.5rem;
+}
+
+.gui-toast.circle-check {
+    background: rgba(17,183,127,1);
+}
+
+.gui-toast.circle-exclamation {
+    background: rgba(238,68,78,1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .gui-toast {
+        color: white;
+        --_bg-lightness: 20%;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .gui-toast {
+        --_travel-distance: 5vh;
+    }
+}
+
+@keyframes fade-in {
+    from { opacity: 0 }
+}
+
+@keyframes fade-out {
+    to { opacity: 0 }
+}
+
+@keyframes slide-in {
+    from { transform: translateY(var(--_travel-distance, 10px)) }
+}

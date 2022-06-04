@@ -80,6 +80,16 @@ button {
     color: white !important;
 }
 
+.secondary-faint-btn {
+    color: rgba(0,0,0,0.5);
+    transition: color 0.2s ease;
+}
+
+.secondary-faint-btn:hover {
+    color: var(--text-color);
+}
+
+
 .emphasis-btn {
     transition: 0.3s all;
 }
