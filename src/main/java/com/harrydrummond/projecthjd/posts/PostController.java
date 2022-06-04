@@ -25,9 +25,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,7 +41,6 @@ public class PostController {
     @PostMapping(value = "/api/post/new",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String savePostForm(@AuthenticationPrincipal User requestingUser, PostRequestDTO postRequestDTO) {
 
-
         ResponseEntity<Post> postResponseEntity = savePost(requestingUser, postRequestDTO);
         if (postResponseEntity.getStatusCode() == HttpStatus.OK && postResponseEntity.getBody() != null) {
             return "redirect:/post/view/" + postResponseEntity.getBody().getId();
@@ -57,7 +54,7 @@ public class PostController {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        if (postDTO.getDescription() == null || postDTO.getTitle() == null || postDTO.getImage() == null) {
+        if (postDTO.getDescription() == null || postDTO.getTitle() == null || postDTO.getImage().getSize() <= 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -72,20 +69,70 @@ public class PostController {
         image.setAlt("");
         image.setOrderNo(1);
 
-        MultipartFile imageFile = postDTO.getImage();
+        boolean success = saveImage(postDTO.getImage(), image);
+        if (!success) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        post.setImages(Set.of(image));
+        postService.savePost(post);
+        return new ResponseEntity<>(post, HttpStatus.OK);
+    }
+
+    private boolean saveImage(MultipartFile imageFile, Image image) {
 
         File savedFile;
         try {
             savedFile = imageService.saveImageToFileOnly(image, imageFile).toFile();
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return false;
         }
         image.setPath(savedFile.getPath());
+        return true;
+    }
+    @PostMapping(value = "/api/post/update",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String updatePostForm(@AuthenticationPrincipal User requestingUser, PostRequestDTO postRequestDTO) {
+        ResponseEntity<Post> postResponseEntity = updatePost(requestingUser, postRequestDTO);
+        if (postResponseEntity.getStatusCode() == HttpStatus.OK && postResponseEntity.getBody() != null) {
+            return "redirect:/post/view/" + postResponseEntity.getBody().getId();
+        }
 
-        post.setImages(Set.of(image));
-        postService.savePost(post);
+        return "redirect:/search";
+    }
+
+    @PostMapping("/api/post/update")
+    public ResponseEntity<Post> updatePost(@AuthenticationPrincipal User user, @RequestBody PostRequestDTO postRequestDTO) {
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Optional<Post> postOptional = postService.getPostById(postRequestDTO.getId());
+        if (postOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Post post = postOptional.get();
+
+        if (postRequestDTO.getImage().getSize() > 0) {
+            Image image = new Image();
+            image.setPost(post);
+            image.setOrderNo(1);
+            image.setAlt("");
+            saveImage(postRequestDTO.getImage(), image);
+            imageService.saveImage(image);
+            post.getImages().clear();
+            post.getImages().add(image);
+        }
+        if (postRequestDTO.getTitle() != null) {
+            post.setTitle(postRequestDTO.getTitle());
+        }
+        if (postRequestDTO.getDescription() != null) {
+            post.setDescription(postRequestDTO.getDescription());
+        }
+        postService.updatePost(post);
         return new ResponseEntity<>(post, HttpStatus.OK);
+
     }
 
     @GetMapping("/api/post/{uid}")

@@ -26,7 +26,11 @@ function submitRequest(url, cb, data, type) {
     httpRequest.open(type.toUpperCase(), `${FETCH_URL}${url}`, true);
     httpRequest.setRequestHeader(header, token);
 
-    httpRequest.onreadystatechange = cb;
+    httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            cb(httpRequest.status);
+        }
+    };
 
     httpRequest.send(data);
     return httpRequest;

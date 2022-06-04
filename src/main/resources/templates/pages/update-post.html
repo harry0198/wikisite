@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
+
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+  <title>Branding - Update Post</title>
+  <meta name=“description” content="Update post" />
+
+  <div th:replace="fragments/head-fragment :: analytics"></div>
+
+  <!-- More CSS -->
+  <link rel="stylesheet" th:href="@{/css/pages/imports/create-post-imports.css}">
+</head>
+<body>
+<div th:replace="modules/navbar.html"></div>
+
+<section class="dual-panel-container">
+  <div class="info-panel">
+    <h1 class="generic-title">Update your post</h1>
+    <p class="generic-subtitle">Sometimes we make errors. Sometimes we want to show better photos. Whatever your reason, you may update it here.</p>
+  </div>
+  <div class="form-panel">
+    <form id="form-carousel" class="carousel slide" data-bs-interval="false" data-bs-wrap="false" th:action="@{/api/post/update}" th:object="${postDTO}" method="post" enctype="multipart/form-data">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+      <input type="hidden" name="id" th:value="${post.getId()}"/>
+      <div class="carousel-item active">
+        <label for='title' class="generic-title">Update the title.</label>
+        <input th:value="${post.getTitle()}" id="title" name="title" type="text" class="form-input no-submit enter-next title-input" placeholder="Eg. Zombies are now in my mobile game!" maxlength="250">
+      </div>
+
+      <div class="carousel-item">
+        <label for='imageUpload' class="generic-title">Change photo or video</label>
+        <div class="image-upload-box-wrapper">
+          <image id="profileImageUpload" th:src="@{/images/photos.png}"></image>
+          <div class="file-container">
+            <label for='imageUpload' class="form-input dragndrop fake-container">
+              <i class="fa-regular fa-square-plus"></i> Drag and drop or click to <span class="browse-text">browse</span>
+            </label>
+            <input class="file-input no-submit enter-next image-input" accept="image/*" id="imageUpload" type="file" name="image" capture="">
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <label for='description' class="generic-title">Update the description</label>
+        <textarea th:text="${post.getDescription()}" id="description" type="text" class="form-input description-input" name="description" placeholder="This project is..." maxlength="2500"></textarea>
+        <!--                <p class="small-print text-align-right">Max 2000 characters</p>-->
+      </div>
+      <div class="carousel-item ">
+        <p class="generic-title">All done?</p>
+        <button class="emphasis-btn" type="submit">Update Post</button>
+      </div>
+
+    </form>
+    <div class="flow-nav-btns">
+      <a href="#form-carousel" id="post-flow-back" role="button" data-bs-slide="prev"><i class="fa fa-arrow-left-long"></i> Back a step</a>
+      <a href="#form-carousel" id="post-flow-next" role="button" data-bs-slide="next">Next step <i class="fa fa-arrow-right-long"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="dual-panel-container preview-container">
+  <div class="info-panel no-pointer-events">
+    <h2 class="generic-title">How it looks so far...</h2>
+    <p class="generic-subtitle preview-el">Please be aware the image may be resized slightly upon posting</p>
+    <th:block th:replace="modules/post-card :: post-card(post=${post})"></th:block>
+  </div>
+  <div class="form-panel no-pointer-events">
+    <th:block th:replace="modules/main-post :: main(post=${post})"></th:block>
+  </div>
+</section>
+<th:block th:replace="modules/footer.html"></th:block>
+</body>
+</html>

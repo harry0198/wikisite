@@ -509,6 +509,16 @@ button:focus {
     font-size: 0.75rem;
 }
 
+#edit-post-btn {
+    margin-right: 0.5rem;
+    color: rgba(0,0,0,0.5);
+    transition: color 0.2s ease;
+}
+
+#edit-post-btn:hover {
+    color: var(--text-color);
+}
+
 .flexing-row {
     display: flex;
     align-items: center;

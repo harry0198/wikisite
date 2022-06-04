@@ -5,6 +5,7 @@ import com.harrydrummond.projecthjd.posts.PostService;
 import com.harrydrummond.projecthjd.posts.dto.PostRequestDTO;
 import com.harrydrummond.projecthjd.search.PostSearchService;
 import com.harrydrummond.projecthjd.user.User;
+import com.harrydrummond.projecthjd.user.roles.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -96,6 +97,33 @@ public class HomeController {
         return "pages/create-post";
     }
 
+    @GetMapping("/post/edit/{postId}")
+    public String editPost(@AuthenticationPrincipal User user, Model model, @PathVariable Integer postId) {
+        Optional<Post> postOptional = postService.getPostById(postId);
+        if (postOptional.isEmpty()) {
+            System.out.println("ye");
+            return "pages/explore";
+        }
+
+        Post post = postOptional.get();
+        System.out.println(post.getPoster());
+        System.out.println(post.getPoster().getId());
+        System.out.println(user.getId());
+        if (!post.getPoster().getId().equals(user.getId()) && !user.containsRole(Role.ADMIN)) {
+            System.out.println("this");
+            return "pages/explore"; //todo
+        }
+
+        PostRequestDTO postRequestDTO = new PostRequestDTO();
+        postRequestDTO.setId(post.getId());
+
+        model.addAttribute("user", user);
+        model.addAttribute("postDTO", postRequestDTO);
+        model.addAttribute("post", post);
+
+        return "pages/update-post";
+    }
+
     @GetMapping("/post/view/{postId}")
     public String viewPost(@AuthenticationPrincipal User user, Model model, @PathVariable Integer postId) {
         Optional<Post> post = postService.getPostById(postId);
@@ -108,4 +136,5 @@ public class HomeController {
         model.addAttribute("morePosts", postSearchService.findPopularThisMonth(1,3));
         return "pages/post-view";
     }
+
 }
