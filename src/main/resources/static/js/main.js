@@ -9,7 +9,6 @@ import {enableCarouselKeyScroll} from "./modules/carousel-key-scroll.mjs";
 import {enableAutoUpdateFunctionality} from "./modules/create-post.mjs";
 import {enableFeedbackFunctionality} from "./modules/view-post.mjs";
 import {enableImageFallbackFunctionality} from "./modules/image-error.mjs";
-import Toast from "./modules/toast.mjs";
 
 document.addEventListener('DOMContentLoaded', () => {
     enableDragNDropFunctionality();
@@ -24,13 +23,4 @@ document.addEventListener('DOMContentLoaded', () => {
     enableAutoUpdateFunctionality();
     enableFeedbackFunctionality();
     enableImageFallbackFunctionality();
-
-    let clickers = document.getElementsByClassName("click");
-    for (let clicker of clickers) {
-    clicker.onclick = async () => {
-            // await Toast("Saved successfully", "fa-circle-check");
-        await Toast("Saved successfully", "fa-circle-exclamation");
-            console.log('poof');
-        }
-    }
 });

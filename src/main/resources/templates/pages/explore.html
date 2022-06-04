@@ -18,13 +18,13 @@
   <h1 class="results-heading" th:text="${title}">Top picks</h1>
   <p class="results-sub" th:text="${subtitle}">Top picks for the most viewed showcase this month!</p>
   <ul class="tags">
-    <li><button>Tag</button></li>
-    <li><button>Button</button></li>
-    <li><button>Awesome</button></li>
-    <li><button>Cool</button></li>
-    <li><button>Sick</button></li>
-    <li><button>Amazing</button></li>
-    <li><button>Brilliant</button></li>
+    <li><a th:href="@{/search(query=Unity)}">Unity</a></li>
+    <li><a th:href="@{/search(query=Snippet)}">Snippet</a></li>
+    <li><a th:href="@{/search(query=Challenge)}">Challenge</a></li>
+    <li><a th:href="@{/search(query=Spring)}">Spring</a></li>
+    <li><a th:href="@{/search(query=Java)}">Java</a></li>
+    <li><a th:href="@{/search(query=Website)}">Website</a></li>
+    <li><a th:href="@{/search(query=Robot)}">Robot</a></li>
 
   </ul>
 
@@ -50,20 +50,19 @@
     <th:block th:replace="modules/pagination.html :: pages (${posts.calcTotalPages()}, ${posts.getPageNum()}, ${#httpServletRequest.requestURI} + '?page=')"></th:block>
   </div>
   <div class="post-grid">
-    <th:block th:each="post : ${posts.getContent()}">
+    <th:block th:if="${posts != null}" th:each="post : ${posts.getContent()}">
       <th:block th:replace="modules/post-card :: post-card(${post})"></th:block>
     </th:block>
 
 
-
-    <div class="item item--1"></div>
-    <div class="item item--2"></div>
-    <div class="item item--3"></div>
-    <div class="item item--4"></div>
-    <div class="item item--5"></div>
-    <div class="item item--6"></div>
-    <div class="item item--7"></div>
-    <div class="item item--8"></div>
+    <div th:if="${posts == null || posts.getContent().size() < 1}" class="item item--1"></div>
+    <div th:if="${posts == null || posts.getContent().size() < 2}" class="item item--2"></div>
+    <div th:if="${posts == null || posts.getContent().size() < 3}" class="item item--3"></div>
+    <div th:if="${posts == null || posts.getContent().size() < 4}" class="item item--4"></div>
+    <div th:if="${posts == null || posts.getContent().size() < 5}" class="item item--5"></div>
+    <div th:if="${posts == null || posts.getContent().size() < 6}" class="item item--6"></div>
+    <div th:if="${posts == null || posts.getContent().size() < 7}" class="item item--7"></div>
+    <div th:if="${posts == null || posts.getContent().size() < 8}" class="item item--8"></div>
   </div>
   <div class="search-options">
     <div class="dropdown__menu">
