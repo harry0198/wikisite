@@ -9,6 +9,8 @@ import {enableCarouselKeyScroll} from "./modules/carousel-key-scroll.mjs";
 import {enableAutoUpdateFunctionality} from "./modules/create-post.mjs";
 import {enableFeedbackFunctionality} from "./modules/view-post.mjs";
 import {enableImageFallbackFunctionality} from "./modules/image-error.mjs";
+import Dialog from "./modules/dialog.mjs";
+import {enableNavigationAccessibilityFunctionality} from "./modules/navigation.mjs";
 
 document.addEventListener('DOMContentLoaded', () => {
     enableDragNDropFunctionality();
@@ -23,4 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     enableAutoUpdateFunctionality();
     enableFeedbackFunctionality();
     enableImageFallbackFunctionality();
+    document.querySelectorAll('dialog[modal-mode="mega"]').forEach(dialog => {
+        Dialog(dialog);
+    })
+
+    enableNavigationAccessibilityFunctionality();
 });

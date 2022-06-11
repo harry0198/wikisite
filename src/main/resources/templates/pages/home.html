@@ -20,7 +20,7 @@
         <div class="home__sad_part">
             <h1 class="home__section_title">Showcase & discover exciting projects around the world.</h1>
             <p class="home__section_sub">Only 0.5% of people know how to code. Time to show off your skills and inspire others to join the top 0.5%</p>
-            <button th:if="${user == null}" data-modal-target="#modal-signin" class="emphasis-btn">Sign Up</button>
+            <button th:if="${user == null}" onclick="window.signInDialog.showModal()" class="button-custom">Sign Up</button>
         </div>
         <div class="home__sad_img">
             <img th:src="@{images/characterz-people.png}"/>

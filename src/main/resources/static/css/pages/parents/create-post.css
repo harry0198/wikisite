@@ -110,7 +110,11 @@
 }
 
 .preview-container {
-    background-color: white !important;
+    background-color: var(--surface-3) !important;
+}
+
+[page-style="dark"] .preview-container {
+    background-color: var(--surface-1) !important;
 }
 
 .info-panel .preview-el {
@@ -118,7 +122,7 @@
 }
 
 .form-panel {
-    background-color: var(--bg-color);
+    background-color: var(--surface-1);
     border-radius: 15px;
     padding: 2rem;
 }

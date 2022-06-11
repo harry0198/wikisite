@@ -1,10 +1,45 @@
 import {postData, patchData, deleteData} from "./ajax.mjs";
 import Toast from "./toast.mjs";
 
-function enableFeedbackFunctionality() {
+let sidebar = document.getElementById("sidebar");
 
+function sidebarFunctionality() {
+
+    let openBtn = document.getElementById('view-fb-btn');
+    openBtn.onclick = (e) => {
+        openSidebar();
+        e.stopImmediatePropagation();
+    }
+
+    sidebar.addEventListener('keyup', e => {
+        if (e.code === 'Escape') {
+            closeSidebar();
+        }
+    });
+
+    document.addEventListener("click", act);
+}
+
+function act(e) {
+    if (sidebar.getAttribute("state") === "open") {
+        if (sidebar.contains(e.target)) return;
+        closeSidebar();
+    }
+}
+
+
+function closeSidebar() {
+    sidebar.setAttribute("state", "");
+}
+function openSidebar() {
+    sidebar.setAttribute("state", "open");
+}
+
+function enableFeedbackFunctionality() {
+sidebarFunctionality();
     let feedbackBtn = document.getElementById("feedback-btn");
     feedbackBtn && feedbackBtn.addEventListener('click', leaveFeedback);
+    let editFeedback = document.getElementById("PostEditFeedback");
 
     let editBtns = document.querySelectorAll('[data-feedback-edit]');
     for (let editBtn of editBtns) {
@@ -13,88 +48,56 @@ function enableFeedbackFunctionality() {
             let comment = document.querySelector('[data-feedback-edit-target="' + target + '"]');
             if (comment == null) return;
 
-            comment.setAttribute("contenteditable", "true");
-            comment.focus();
+            editFeedback.showModal();
+            editFeedback.addEventListener('closing', ({target:dialog}) => {
+                if (dialog.returnValue === 'confirm') {
+                    const cb = function (status) {
+                        if (status === 200) {
+                            comment.textContent = document.getElementById("feedback-edit-input").value;
+                            Toast("Feedback updated", "fa-circle-check");
+                        } else if (status === 401) {
+                            Toast("You are not authorized to do this", "fa-circle-exclamation");
+                        } else {
+                            Toast("Error: "+status+" Please try again later.", "fa-circle-exclamation");
+                        }
+                    }
 
-            let enterKeyFunc = function (event) {
-                // If the user presses the "Enter" key on the keyboard
-                if (event.key === "Enter") {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    comment.setAttribute("contenteditable", "false");
-                    saveComment(comment.textContent, target);
-                    comment.removeEventListener('keypress', enterKeyFunc);
-                    comment.removeEventListener('focusout', focusLostFunc);
+                    saveComment(document.getElementById("feedback-edit-input").value, target, cb);
                 }
-            }
-
-            let focusLostFunc = function () {
-                comment.setAttribute("contenteditable", "false");
-                saveComment(comment.textContent, target);
-                comment.removeEventListener('keypress', enterKeyFunc);
-                comment.removeEventListener('focusout', focusLostFunc);
-            }
-
-            comment.addEventListener("keypress", enterKeyFunc);
-            comment.addEventListener("focusout", focusLostFunc);
+            }, {once: true});
         }
     }
     let deleteBtns = document.querySelectorAll('[data-feedback-delete-id]');
+    let deleteConfirmation = document.getElementById('DeleteConfirmation');
     for (let deleteBtn of deleteBtns) {
         deleteBtn.onclick = () => {
-            const postId = document.querySelector('meta[name="_post_id"]').content;
-            const commentId = deleteBtn.getAttribute('data-feedback-delete-id');
 
-            let confirmed = confirm("Are you sure you want to delete this comment? This action cannot be undone!");
+            deleteConfirmation.showModal();
 
-            if (!confirmed) return;
-
-            const cb = function (status) {
-                    if (status === 200) {
-                        Toast("Feedback deleted successfully", "fa-circle-check");
-                        location.reload();
-                    } else if (status === 401) {
-                        Toast("You are not authorized to do this", "fa-circle-exclamation");
-                    } else {
-                        Toast("Error: "+status+" Please try again later.", "fa-circle-exclamation");
+            deleteConfirmation.addEventListener('closing', ({target:dialog}) => {
+                const postId = document.querySelector('meta[name="_post_id"]').content;
+                const commentId = deleteBtn.getAttribute('data-feedback-delete-id');
+                if (dialog.returnValue === 'confirm') {
+                    const cb = function (status) {
+                        if (status === 200) {
+                            Toast("Feedback deleted successfully", "fa-circle-check");
+                            location.reload();
+                        } else if (status === 401) {
+                            Toast("You are not authorized to do this", "fa-circle-exclamation");
+                        } else {
+                            Toast("Error: "+status+" Please try again later.", "fa-circle-exclamation");
+                        }
                     }
-            }
 
-            deleteData("/api/post/"+postId+"/comment/"+commentId, cb, "");
-        }
-    }
-
-    const feedbackContainers = document.getElementsByClassName('feedback-container');
-    for (let feedbackContainer of feedbackContainers) {
-        let collapsible = feedbackContainer.getElementsByClassName('collapse');
-        let btns = feedbackContainer.getElementsByClassName('user__widget_btn');
-        for (let collapsibleElement of collapsible) {
-            collapsibleElement.addEventListener('show.bs.collapse', function () {
-                for (let btn1 of btns) {
-                    btn1.classList.add('active');
+                    deleteData("/api/post/"+postId+"/comment/"+commentId, cb, "");
                 }
-            });
-            collapsibleElement.addEventListener('hide.bs.collapse', function () {
-                for (let btn1 of btns) {
-                    btn1.classList.remove('active');
-                }
-            })
+            }, {once: true});
         }
-
     }
 }
 
-function saveComment(comment, id) {
+function saveComment(comment, id, cb) {
     const postId = document.querySelector('meta[name="_post_id"]').content;
-
-    let cb = function (status) {
-            if (status === 200) {
-                Toast("Comment saved successfully", "fa-circle-check");
-            } else {
-                Toast("Failed to save comment. Try again later.", "fa-circle-exclamation");
-            }
-    }
     patchData("/api/post/"+postId+"/comment/"+id, cb, comment);
 }
 

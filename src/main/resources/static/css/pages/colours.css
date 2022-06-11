@@ -1,0 +1,37 @@
+:root {
+    --text-color: black;
+    --text-color-2: rgba(23,26,45,0.5);
+
+    --surface-3: #fff;
+    --surface-2: #fff;
+    --surface-1: rgb(247,245,250);
+
+    --surface-selected: rgba(0,0,0,0.05);
+
+    --error-color: #C70C00;
+    --destructive-color: var(--error-color);
+
+    --highlight-color: rgb(0,120,250);
+    --selector-color: rgb(240,250,255);
+
+
+    background-color: var(--surface-1);
+
+    --border-rd-1: 15px;
+    --border-rd-2: 8px;
+    --border-rd-3: 5px;
+}
+
+[page-style="dark"] {
+    /*--surface-3: #495057;*/
+    /*--surface-2: #343a40;*/
+    /*--surface-1: #212529;*/
+    --surface-3: rgb(33,33,36);
+    --surface-2: rgb(22,22,24);
+    --surface-1: black;
+    --text-color: white;
+    --text-color-2: rgb(129,129,129);
+    --error-color: #CF6679;
+
+    --surface-selected: rgba(255,255,255,0.05);
+}

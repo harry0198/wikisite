@@ -1,0 +1,7 @@
+function enableNavigationAccessibilityFunctionality() {
+
+}
+
+export {
+    enableNavigationAccessibilityFunctionality
+}

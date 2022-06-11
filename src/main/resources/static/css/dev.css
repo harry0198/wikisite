@@ -1,0 +1,48 @@
+@import url(core.css);
+@import url(modules.css);
+@import url(pages/colours.css);
+@import url(selectables.css);
+
+.page-header {
+    padding: 1rem;
+}
+
+.current-page-nav {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.current-page-nav * {
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.current-page-layout-nav {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.current-page-layout-nav * {
+    font-size: 1.25rem;
+}
+
+.current-page-layout-nav .selectable-bg {
+    padding: 0.25rem;
+}
+
+.explore-navigation-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+@media(max-width: 35rem) {
+    .explore-navigation-container {
+        flex-direction: column;
+    }
+}

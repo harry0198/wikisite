@@ -1,5 +1,9 @@
+@import url("../../core.css");
+@import url("../../modules.css");
+@import url("../../tags.css");
+
 .results {
-    background-color: var(--bg-color);
+    background-color: var(--surface-1);
     text-align: center;
     padding: 5rem 1rem;
 }
@@ -26,12 +30,16 @@
 }
 
 .post-grid, .search-options {
-    margin: 3rem auto;
-    padding: 0 5%;
+    margin: 0 auto;
+    padding: 3rem 5% 0 5%;
 }
 
 .search-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.search-results {
+    background-color: var(--surface-2);
 }

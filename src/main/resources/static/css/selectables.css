@@ -1,0 +1,27 @@
+@import url(pages/colours.css);
+
+.selectable, .selectable-bg {
+    color: var(--text-color-2);
+    transition: color 0.3s ease, transform 0.1s ease;
+    border-radius: var(--border-rd-3);
+    display: inline-block;
+    cursor: pointer;
+}
+
+.selectable.selected {
+    color: var(--text-color);
+}
+
+.selectable:where(:not(:active)):focus-visible, .selectable:hover, .selectable-bg:where(:not(.selected)):hover {
+    color: var(--text-color);
+}
+
+.selectable:active, .selectable-bg:active {
+    outline-offset: 0;
+    color: var(--highlight-color);
+    transform: translateY(2px);
+}
+
+.selectable-bg.selected {
+    background-color: var(--surface-selected);
+}

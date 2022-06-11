@@ -8,7 +8,7 @@
   <div th:replace="fragments/head-fragment :: analytics"></div>
 
   <!-- More CSS -->
-  <link rel="stylesheet" th:href="@{/css/pages/imports/explore-imports.css}">
+  <link rel="stylesheet" th:href="@{/css/pages/parents/explore.css}">
 </head>
 <body>
 
@@ -30,20 +30,20 @@
 
 </section>
 
-<section>
+<section class="search-results">
   <div class="search-options">
     <div class="dropdown__menu">
-      <div class="dropdown__btn">
-        <button th:text="${title}">Popular</button>
+      <button class="button dropdown__btn">
+        <th:block th:text="${title}">Popular</th:block>
         <i class="fa fa-chevron-down"></i>
-      </div>
+      </button>
       <div class="list-box dropdown__options">
         <ul class="list-box-list">
-          <li><a th:href="@{/explore}">What's Hot</a></li>
-          <li><a th:href="@{/recent}">Recently Posted</a></li>
-          <li><a th:href="@{/most-viewed}">Most Viewed</a></li>
+          <li><a th:href="@{/explore}" class="selectable">What's Hot</a></li>
+          <li><a th:href="@{/recent}" class="selectable">Recently Posted</a></li>
+          <li><a th:href="@{/most-viewed}" class="selectable">Most Viewed</a></li>
           <hr>
-          <li>Following</li>
+          <li><a href="#" class="selectable">Following</a></li>
         </ul>
       </div>
     </div>
@@ -66,17 +66,17 @@
   </div>
   <div class="search-options">
     <div class="dropdown__menu">
-      <div class="dropdown__btn">
-        <button th:text="${title}">Popular</button>
+      <button class="button dropdown__btn">
+        <th:block th:text="${title}">Popular</th:block>
         <i class="fa fa-chevron-down"></i>
-      </div>
+      </button>
       <div class="list-box dropdown__options">
         <ul class="list-box-list">
-          <li><a th:href="@{/explore}">What's Hot</a></li>
-          <li><a th:href="@{/recent}">Recently Posted</a></li>
-          <li><a th:href="@{/most-viewed}">Most Viewed</a></li>
+          <li><a th:href="@{/explore}" class="selectable">What's Hot</a></li>
+          <li><a th:href="@{/recent}" class="selectable">Recently Posted</a></li>
+          <li><a th:href="@{/most-viewed}" class="selectable">Most Viewed</a></li>
           <hr>
-          <li>Following</li>
+          <li><a href="#" class="selectable">Following</a></li>
         </ul>
       </div>
     </div>

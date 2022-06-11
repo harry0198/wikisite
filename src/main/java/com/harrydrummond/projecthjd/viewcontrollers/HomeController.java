@@ -132,4 +132,10 @@ public class HomeController {
         return "pages/post-view";
     }
 
+    @GetMapping("/dev")
+    public String dev(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
+        return "pages/dev";
+    }
+
 }

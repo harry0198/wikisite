@@ -12,8 +12,8 @@
         </div>
       </div>
       <div>
-      <a th:href="@{/post/edit/} + ${post.getId()}"><i id="edit-post-btn" class="fa fa-pen-to-square user__widget_btn secondary-faint-btn"></i></a>
-      <i id="share-btn" class="fa fa-arrow-up-from-bracket user__widget_btn"></i>
+      <a th:href="@{/post/edit/} + ${post.getId()}" th:if="${user != null && user.getId().equals(post.getPoster().getId())}" class="selectable"><i id="edit-post-btn" class="fa fa-pen-to-square"></i></a>
+      <i id="share-btn" class="fa fa-arrow-up-from-bracket user__widget_btn selectable"></i>
       </div>
     </div>
     <div class="post_image_body">

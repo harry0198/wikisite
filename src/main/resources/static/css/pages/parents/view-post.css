@@ -1,14 +1,46 @@
 main {
     display: grid;
-    grid-template-columns: 1fr 400px;
-    grid-template-areas: "content-area sidebar";
-    background-color: var(--bg-color);
+    grid: [stack] 1fr / min-content [stack] 1fr;
+    background-color: var(--surface-1);
 }
 
 .sidebar {
-    grid-area: sidebar;
-    border-left: 2px solid var(--bg-color);
-    background-color: white;
+    border-left: 2px solid var(--surface-1);
+    background-color: var(--surface-3);
+    height: 100%;
+    position: relative;
+    z-index: 999;
+    width: 20rem;
+}
+#view-fb-btn {
+    display: none;
+    width: 100%;
+}
+
+@media (max-width: 60rem) {
+    .content, .sidebar {
+        grid-area: stack;
+    }
+
+    .sidebar {
+        visibility: hidden;
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        overflow-y: scroll;
+        transition: left 0.3s ease-in-out, opacity 0.15s ease-in-out, visibility linear 0.3s;
+    }
+
+    .sidebar[state="open"] {
+        visibility: visible;
+        left: 0;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    }
+
+    #view-fb-btn {
+        display: block;
+    }
 }
 
 .sidebar > * {
@@ -21,12 +53,11 @@ main {
     height: 100%;
     margin: auto;
     padding: 2rem;
-    grid-area: content-area;
 }
 
 
 .site-nav {
-    border-bottom: 2px solid var(--bg-color);
+    border-bottom: 2px solid var(--surface-3);
 }
 
 .sidebar_btns_container > *:nth-child(2) {
@@ -51,15 +82,9 @@ main {
     font-size: 0.75rem;
     padding: 1rem;
     border-bottom: 1px solid rgba(0,0,0,0.25);
+    color: var(--text-color);
 }
 
-.delete-btn {
-    color: #C70C00;
-}
-
-.edit-btn {
-    color: #9b9999;
-}
 
 .feedback-actions {
     padding: 1rem;
@@ -75,7 +100,7 @@ main {
     height: 100%;
 }
 .no-feedback > * {
-    color: rgba(0,0,0,0.25);
+    color: var(--text-color-2);
 }
 
 .no-feedback > i {
@@ -89,7 +114,7 @@ main {
 
 .feedback-p[contenteditable="true"] {
     font-weight: normal;
-    color: black;
+    color: var(--text-color);
     border-radius: 5px;
     border: 1px solid rgba(0,0,0,0.25);
 }

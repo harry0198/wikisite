@@ -14,6 +14,7 @@ function applyDropdownEventHandlers() {
             }
         });
     }
+    
 }
 
 export {

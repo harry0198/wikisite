@@ -3,9 +3,9 @@
     <i class="fas fa-bars desktop-hide left-panel nav-menu-btn" id="nav-open-btn"></i>
     <i class="fas fa-xmark desktop-hide left-panel nav-menu-btn" id="nav-close-btn"></i>
     <div class="site-nav-links">
-        <a class="site-branding" th:href="@{/}"><i class="fas fa-code logo-icon"></i>Branding.</a>
-        <a class="mobile-hide" th:href="@{/explore}">Explore</a>
-        <a class="mobile-hide" data-modal-target="#modal-contact-form">Contact</a>
+        <a class="site-branding selectable selected" th:href="@{/}"><i class="fas fa-code logo-icon"></i>Branding.</a>
+        <a class="mobile-hide selectable" th:href="@{/explore}">Explore</a>
+        <a class="mobile-hide selectable" data-modal-target="#modal-contact-form">Contact</a>
     </div>
     <div class="nav-mobile">
         <div class="search__container">
@@ -14,8 +14,8 @@
                 <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
             </form>
         </div>
-        <a class="hide" th:href="@{/explore}">Explore</a>
-        <a class="hide" data-modal-target="#modal-contact-form">Contact</a>
+        <a class="hide selectable" th:href="@{/explore}">Explore</a>
+        <a class="hide selectable" data-modal-target="#modal-contact-form">Contact</a>
     </div>
     <div class="right-panel">
         <div class="mobile-hide search__container">
@@ -26,23 +26,25 @@
         </div>
 
         <div th:if="${user == null}">
-            <button data-modal-target="#modal-signin" class="emphasis-btn">Sign In</button>
+            <button onclick="window.signInDialog.showModal()" class="button button-custom">Sign In</button>
             <th:block th:replace="modules/login :: login(closeable=true)"></th:block>
         </div>
         <div th:unless="${user == null}">
-            <img class="account-pfp profile-btn" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
-            <div class="list-box profile-list" id="profile-nav">
+            <button id="accountDropdownMenu" class="account-pfp profile-btn" tabindex="0"><img class="account-pfp" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture"></button>
+            <div class="list-box profile-list" id="profile-nav" aria-labelledby="accountDropdownMenu">
                 <h4 class="list-box-heading">Profile</h4>
                 <hr>
                 <ul class="list-box-list">
-                    <li><a th:href="@{/dashboard/settings}">Edit Profile</a></li>
-                    <li>View Profile</li>
-                    <li><a th:href="@{/dashboard/saved}">View Saved</a></li>
+                    <li><a class="selectable" th:href="@{/dashboard/settings}">Edit Profile</a></li>
+                    <li><a class="selectable">View Profile</a></li>
+                    <li><a th:href="@{/dashboard/saved}" class="selectable">View Saved</a></li>
                     <hr>
                     <li class="nav-profile-icon-item nav-profile-important"><a th:href="@{/post/new}"><i class="fa fa-square-plus"></i>New Post</a></li>
                     <hr>
-                    <li><a th:href="@{/dashboard}">Account Settings</a></li>
-                    <li><a th:href="@{/logout}">Sign Out</a></li>
+                    <li><a th:href="@{/dashboard}" class="selectable">Account Settings</a></li>
+                    <li><a th:href="@{/logout}" class="selectable">Sign Out</a></li>
+                    <hr>
+                    <li><button class="button pagestyle">Switch Theme</button></li>
                 </ul>
             </div>
         </div>
