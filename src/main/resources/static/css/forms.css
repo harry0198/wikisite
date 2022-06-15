@@ -1,0 +1,11 @@
+
+:where(:not(p)).error-form {
+    border: 1px solid var(--error-color);
+}
+
+p.error-form {
+    color: var(--error-color);
+    text-align: right;
+    font-weight: bold;
+    font-size: 0.85rem;
+}

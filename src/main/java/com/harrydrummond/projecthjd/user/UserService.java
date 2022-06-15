@@ -8,6 +8,7 @@ public interface UserService {
     Optional<User> getUserById(long id);
 
     Optional<User> getUserByEmail(String email);
+    Optional<User> getUserByUsername(String username);
 
     User saveUser(User user);
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title</title>
+
+    <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
+    <link rel="stylesheet" th:href="@{/css/pages/parents/dashboard.css}">
+</head>
+<body>
+
+<th:block th:replace="modules/navbar.html"></th:block>
+
+<main>
+   <th:block th:replace="pages/dashboard/dashboard-head :: head(title='General')"></th:block>
+    <section class="settings-area">
+        <th:block th:replace="pages/dashboard/dashboard-sidebar :: sidebar(activeNum=1)"></th:block>
+        <div class="settings-content">
+            <p class="field-heading spacer">Website appearance preference</p>
+
+            <button id="theme-system" class="button spacer">System Default</button>
+            <button id="theme-light" class="button spacer">Light</button>
+            <button id="theme-dark" class="button spacer-x2">Dark</button>
+            <fieldset>
+                <label for="user_email">Associated Email</label>
+                <input id="user_email">
+                <p class="sub-comment">If you change this, you may not be able to login with a 3rd party provider</p>
+
+            </fieldset>
+            <p class="nice-note"><i class="fa-solid fa-lock"></i> We've gone passwordless! To access your account, login via email or a 3rd party provider.</p>
+            <button id="save-btn" class="button-custom save-btn">Save Changes</button>
+        </div>
+
+    </section>
+</main>
+
+</body>
+</html>

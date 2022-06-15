@@ -1,6 +1,8 @@
 @import url(pages/buttons.css);
 @import url(pages/colours.css);
 @import url(selectables.css);
+@import url(layouts.css);
+@import url(forms.css);
 @import "dialog.css";
 /*
 Core CSS File.
@@ -678,7 +680,7 @@ a {
     text-align: left !important;
 }
 
-.list-box-heading {
+.list-box-heading, .topic-heading {
     font-weight: 500;
     font-size: 1.5rem;
     color: var(--text-color-2);

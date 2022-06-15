@@ -19,6 +19,8 @@ public class UserDetails {
 
     private String profilePicturePath;
 
+    private String link;
+
     @OneToOne
     @MapsId
     private User user;

@@ -1,15 +1,20 @@
 import {postData, patchData, deleteData} from "./ajax.mjs";
 import Toast from "./toast.mjs";
 
-let sidebar = document.getElementById("sidebar");
+let sidebar;
 
 function sidebarFunctionality() {
 
+    if (sidebar == null) return;
+
     let openBtn = document.getElementById('view-fb-btn');
-    openBtn.onclick = (e) => {
-        openSidebar();
-        e.stopImmediatePropagation();
+    if (openBtn != null) {
+        openBtn.onclick = (e) => {
+            openSidebar();
+            e.stopImmediatePropagation();
+        }
     }
+
 
     sidebar.addEventListener('keyup', e => {
         if (e.code === 'Escape') {
@@ -36,7 +41,8 @@ function openSidebar() {
 }
 
 function enableFeedbackFunctionality() {
-sidebarFunctionality();
+    sidebar = document.getElementById("sidebar");
+    sidebarFunctionality();
     let feedbackBtn = document.getElementById("feedback-btn");
     feedbackBtn && feedbackBtn.addEventListener('click', leaveFeedback);
     let editFeedback = document.getElementById("PostEditFeedback");
@@ -51,7 +57,8 @@ sidebarFunctionality();
             editFeedback.showModal();
             editFeedback.addEventListener('closing', ({target:dialog}) => {
                 if (dialog.returnValue === 'confirm') {
-                    const cb = function (status) {
+                    const cb = function (s) {
+                        let status = s.status;
                         if (status === 200) {
                             comment.textContent = document.getElementById("feedback-edit-input").value;
                             Toast("Feedback updated", "fa-circle-check");

@@ -60,6 +60,7 @@
 
     font: inherit;
     letter-spacing: inherit;
+    position: relative;
     line-height: 1.5;
     border-radius: var(--_border-radius) !important;
 }
@@ -221,6 +222,7 @@
     --_border-light: hsl(0 100% 83%);
     --_highlight-light: hsl(0 100% 89% / 20%);
 
+    --text-color: white;
 
     --_bg: var(--error-color) !important;
 }
@@ -236,4 +238,37 @@
 
 .button-large {
     --_size: 1.5rem;
+}
+
+.button--loading > * {
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.button--loading::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+
+    border: 4px solid transparent;
+    border-top-color: var(--text-color);
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
 }

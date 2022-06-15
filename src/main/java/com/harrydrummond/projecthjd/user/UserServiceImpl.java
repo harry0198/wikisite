@@ -29,7 +29,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     private final UserDetailsRepository userDetailsRepository;
     private final RoleRepository roleRepository;
 
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
@@ -62,6 +62,8 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
+
+
 
     @Override
     public User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {

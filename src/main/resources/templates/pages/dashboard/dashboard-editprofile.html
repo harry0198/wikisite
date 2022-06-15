@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title</title>
+
+    <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <link rel="stylesheet" th:href="@{/css/pages/parents/dashboard.css}">
+</head>
+<body>
+
+<th:block th:replace="modules/navbar.html"></th:block>
+
+<main>
+    <th:block th:replace="pages/dashboard/dashboard-head :: head(title='Edit Profile')"></th:block>
+    <section class="settings-area">
+        <th:block th:replace="pages/dashboard/dashboard-sidebar :: sidebar(activeNum=2)"></th:block>
+        <form class="settings-content" id="edit_profile-form">
+            <label for='imageUpload' class="field-heading spacer">Change Profile Picture</label>
+            <div class="group spacer-x2">
+                <div class="image-upload-box-wrapper">
+                    <image id="profileImageUpload" class="account-pfp" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Author Profile Picture"></image>
+                    <div class="file-container">
+                        <label for='imageUpload' class="form-input dragndrop fake-container">
+                            <i class="fa-regular fa-square-plus" aria-hidden="true"></i> Drag and drop or click to <span class="browse-text">browse</span>
+                        </label>
+                        <input class="file-input no-submit enter-next image-input" accept="image/*" id="imageUpload" type="file" name="profilePicture" capture="">
+                    </div>
+                </div>
+            </div>
+            <fieldset>
+                <label for="user_username">Username</label>
+                <input id="user_username" name="username" type="text" th:value="${user.getUsername()}">
+                <legend class="sub-comment">This will be public, be careful what you share</legend>
+            </fieldset>
+            <fieldset>
+                <label for="user_bio">Bio</label>
+                <input id="user_bio" name="bio" th:value="${user.getUserDetails().getBio()}">
+                <legend class="sub-comment">Brief description about yourself. Let your followers get to know you!</legend>
+            </fieldset>
+            <fieldset>
+                <label for="user_link">Public Link</label>
+                <input id="user_link" name="link" placeholder="Eg. https://www.github.com/..." th:value="${user.getUserDetails().getLink()}">
+                <legend class="sub-comment">You only get one! So use it wisely. We recommend GitHub or a personal website</legend>
+            </fieldset>
+            <button class="button-custom" id="save-btn"><span>Save Changes</span></button>
+        </form>
+
+    </section>
+</main>
+
+</body>
+</html>

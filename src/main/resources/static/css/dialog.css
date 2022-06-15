@@ -174,14 +174,6 @@ dialog > form .menu-btns {
 dialog > form > :is(header, footer) {
     background-color: var(--surface-1);
 }
-/*@media (prefers-color-scheme: dark) {*/
-/*    dialog > form > :is(header, footer) {*/
-/*        background-color: var(--surface-1);*/
-/*    }*/
-/*    dialog > form > :is(header) {*/
-/*        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;*/
-/*    }*/
-/*}*/
 
 /* Zooming exits */
 @-webkit-keyframes zoomOut {

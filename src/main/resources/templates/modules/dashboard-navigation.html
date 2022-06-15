@@ -1,14 +1,11 @@
 <th:block th:fragment="navbars (activeNum)">
 <nav class="dashboard__sidebar">
 <!--    <a th:href="@{/}" class="site-branding mobile-hide"><i class="fas fa-code logo-icon"></i>Branding.</a>-->
-    <h2 class="small-hide menu-title">Menu</h2>
-    <a th:classappend="${activeNum == 1 ? 'selected' : ''}" th:href="@{/dashboard/settings}" class="dashboard__sidebar__item menu-link"><i class="fa fa-user icon"></i> <span class="mobile-hide">Account</span></a>
-    <a th:classappend="${activeNum == 2 ? 'selected' : ''}" th:href="@{/dashboard/saved}" class="dashboard__sidebar__item menu-link"><i class="fa fa-bookmark icon"></i> <span class="mobile-hide">Saved</span></a>
-    <a th:classappend="${activeNum == 3 ? 'selected' : ''}" th:href="@{/dashboard/publish}" class="dashboard__sidebar__item menu-link"><i class="fa fa-newspaper icon"></i> <span class="mobile-hide">Publish</span></a>
+    <h2 class="topic-heading">Menu</h2>
+    <a th:classappend="${activeNum == 1 ? 'selected' : ''}" th:href="@{/dashboard/settings}" class="selectable selected"><i class="fa fa-user icon"></i> <span class="mobile-hide">Account</span></a>
+    <a th:classappend="${activeNum == 2 ? 'selected' : ''}" th:href="@{/dashboard/saved}" class="selectable"><i class="fa fa-bookmark icon"></i> <span class="mobile-hide">Saved</span></a>
+    <a th:classappend="${activeNum == 3 ? 'selected' : ''}" th:href="@{/dashboard/publish}" class="selectable"><i class="fa fa-newspaper icon"></i> <span class="mobile-hide">Publish</span></a>
 
     <a th:href="@{/}" class="dashboard__sidebar__item dashboard__sidebar__back-home small-hide"><i class="fa fa-chevron-left"></i>Back Home</a>
 </nav>
-<div class="dashboard__header">
-    <div th:replace="modules/navbar.html"></div>
-</div>
 </th:block>

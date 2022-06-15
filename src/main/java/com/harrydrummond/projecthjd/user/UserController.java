@@ -1,24 +1,29 @@
 package com.harrydrummond.projecthjd.user;
 
 import com.harrydrummond.projecthjd.filestorage.FileStorageService;
-import com.harrydrummond.projecthjd.posts.image.ImageService;
 import com.harrydrummond.projecthjd.user.details.UserDetailsRepository;
 import com.harrydrummond.projecthjd.user.dto.UserDTO;
 import com.harrydrummond.projecthjd.user.dto.UserGetDTO;
 import com.harrydrummond.projecthjd.user.roles.Role;
+
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -43,12 +48,10 @@ public class UserController {
         return new ResponseEntity<>(new UserGetDTO(user.get()), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/api/user/update",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String updateUserForm(@AuthenticationPrincipal User requestingUser, UserDTO userDTO) {
-        updateUserFields(requestingUser, requestingUser, userDTO);
-        userService.updateUser(requestingUser);
-        userDetailsRepository.save(requestingUser.getUserDetails());
-        return "redirect:/search";
+    @PostMapping(value = "/api/user/{uid}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Object> updateUserForm(@AuthenticationPrincipal @NotNull User requestingUser, @PathVariable long uid, @Valid UserDTO userDTO, BindingResult result) {
+        System.out.println(userDTO);
+        return updateUser(requestingUser, uid, userDTO, result);
     }
 
         /**
@@ -58,7 +61,7 @@ public class UserController {
          * @return ResponseEntity of updated values and http status. Returns NOT FOUND if user with id is not found.
          */
     @PostMapping(value = "/api/user/{uid}", consumes = "application/json")
-    public @ResponseBody ResponseEntity<UserGetDTO> updateUser(@AuthenticationPrincipal User requestingUser, @PathVariable long uid, @RequestBody UserDTO userDTO) {
+    public @ResponseBody ResponseEntity<Object> updateUser(@AuthenticationPrincipal @NotNull User requestingUser, @PathVariable long uid, @Valid @RequestBody UserDTO userDTO, BindingResult result) {
         // If user is not the same user as requesting to update and user is not an admin. They're unauthorized.
         if (!requestingUser.getId().equals(uid) && !requestingUser.containsRole(Role.ADMIN)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -69,15 +72,30 @@ public class UserController {
         }
         User user = userOptional.get();
 
-        updateUserFields(requestingUser,user,userDTO);
-        return new ResponseEntity<>(new UserGetDTO(userService.updateUser(user)), HttpStatus.OK);
+        if (result.hasErrors()) {
+            Map<String, String> errors = result.getFieldErrors().stream()
+                    .filter(x -> !x.getField().equalsIgnoreCase("username") || !requestingUser.getUsername().equals(userDTO.getUsername()))
+                    .collect(
+                            Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)
+                    );
+
+            if (!errors.isEmpty())
+                return new ResponseEntity<>(errors, HttpStatus.valueOf(400));
+        }
+
+        if (requestingUser.getId().equals(user.getId())) {
+            updateUserFields(requestingUser, requestingUser, userDTO);
+        } else {
+            updateUserFields(requestingUser, user, userDTO);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /**
-     * Deletes user from database
-     * @param uid ID of user
-     * @return ResponseEntity if deletion was successful.
-     */
+        /**
+         * Deletes user from database
+         * @param uid ID of user
+         * @return ResponseEntity if deletion was successful.
+         */
     @DeleteMapping("/api/user/{uid}")
     public @ResponseBody ResponseEntity<Void> deleteUser(@PathVariable long uid) {
         userService.deleteUser(uid);
@@ -85,10 +103,12 @@ public class UserController {
     }
 
     private void updateUserFields(User requestingUser, User user, UserDTO userDTO) {
+
         user.setEmail(Objects.nonNull(userDTO.getEmail()) ? userDTO.getEmail() : user.getEmail());
-        // validation todo
+
         user.setUsername(Objects.nonNull(userDTO.getUsername()) ? userDTO.getUsername() : user.getUsername());
         user.setEnabled(Objects.nonNull(userDTO.getEnabled()) ? userDTO.getEnabled() : user.getEnabled());
+        user.getUserDetails().setLink(Objects.nonNull(userDTO.getLink()) ? userDTO.getLink() : user.getUserDetails().getLink());
 
         // User must be admin to do the following
         if (requestingUser.containsRole(Role.ADMIN)) {
@@ -101,5 +121,8 @@ public class UserController {
             Path path = fileStorageService.save(pfp);
             user.getUserDetails().setProfilePicturePath(path.toString());
         }
+
+        User u = userService.updateUser(user);
+        userDetailsRepository.save(user.getUserDetails());
     }
 }

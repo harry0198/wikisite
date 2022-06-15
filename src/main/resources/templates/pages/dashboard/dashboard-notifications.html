@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+  <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
+  <link rel="stylesheet" th:href="@{/css/pages/parents/dashboard.css}">
+</head>
+<body>
+
+<th:block th:replace="modules/navbar.html"></th:block>
+
+<main>
+  <th:block th:replace="pages/dashboard/dashboard-head :: head(title='Notifications')"></th:block>
+  <section class="settings-area">
+    <th:block th:replace="pages/dashboard/dashboard-sidebar :: sidebar(activeNum=4)"></th:block>
+    <div class="settings-content">
+      <h3 class="field-heading">Notification Preferences</h3>
+      <hr>
+      <fieldset>
+        <div class="inline">
+          <input
+                  type="checkbox"
+                  checked
+                  id="news-notifications"
+                  name="text-notifications">
+          <label for="news-notifications">Brand news & updates</label>
+        </div>
+        <p class="sub-comment spacer">Get notified on updates to the site and brand goals.</p>
+        <div class="inline">
+          <input
+                  type="checkbox"
+                  checked
+                  id="comment-notifications"
+                  name="text-notifications">
+          <label for="comment-notifications">Weekly account summary</label>
+        </div>
+        <p class="sub-comment spacer">Get notified every week with a summary of all activity on your account.</p>
+        <div class="inline">
+          <input
+                  type="checkbox"
+                  checked
+                  id="promotion-notifications"
+                  name="text-notifications">
+          <label for="promotion-notifications">Promotions and Marketing</label>
+        </div>
+        <p class="sub-comment spacer">Receive emails purposed for promotions and marketing content</p>
+        <hr>
+      </fieldset>
+      <button class="submit-button">Update Preferences</button>
+    </div>
+
+  </section>
+</main>
+
+</body>
+</html>

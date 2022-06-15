@@ -1,0 +1,22 @@
+<th:block th:fragment="head(title)">
+    <section id="settings-head">
+        <button class="button dropdown__btn" id="view-fb-btn">
+            <span th:text="${title}">General</span>
+            <i class="fa fa-chevron-right"></i>
+        </button>
+        <div class="group">
+            <div class="group close start no-media" id="settings-header">
+                <img class="account-pfp" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Author Profile Picture">
+                <div class="group vertical settings-headings">
+                    <h1 class="topic-heading">Harry Drummond</h1>
+                    <h2 class="topic-subheading">Update your username and manage your account</h2>
+
+                </div>
+            </div>
+            <a class="pro-ad">
+                <h3>Time to go <span>Pro</span></h3>
+                <p>Super charge your account!</p>
+            </a>
+        </div>
+    </section>
+</th:block>

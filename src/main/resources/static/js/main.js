@@ -11,6 +11,8 @@ import {enableFeedbackFunctionality} from "./modules/view-post.mjs";
 import {enableImageFallbackFunctionality} from "./modules/image-error.mjs";
 import Dialog from "./modules/dialog.mjs";
 import {enableNavigationAccessibilityFunctionality} from "./modules/navigation.mjs";
+import {enableSidebarFunctionality} from "./modules/sidebar.mjs";
+import {enableFunctionality} from "./modules/dashboard.mjs";
 
 document.addEventListener('DOMContentLoaded', () => {
     enableDragNDropFunctionality();
@@ -30,4 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     enableNavigationAccessibilityFunctionality();
+    enableSidebarFunctionality();
+    enableFunctionality();
 });

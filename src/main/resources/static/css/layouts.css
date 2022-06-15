@@ -1,0 +1,46 @@
+.group {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 80rem;
+}
+
+.group.vertical {
+    flex-direction: column;
+    align-items: start;
+}
+
+.group.close {
+    justify-content: start;
+}
+
+.group.start {
+    align-items: start;
+}
+
+.sidebar {
+    z-index: 1000;
+}
+
+@media (max-width: 45rem) {
+    :where(.group):not(.no-media) {
+        flex-direction: column;
+    }
+    .sidebar {
+        visibility: hidden;
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        overflow-y: scroll;
+        transition: left 0.3s ease-in-out, opacity 0.15s ease-in-out, visibility linear 0.3s;
+    }
+
+    .sidebar[state="open"] {
+        visibility: visible;
+        left: 0;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    }
+}

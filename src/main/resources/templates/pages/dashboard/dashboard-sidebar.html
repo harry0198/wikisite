@@ -1,0 +1,12 @@
+
+<th:block th:fragment="sidebar (activeNum)">
+    <menu class="settings-menu sidebar" id="sidebar">
+        <li><a th:classappend="${activeNum == 1 ? 'selected' : ''}" th:href="@{/account/general}" class="selectable">General</a></li>
+        <li><a th:classappend="${activeNum == 2 ? 'selected' : ''}" th:href="@{/account/edit-profile}" class="selectable">Edit Profile</a></li>
+        <li><a th:classappend="${activeNum == 3 ? 'selected' : ''}" href="" class="selectable">Social Profiles</a></li>
+        <li><a th:classappend="${activeNum == 4 ? 'selected' : ''}" th:href="@{/account/notifications}" class="selectable">Notifications</a></li>
+        <li><a th:classappend="${activeNum == 5 ? 'selected' : ''}" href="" class="selectable">Other</a></li>
+        <hr>
+        <li><button class="destructive-button">Delete Account</button></li>
+    </menu>
+</th:block>

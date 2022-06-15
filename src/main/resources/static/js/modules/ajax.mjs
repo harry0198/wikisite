@@ -14,7 +14,7 @@ function deleteData(url, cb, data) {
     return submitRequest(url, cb, data, 'DELETE');
 }
 
-function submitRequest(url, cb, data, type) {
+function buildRequest(url, cb, data, type) {
     let token = document.querySelector('meta[name="_csrf"]').content;
     let header = document.querySelector('meta[name="_csrf_header"]').content;
 
@@ -30,17 +30,43 @@ function submitRequest(url, cb, data, type) {
 
     httpRequest.onreadystatechange = function() {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            cb(httpRequest.status);
+            cb(httpRequest);
         }
     };
 
-    httpRequest.send(data);
     return httpRequest;
+}
+
+function submitRequest(url, cb, data, type) {
+    let httpRequest = buildRequest(url, cb, data, type);
+    httpRequest.setRequestHeader("Content-Type", "application/json");
+    httpRequest.send(data);
+
+    return httpRequest;
+}
+
+function submitFormRequest(url, cb, data, type) {
+    let httpRequest = buildRequest(url, cb, data, type);
+    // httpRequest.setRequestHeader("Content-Type", "multipart/form-data");
+    httpRequest.send(data);
+
+    return httpRequest;
+}
+
+function toJsonObject(jsonString) {
+    return JSON.parse(jsonString);
+}
+
+function toJsonString(obj) {
+    return JSON.stringify(obj);
 }
 
 export {
     getData,
     postData,
     patchData,
-    deleteData
+    deleteData,
+    submitFormRequest,
+    toJsonObject,
+    toJsonString
 }

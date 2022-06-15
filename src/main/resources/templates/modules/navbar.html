@@ -35,13 +35,13 @@
                 <h4 class="list-box-heading">Profile</h4>
                 <hr>
                 <ul class="list-box-list">
-                    <li><a class="selectable" th:href="@{/dashboard/settings}">Edit Profile</a></li>
-                    <li><a class="selectable">View Profile</a></li>
+                    <li><a class="selectable" th:href="@{/account/edit-profile}">Edit Profile</a></li>
+                    <li><a class="selectable" th:href="@{/users/view}">View Profile</a></li>
                     <li><a th:href="@{/dashboard/saved}" class="selectable">View Saved</a></li>
                     <hr>
                     <li class="nav-profile-icon-item nav-profile-important"><a th:href="@{/post/new}"><i class="fa fa-square-plus"></i>New Post</a></li>
                     <hr>
-                    <li><a th:href="@{/dashboard}" class="selectable">Account Settings</a></li>
+                    <li><a th:href="@{/account}" class="selectable">Account Settings</a></li>
                     <li><a th:href="@{/logout}" class="selectable">Sign Out</a></li>
                     <hr>
                     <li><button class="button pagestyle">Switch Theme</button></li>

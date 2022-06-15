@@ -9,26 +9,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/dashboard")
+@RequestMapping("/account")
 public class DashboardController {
 
-    @GetMapping
+    @GetMapping({"", "/general"})
     public String getDashboard(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        return "pages/dashboard-settings";
+        return "pages/dashboard/dashboard-general";
     }
 
-    @GetMapping("/settings")
+    @GetMapping("/edit-profile")
     public String getSettingsForDashboard(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        model.addAttribute("userDTO", new UserDTO());
-        return "pages/dashboard-settings";
+        return "pages/dashboard/dashboard-editprofile";
     }
 
-    @GetMapping("/saved")
+    @GetMapping("/notifications")
     public String getSavedForDashboard(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        return "pages/dashboard-saved";
+        return "pages/dashboard/dashboard-notifications";
     }
 
     @GetMapping("/publish")
