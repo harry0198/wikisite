@@ -15,10 +15,7 @@ function enableImageFallbackFunctionality() {
 }
 
 function fixBrokenImage(img) {
-    const defaultImage =
-        `${BASE_URL}/images/local-file-not-found.png`;
-
-    img.src = defaultImage;
+    img.src = `${BASE_URL}/images/local-file-not-found.png`;
     img.alt = 'Fallback image';
 }
 

@@ -3,6 +3,8 @@ package com.harrydrummond.projecthjd.user;
 
 import com.harrydrummond.projecthjd.user.details.UserDetails;
 import com.harrydrummond.projecthjd.user.likes.UserLikes;
+import com.harrydrummond.projecthjd.user.preferences.Preference;
+import com.harrydrummond.projecthjd.user.preferences.Preferences;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import com.harrydrummond.projecthjd.user.saves.UserSaves;
@@ -42,7 +44,7 @@ public class User implements OAuth2User, Serializable {
     @Email
     private String email;
     @Enumerated(EnumType.STRING)
-    @Column(name = "app_user_role")
+    @Column(name = "user_role")
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
     private Boolean locked = false;
@@ -65,6 +67,11 @@ public class User implements OAuth2User, Serializable {
     @PrimaryKeyJoinColumn
     private UserDetails userDetails;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_preference")
+    @OneToMany(mappedBy = "preference", fetch = FetchType.EAGER)
+    private Set<Preferences> userPreferences = new HashSet<>();
+
     public User(String name, String email, UserRole userRoles) {
         this.username = name;
         this.email = email;
@@ -84,10 +91,15 @@ public class User implements OAuth2User, Serializable {
         this.likes = user.likes;
         this.saves = user.saves;
         this.userDetails = user.userDetails;
+        this.userPreferences = user.userPreferences;
     }
 
     public boolean containsRole(Role role) {
         return userRoles.stream().map(UserRole::getRole).anyMatch(x -> x == role);
+    }
+
+    public boolean containsPreference(Preference preference) {
+        return userPreferences.stream().map(Preferences::getPreference).anyMatch(x -> x == preference);
     }
 
     public String getUsername() {

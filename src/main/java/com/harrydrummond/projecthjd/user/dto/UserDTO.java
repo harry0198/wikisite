@@ -1,5 +1,6 @@
 package com.harrydrummond.projecthjd.user.dto;
 
+import com.harrydrummond.projecthjd.user.preferences.Preferences;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import com.harrydrummond.projecthjd.validators.LinkConstraint;
 import com.harrydrummond.projecthjd.validators.UniqueUsernameConstraint;

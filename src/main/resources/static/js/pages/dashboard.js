@@ -1,13 +1,21 @@
+import {init as commons, onLoad} from "./common.mjs";
 import {setLightMode, setDarkMode, clearColorPreference} from "../theme-toggle.js";
-import {isLink, validationPassed, validationFailed} from "./form-validation.js";
-import {getData, postData, toJsonObject, submitFormRequest} from "./ajax.mjs";
-import Toast from "./toast.mjs";
+import {isLink, validationPassed, validationFailed} from "../modules/form-validation.js";
+import {toJsonObject, submitFormRequest} from "../modules/ajax.mjs";
+import Toast from "../modules/toast.mjs";
+import {enableDragNDropFunctionality} from "../modules/dragndrop.mjs";
+import {enableSidebarFunctionality} from "../modules/sidebar.mjs";
+enableSidebarFunctionality()
 
-let user_username;
+let id;
 
-function enableFunctionality() {
+onLoad(() => {
+    commons()
     addEventHandlers()
-}
+    enableDragNDropFunctionality()
+    enableSidebarFunctionality()
+    id = document.querySelector('meta[name="id"]').content;
+});
 
 function addEventHandlers() {
     let saveBtn = document.getElementById('save-btn');
@@ -39,7 +47,40 @@ function addEventHandlers() {
         }
     }
 
+    let updatePreferences = document.getElementById('update-preferences');
+    if (updatePreferences != null) {
+        updatePreferences.onclick = (e) => {
+            e.preventDefault();
+            updatePreferencesHandler(updatePreferences);
+        }
+    }
 
+
+}
+function updatePreferencesHandler(btn) {
+
+    btn.classList.add('button--loading');
+
+    let form = document.getElementById("edit_preferences-form"),
+        actionPath = "";
+
+    let formData = new FormData(form);
+    actionPath = "/api/user/"+id+"/preferences";
+
+    let cb = (e) => {
+        console.log('called');
+        let status = e.status;
+        if (status === 400) {
+            Toast("Failed to save changes", "fa-circle-exclamation");
+        } else if (status === 200) {
+            Toast("Preferences Updated", "fa-circle-check");
+        } else {
+            Toast("Unexpected error! Please try again later.", "fa-circle-exclamation")
+        }
+        btn.classList.remove('button--loading');
+    }
+
+    submitFormRequest(actionPath, cb, formData, 'POST');
 }
 
 function saveBtnHandler(btn) {
@@ -55,11 +96,10 @@ function saveBtnHandler(btn) {
         actionPath = "";
 
     let formData = new FormData(form);
-    actionPath = "/api/user/1";
+    actionPath = "/api/user/"+id;
 
     let cb = (e) => {
         let status = e.status;
-        console.log(e)
         if (status === 400) {
             Toast("Failed to save changes", "fa-circle-exclamation");
 
@@ -120,7 +160,6 @@ function validateUsernameField() {
     let usernameField = document.getElementById('user_username');
     if (usernameField != null) {
         let username = usernameField.value;
-        if (user_username === username) return;
         if (username.length <= 3) {
             validationFailed(usernameField, "Usernames should be more than 3 characters!")
             return false;
@@ -132,8 +171,4 @@ function validateUsernameField() {
             return true;
         }
     }
-}
-
-export {
-    enableFunctionality
 }

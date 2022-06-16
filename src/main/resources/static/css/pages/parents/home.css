@@ -3,7 +3,7 @@
 }
 
 .home__section {
-    background-color: var(--bg-color);
+    background-color: var(--surface-1);
 
 }
 
@@ -66,7 +66,7 @@
 }
 
 #show-off-projects {
-    background-color: var(--bg-color-dark);
+    background-color: var(--surface-2);
 }
 
 #show-off-projects .home__section_title {

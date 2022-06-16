@@ -7,8 +7,10 @@
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="id" th:content="${user.getId()}"/>
 
     <link rel="stylesheet" th:href="@{/css/pages/parents/dashboard.css}">
+    <script type="module" th:src="@{/js/pages/dashboard.js}"></script>
 </head>
 <body>
 
@@ -32,9 +34,9 @@
                 </div>
             </div>
             <fieldset>
-                <label for="user_username">Username</label>
+                <label for="user_username">Name</label>
                 <input id="user_username" name="username" type="text" th:value="${user.getUsername()}">
-                <legend class="sub-comment">This will be public, be careful what you share</legend>
+                <legend class="sub-comment">This will be public</legend>
             </fieldset>
             <fieldset>
                 <label for="user_bio">Bio</label>

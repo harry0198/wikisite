@@ -1,7 +1,0 @@
-function enableNavigationAccessibilityFunctionality() {
-
-}
-
-export {
-    enableNavigationAccessibilityFunctionality
-}

@@ -5,8 +5,12 @@
 
   <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <meta name="id" th:content="${user.getId()}"/>
 
   <link rel="stylesheet" th:href="@{/css/pages/parents/dashboard.css}">
+  <script type="module" th:src="@{/js/pages/dashboard.js}"></script>
 </head>
 <body>
 
@@ -16,41 +20,41 @@
   <th:block th:replace="pages/dashboard/dashboard-head :: head(title='Notifications')"></th:block>
   <section class="settings-area">
     <th:block th:replace="pages/dashboard/dashboard-sidebar :: sidebar(activeNum=4)"></th:block>
-    <div class="settings-content">
+    <form class="settings-content" id="edit_preferences-form">
       <h3 class="field-heading">Notification Preferences</h3>
       <hr>
       <fieldset>
         <div class="inline">
           <input
                   type="checkbox"
-                  checked
+                  th:checked="${brand}"
                   id="news-notifications"
-                  name="text-notifications">
+                  name="brandInfo">
           <label for="news-notifications">Brand news & updates</label>
         </div>
         <p class="sub-comment spacer">Get notified on updates to the site and brand goals.</p>
         <div class="inline">
           <input
                   type="checkbox"
-                  checked
+                  th:checked="${accountSummary}"
                   id="comment-notifications"
-                  name="text-notifications">
+                  name="accountSummary">
           <label for="comment-notifications">Weekly account summary</label>
         </div>
         <p class="sub-comment spacer">Get notified every week with a summary of all activity on your account.</p>
         <div class="inline">
           <input
                   type="checkbox"
-                  checked
+                  th:checked="${promotions}"
                   id="promotion-notifications"
-                  name="text-notifications">
+                  name="promotions">
           <label for="promotion-notifications">Promotions and Marketing</label>
         </div>
         <p class="sub-comment spacer">Receive emails purposed for promotions and marketing content</p>
         <hr>
       </fieldset>
-      <button class="submit-button">Update Preferences</button>
-    </div>
+      <button class="submit-button" id="update-preferences"><span>Update Preferences</span></button>
+    </form>
 
   </section>
 </main>

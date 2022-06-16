@@ -1,6 +1,9 @@
 package com.harrydrummond.projecthjd;
 
 import com.harrydrummond.projecthjd.filestorage.FileStorageService;
+import com.harrydrummond.projecthjd.user.preferences.Preference;
+import com.harrydrummond.projecthjd.user.preferences.Preferences;
+import com.harrydrummond.projecthjd.user.preferences.PreferencesRepository;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.user.roles.RoleRepository;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
@@ -10,7 +13,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -29,6 +31,7 @@ public class StartPointApplication extends WebMvcConfigurerAdapter implements Co
     private final FileStorageService storageService;
 
     private final RoleRepository roleRepository;
+    private final PreferencesRepository preferencesRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(StartPointApplication.class, args);
@@ -48,6 +51,18 @@ public class StartPointApplication extends WebMvcConfigurerAdapter implements Co
         roleRepository.save(userRole);
         roleRepository.save(userAdminRole);
 
+        Preferences preferences1 = new Preferences();
+        preferences1.setPreference(Preference.ACCOUNT_SUMMARY);
+
+        Preferences preferences2 = new Preferences();
+        preferences2.setPreference(Preference.BRAND_INFO);
+
+        Preferences preferences3 = new Preferences();
+        preferences3.setPreference(Preference.PROMOTIONS);
+
+        preferencesRepository.save(preferences1);
+        preferencesRepository.save(preferences2);
+        preferencesRepository.save(preferences3);
     }
 
     @Bean

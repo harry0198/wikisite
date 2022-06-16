@@ -5,8 +5,10 @@
 
     <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+    <meta name="id" th:content="${user.getId()}"/>
 
     <link rel="stylesheet" th:href="@{/css/pages/parents/dashboard.css}">
+    <script type="module" th:src="@{/js/pages/dashboard.js}"></script>
 </head>
 <body>
 
@@ -24,9 +26,8 @@
             <button id="theme-dark" class="button spacer-x2">Dark</button>
             <fieldset>
                 <label for="user_email">Associated Email</label>
-                <input id="user_email">
-                <p class="sub-comment">If you change this, you may not be able to login with a 3rd party provider</p>
-
+                <input id="user_email" th:value="${user.getEmail()}">
+                <p class="sub-comment">If your email changes, you may not be able to login via a third party provider.</p>
             </fieldset>
             <p class="nice-note"><i class="fa-solid fa-lock"></i> We've gone passwordless! To access your account, login via email or a 3rd party provider.</p>
             <button id="save-btn" class="button-custom save-btn">Save Changes</button>

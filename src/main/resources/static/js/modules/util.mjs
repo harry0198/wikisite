@@ -10,6 +10,7 @@ function initializeUtilities() {
 
     if (profileImageUpload != null && profileImagePreview != null) {
         profileImageUpload.onchange = () => {
+            console.log('yep')
             if (profileImageUpload.files && profileImageUpload.files[0]) {
                 if (!isFileFormatImage(profileImageUpload.value)) {
                     alert('Invalid file type. Valid formats are .jpg, .png, .svg and .jpeg');

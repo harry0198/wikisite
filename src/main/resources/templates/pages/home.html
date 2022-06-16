@@ -8,6 +8,7 @@
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
     <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
+    <script type="module" th:src="@{/js/pages/home.js}"></script>
 
 </head>
 <body>
@@ -40,35 +41,35 @@
         </div>
 
     </div>
-</section>
-<section class="home__section" id="follow-creators">
-    <div class="home__section_content">
-        <div>
-            <h2 class="home__section_title">Follow your favourite creators</h2>
-            <p class="home__section_sub">Everybody likes recognition for their work. Follow creators, leave comments on their work and share to friends and family!</p>
-        </div>
-        <div class="home__dual-layout">
-            <div class="user_card">
-                <img class="user_card__author-img" th:src="@{images/Astronaut.png}">
-                <h3 class="user_card__author-text">Harry Drummond</h3>
-                <p class="user_card__author-bio">lorem ipsum dolar sit amet bio here with some sample text lorem ipsum was invented in</p>
-                <div class="user_card__preview">
-                    <img th:src="@{images/article-header-bg.jpg}">
-                    <img th:src="@{images/Work-risk-free.png}">
-                </div>
-            </div>
-            <div class="user_card">
-                <img class="user_card__author-img" th:src="@{images/Astronaut.png}">
-                <h3 class="user_card__author-text">Harry Drummond</h3>
-                <p class="user_card__author-bio">lorem ipsum dolar sit amet bio here with some sample text lorem ipsum was invented in</p>
-                <div class="user_card__preview">
-                    <img th:src="@{images/article-header-bg.jpg}">
-                    <img th:src="@{images/Work-risk-free.png}">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!--</section>-->
+<!--<section class="home__section" id="follow-creators">-->
+<!--    <div class="home__section_content">-->
+<!--        <div>-->
+<!--            <h2 class="home__section_title">Follow your favourite creators</h2>-->
+<!--            <p class="home__section_sub">Everybody likes recognition for their work. Follow creators, leave comments on their work and share to friends and family!</p>-->
+<!--        </div>-->
+<!--        <div class="home__dual-layout">-->
+<!--            <div class="user_card">-->
+<!--                <img class="user_card__author-img" th:src="@{images/Astronaut.png}">-->
+<!--                <h3 class="user_card__author-text">Harry Drummond</h3>-->
+<!--                <p class="user_card__author-bio">lorem ipsum dolar sit amet bio here with some sample text lorem ipsum was invented in</p>-->
+<!--                <div class="user_card__preview">-->
+<!--                    <img th:src="@{images/article-header-bg.jpg}">-->
+<!--                    <img th:src="@{images/Work-risk-free.png}">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="user_card">-->
+<!--                <img class="user_card__author-img" th:src="@{images/Astronaut.png}">-->
+<!--                <h3 class="user_card__author-text">Harry Drummond</h3>-->
+<!--                <p class="user_card__author-bio">lorem ipsum dolar sit amet bio here with some sample text lorem ipsum was invented in</p>-->
+<!--                <div class="user_card__preview">-->
+<!--                    <img th:src="@{images/article-header-bg.jpg}">-->
+<!--                    <img th:src="@{images/Work-risk-free.png}">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 
 <th:block th:replace="modules/footer.html"></th:block>
 
