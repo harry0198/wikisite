@@ -1,6 +1,7 @@
 package com.harrydrummond.projecthjd.viewcontrollers;
 
 import com.harrydrummond.projecthjd.user.User;
+import com.harrydrummond.projecthjd.user.UserService;
 import com.harrydrummond.projecthjd.user.dto.UserDTO;
 import com.harrydrummond.projecthjd.user.preferences.Preference;
 import com.harrydrummond.projecthjd.user.preferences.PreferencesRepository;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DashboardController {
 
     private final PreferencesRepository preferencesRepository;
+    private final UserService userService;
 
     @GetMapping({"", "/general"})
     public String getDashboard(@AuthenticationPrincipal User user, Model model) {
@@ -41,6 +43,7 @@ public class DashboardController {
 
     @GetMapping("/manage")
     public String getPublishForDashboard(@AuthenticationPrincipal User user, Model model) {
+        userService.loadPreferences(user);
         model.addAttribute("user", user);
         return "pages/dashboard/dashboard-manage";
     }

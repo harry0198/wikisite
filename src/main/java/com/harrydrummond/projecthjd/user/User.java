@@ -45,7 +45,7 @@ public class User implements OAuth2User, Serializable {
     private String email;
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<UserRole> userRoles = new HashSet<>();
     private Boolean locked = false;
     private Boolean enabled = false;
@@ -55,21 +55,21 @@ public class User implements OAuth2User, Serializable {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
-    @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserLikes> likes = new HashSet<>();
 
-    @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserSaves> saves = new HashSet<>();
 
     private transient Map<String, Object> attributes;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @PrimaryKeyJoinColumn
     private UserDetails userDetails;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_preference")
-    @OneToMany(mappedBy = "preference", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "preference", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Preferences> userPreferences = new HashSet<>();
 
     public User(String name, String email, UserRole userRoles) {

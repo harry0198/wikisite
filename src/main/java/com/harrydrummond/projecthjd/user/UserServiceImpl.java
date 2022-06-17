@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import java.time.LocalDateTime;
@@ -63,6 +64,12 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         userRepository.deleteById(id);
     }
 
+    @Transactional
+    public User loadPreferences(User user) {
+        user.getUserPreferences();
+        return user;
+    }
+
 
 
     @Override
@@ -87,7 +94,6 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
             appUser.setUserDetails(userDetails);
 
-            userDetailsRepository.save(userDetails);
             return userRepository.save(appUser);
         } else if (!appUserOptional.get().getEnabled()) {
             // if account is disabled, enable it
