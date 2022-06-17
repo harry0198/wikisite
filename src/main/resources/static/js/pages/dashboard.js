@@ -1,10 +1,11 @@
 import {init as commons, onLoad} from "./common.mjs";
 import {setLightMode, setDarkMode, clearColorPreference} from "../theme-toggle.js";
 import {isLink, validationPassed, validationFailed} from "../modules/form-validation.js";
-import {toJsonObject, submitFormRequest} from "../modules/ajax.mjs";
+import {toJsonObject, submitFormRequest, patchData, postData, deleteData} from "../modules/ajax.mjs";
 import Toast from "../modules/toast.mjs";
 import {enableDragNDropFunctionality} from "../modules/dragndrop.mjs";
 import {enableSidebarFunctionality} from "../modules/sidebar.mjs";
+import {BASE_URL} from "../modules/util.mjs";
 enableSidebarFunctionality()
 
 let id;
@@ -55,8 +56,26 @@ function addEventHandlers() {
         }
     }
 
+    let disableBtn = document.getElementById('disable-btn');
+    if (disableBtn != null) {
+        disableBtn.onclick = (e) => {
+            e.preventDefault()
+            disableAccountHandler(disableBtn);
+        }
+    }
+
+    let deleteBtn = document.getElementById('delete-btn');
+    if (deleteBtn != null) {
+        deleteBtn.onclick = (e) => {
+            e.preventDefault()
+            deleteAccountHandler(disableBtn);
+        }
+    }
+
 
 }
+
+
 function updatePreferencesHandler(btn) {
 
     btn.classList.add('button--loading');
@@ -81,6 +100,47 @@ function updatePreferencesHandler(btn) {
     }
 
     submitFormRequest(actionPath, cb, formData, 'POST');
+}
+
+function disableAccountHandler(btn) {
+    let disableAccountModal = document.getElementById('DisableAccount');
+    disableAccountModal.showModal();
+    disableAccountModal.addEventListener('closing', ({target:dialog}) => {
+        if (dialog.returnValue === 'confirm') {
+            const cb = function (s) {
+                let status = s.status;
+                if (status === 200) {
+                    Toast("Account has been disabled", "fa-circle-check");
+                    window.location.href = BASE_URL;
+                } else {
+                    Toast(status+": Failed to disable. Please contact support", "fa-circle-exclamation");
+                }
+            }
+
+            let object  = '{"enabled":"false"}'
+
+            postData("/api/user/"+id, cb, object);
+        }
+    }, {once: true});
+}
+
+function deleteAccountHandler() {
+    let deleteAccountModal = document.getElementById('DeleteAccount');
+    deleteAccountModal.showModal();
+    deleteAccountModal.addEventListener('closing', ({target:dialog}) => {
+        if (dialog.returnValue === 'confirm') {
+            const cb = function (s) {
+                let status = s.status;
+                if (status === 200) {
+                    window.location.href = BASE_URL;
+                    Toast("Account has been deleted", "fa-circle-check");
+                } else {
+                    Toast(status+": Failed to delete. Please contact support", "fa-circle-exclamation");
+                }
+            }
+            deleteData("/api/user/"+id, cb, "");
+        }
+    }, {once: true});
 }
 
 function saveBtnHandler(btn) {

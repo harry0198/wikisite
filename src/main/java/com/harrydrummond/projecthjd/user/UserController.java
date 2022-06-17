@@ -14,7 +14,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -25,8 +27,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -151,8 +151,23 @@ public class UserController {
          * @return ResponseEntity if deletion was successful.
          */
     @DeleteMapping("/api/user/{uid}")
-    public @ResponseBody ResponseEntity<Void> deleteUser(@PathVariable long uid) {
-        userService.deleteUser(uid);
+    public @ResponseBody ResponseEntity<Void> deleteUser(@AuthenticationPrincipal User requestingUser, @PathVariable long uid) {
+        if (!requestingUser.getId().equals(uid) && !requestingUser.containsRole(Role.ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Optional<User> userOptional = userService.getUserById(uid);
+        if (userOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User user = userOptional.get();
+
+        if (user.getId().equals(requestingUser.getId())) {
+            user = requestingUser;
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.setAuthenticated(false);
+        userService.deleteUser(user.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -164,6 +179,13 @@ public class UserController {
         user.setEnabled(Objects.nonNull(userDTO.getEnabled()) ? userDTO.getEnabled() : user.getEnabled());
         user.getUserDetails().setLink(Objects.nonNull(userDTO.getLink()) ? userDTO.getLink() : user.getUserDetails().getLink());
 
+        if (userDTO.getEnabled() != null) {
+            user.setEnabled(userDTO.getEnabled());
+            if (!user.getEnabled()) {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                authentication.setAuthenticated(false);
+            }
+        }
 
         // User must be admin to do the following
         if (requestingUser.containsRole(Role.ADMIN)) {
@@ -177,7 +199,7 @@ public class UserController {
             user.getUserDetails().setProfilePicturePath(path.toString());
         }
 
-        User u = userService.updateUser(user);
-        userDetailsRepository.save(user.getUserDetails());
+        userService.updateUser(user);
+//        userDetailsRepository.save(user.getUserDetails());
     }
 }

@@ -63,13 +63,13 @@ public class User implements OAuth2User, Serializable {
 
     private transient Map<String, Object> attributes;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     @PrimaryKeyJoinColumn
     private UserDetails userDetails;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_preference")
-    @OneToMany(mappedBy = "preference", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "preference", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Preferences> userPreferences = new HashSet<>();
 
     public User(String name, String email, UserRole userRoles) {

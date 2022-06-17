@@ -21,6 +21,19 @@ body {
     font-size: 0.9rem;
 }
 
+.field-paragraph {
+    color: var(--text-color-2);
+    font-size: 0.95rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+#DeleteAccount {
+    max-width: 45rem;
+}
+
 main {
     background-color: var(--surface-2);
     margin: 1rem auto;

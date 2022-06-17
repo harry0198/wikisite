@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class UserDetails {
 
     @Id
+    @Column(name = "user_id")
     private long id;
 
     private String bio;
@@ -23,6 +24,7 @@ public class UserDetails {
 
     @OneToOne
     @MapsId
+    @JoinColumn(name = "user_id")
     private User user;
 
     public String getProfilePicturePath() {

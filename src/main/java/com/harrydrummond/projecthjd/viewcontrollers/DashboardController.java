@@ -39,9 +39,9 @@ public class DashboardController {
         return "pages/dashboard/dashboard-notifications";
     }
 
-    @GetMapping("/publish")
+    @GetMapping("/manage")
     public String getPublishForDashboard(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        return "pages/dashboard-publish";
+        return "pages/dashboard/dashboard-manage";
     }
 }

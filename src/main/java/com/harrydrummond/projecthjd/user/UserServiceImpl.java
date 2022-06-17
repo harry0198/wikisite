@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Validator;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,7 +25,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
 
-    private Validator validator;
     private final UserRepository userRepository;
     private final UserDetailsRepository userDetailsRepository;
     private final RoleRepository roleRepository;
@@ -89,6 +89,9 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
             userDetailsRepository.save(userDetails);
             return userRepository.save(appUser);
+        } else if (!appUserOptional.get().getEnabled()) {
+            // if account is disabled, enable it
+            appUserOptional.get().setEnabled(true);
         }
         return appUserOptional.get();
     }
