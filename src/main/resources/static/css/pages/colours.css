@@ -19,6 +19,8 @@
 
     background-color: var(--surface-1);
 
+    --lite: #eb3c06;
+
     --border-rd-1: 15px;
     --border-rd-2: 8px;
     --border-rd-3: 5px;

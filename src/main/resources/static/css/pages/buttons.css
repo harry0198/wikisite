@@ -263,6 +263,28 @@
     animation: button-loading-spinner 1s ease infinite;
 }
 
+.minor-button, .minor-destructive {
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.minor-custom, .minor-custom * {
+    color: var(--highlight-color);
+}
+
+.minor-button, .minor-button:hover {
+    color: var(--highlight-color);
+}
+
+
+.minor-button:hover, .minor-destructive:hover, .minor-custom:hover {
+    opacity: 1;
+}
+
+.minor-destructive {
+    color: var(--error-color);
+}
+
 @keyframes button-loading-spinner {
     from {
         transform: rotate(0turn);

@@ -80,6 +80,7 @@ This file is used on all pages and is required for the core basic functionality
 
 body {
     /*font-family: 'Source Sans Pro', sans-serif;*/
+    background-color: var(--surface-1);
 }
 
 p {
@@ -148,6 +149,7 @@ input, textarea{
     border-radius: var(--border-rd-3);
     outline-offset: 5px;
     outline: var(--highlight-color) solid 3px;
+    opacity: 1;
 }
 
 a {
@@ -523,11 +525,6 @@ a {
     min-width: 8rem;
 }
 
-.primary-btn {
-    background-color: var(--site-color-selected);
-    color: white;
-}
-
 .account-pfp {
     border-radius: 50%;
     object-fit: cover;
@@ -662,6 +659,7 @@ a {
 }
 
 .list-box {
+
     min-width: 15rem;
     position: absolute;
     /*top: 3.8rem;*/
@@ -838,6 +836,19 @@ a {
     gap: 2rem;
     z-index: 1000;
     flex-direction: column;
+}
+
+.user-link:hover {
+    cursor: pointer;
+}
+
+.lite {
+    background-color: var(--lite);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 0 0.5rem;
+    border-radius: var(--border-rd-3);
 }
 
 .simple-modal * {

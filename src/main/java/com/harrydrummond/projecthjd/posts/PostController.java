@@ -147,6 +147,22 @@ public class PostController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/post/{uid}")
+    public ResponseEntity<Object> deletePostById(@AuthenticationPrincipal User user, @PathVariable long uid) {
+        Optional<Post> postOptional = postService.getPostById(uid);
+        if (postOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Post post = postOptional.get();
+
+        if (user == null || user.getId().equals(post.getPoster().getId()) || user.containsRole(Role.ADMIN)) {
+            postService.deletePost(uid);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     @DeleteMapping("/api/post/{uid}/comment/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable long uid, @AuthenticationPrincipal User user, @PathVariable int commentId) {
         Optional<Post> postOptional = postService.getPostById(uid);
@@ -160,7 +176,7 @@ public class PostController {
         }
         Comment comment = commentOptional.get();
         // if requesting user is owner of post OR requesting user is owner of comment OR requesting user is an admin
-        if (user.getId().equals(post.getPoster().getId()) || user.getId().equals(comment.getUser().getId()) || user.containsRole(Role.ADMIN)) {
+        if (user == null || user.getId().equals(post.getPoster().getId()) || user.getId().equals(comment.getUser().getId()) || user.containsRole(Role.ADMIN)) {
             post.removeCommentById(commentId);
             commentService.deleteComment(commentId);
             postService.savePost(post);

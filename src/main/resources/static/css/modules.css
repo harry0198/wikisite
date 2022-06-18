@@ -558,6 +558,10 @@ button {
     background: rgba(238,68,78,1);
 }
 
+.gui-toast * {
+    color: white;
+}
+
 @media (prefers-color-scheme: dark) {
     .gui-toast {
         color: white;

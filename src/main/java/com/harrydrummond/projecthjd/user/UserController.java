@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
-    private final UserDetailsRepository userDetailsRepository;
     private final PreferencesRepository preferencesRepository;
     private final FileStorageService fileStorageService;
 

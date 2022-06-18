@@ -129,7 +129,7 @@ public class HomeController {
         model.addAttribute("user", user);
         model.addAttribute("post", post.get());
         model.addAttribute("morePosts", postSearchService.findPopularThisMonth(1,3));
-        return "pages/post-view";
+        return "pages/view-post";
     }
 
     @GetMapping("/dev")

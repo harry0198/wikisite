@@ -20,8 +20,16 @@
     align-items: start;
 }
 
+.group.wrap {
+    flex-wrap: wrap;
+}
+
+.group.no-gap {
+    gap: 0;
+}
+
 .sidebar {
-    z-index: 1000;
+    z-index: 90;
 }
 
 @media (max-width: 45rem) {

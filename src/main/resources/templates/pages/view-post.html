@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
+  <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
+
+  <title>Brand - View Post</title>
+
+
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+  <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
+  <link rel="stylesheet" th:href="@{/css/pages/parents/view-post.css}">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <meta name="_post_id" th:content="${post.getId()}"/>
+
+  <script type="module" th:src="@{/js/pages/view-post.js}"></script>
+
+</head>
+<body>
+  <div th:replace="modules/navbar.html"></div>
+
+  <main>
+    <article class="post-area">
+      <section class="media-container">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
+          <div class="carousel-inner">
+            <div class="carousel-item active image">
+              <img src="https://miro.medium.com/max/1400/1*5FF-WiNYehgcBgtgAka1Og.png" alt="Provided Image">
+            </div>
+            <div class="carousel-item image">
+              <img th:src="@{/} + ${post.getMainImagePath()}" alt="Provided Image">
+            </div>
+            <div class="carousel-item image">
+              <img th:src="@{/} + ${post.getMainImagePath()}" alt="Provided Image">
+            </div>
+          </div>
+          <button class="carousel-btn button left" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-btn button right" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <div class="indicators">
+          <button class="button" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" aria-label="Slide 1">
+            <img src="https://miro.medium.com/max/1400/1*5FF-WiNYehgcBgtgAka1Og.png" alt="Provided Image">
+          </button>
+          <button class="button" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2">
+            <img th:src="@{/} + ${post.getMainImagePath()}" alt="Provided Image">
+          </button>
+          <button class="button" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3">
+            <img th:src="@{/} + ${post.getMainImagePath()}" alt="Provided Image">
+          </button>
+        </div>
+      </section>
+
+      <aside class="aside">
+        <div class="group close start">
+          <img class="author-pfp account-pfp" th:src="@{/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
+          <div class="group close start vertical no-gap">
+            <p>
+              <span th:text="${post.getPoster().getUsername()}" rel="author" class="author">Harry Drummond</span><span class="lite">Lite</span>
+            </p>
+            <a class="profile-link user-link" th:text="${post.getPoster().getUserDetails().getLink()}"></a>
+          </div>
+        </div>
+        <p class="post-desc" th:text="${post.getDescription()}">Post desc</p>
+        <th:block th:if="${user != null}">
+          <div class="poster-actions">
+            <a th:href="@{/post/edit/} + ${post.getId()}" th:if="${user.getId().equals(post.getPoster().getId())}" class="selectable">Edit</a>
+            <button th:if="${user.getId().equals(post.getPoster().getId())}" id="delete-post-btn" class="selectable">Delete Post</button>
+          </div>
+        </th:block>
+
+        <div class="feedback">
+          <h3 class="feedback-collapse">Feedback</h3>
+          <th:block th:each="feedback : ${post.getComments()}">
+            <div class="group close start">
+              <img class="comment-pfp account-pfp" th:src="@{/} + ${feedback.getUser().getUserDetails().getProfilePicturePath()}">
+              <div>
+                <div>
+                  <span class="feedback-username" th:text="${feedback.getUser().getUsername()}">Username</span>
+                  <comment th:attr="data-feedback-edit-target=${feedback.getId()}" th:text="${feedback.getComment()}"></comment>
+                </div>
+                <div class="feedback-actions">
+                  <button class="selectable" th:unless="${user != null and feedback.getUser().getId().equals(user.getId())}">Report</button>
+                  <button class="selectable" th:if="${user != null and feedback.getUser().getId().equals(user.getId())}" th:attr="data-feedback-edit=${feedback.getId()}">Edit</button>
+                  <button class="selectable" th:if="${user != null and (feedback.getUser().getId().equals(user.getId()) or post.getPoster().getId().equals(user.getId()))}" th:attr="data-feedback-delete-id=${feedback.getId()}">Delete</button>
+                </div>
+              </div>
+            </div>
+          </th:block>
+        </div>
+
+        <div class="actions-container">
+          <div class="post-actions">
+            <button><i class="fa-solid fa-heart"></i> <span>10</span></button>
+            <button><i class="fa-solid fa-bookmark"></i></button>
+            <button><i class="fa-solid fa-share"></i></button>
+          </div>
+          <div class="group close feedback-container">
+            <img class="author-pfp account-pfp" th:unless="${user == null}" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
+            <img class="author-pfp account-pfp" th:if="${user == null}" th:src="@{/images/default-pfp.png}" alt="Default Profile Picture">
+            <form id="post-feedback-form" class="fake-form">
+              <label class="visually-hidden" for="post-feedback-input">Give feedback:</label>
+              <input class="feedback-field" id="post-feedback-input" type="text" name="" placeholder="Leave feedback..." maxlength="130"/>
+              <button class="minor-custom">
+                <i class="fa-solid fa-arrow-right"></i>
+                <span class="visually-hidden">Post</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </aside>
+    </article>
+
+  </main>
+
+  <dialog id="UnsafeLink" inert loading modal-mode="mega" class="styled">
+    <form method="dialog">
+      <header>
+        <section class="icon-headline">
+          <i class="fa fa-triangle-exclamation icon-icon"></i>
+          <p>Links can be dangerous!</p>
+        </section>
+      </header>
+      <article>
+        <p>
+          Before you proceed, please be aware that not all user links are safe! If you do not recognise the following site or the
+           link looks odd, do not proceed. By proceeding you are taking liability of any damages should they occur.
+        </p>
+        <p id="UnsafeLink-text">Link</p>
+        <menu class="menu-btns">
+          <button autofocus class="button" type="button" onclick="this.closest('dialog').close('cancel')">Cancel</button>
+          <button type="submit" id="delete-account-btn" value="confirm" class="button destructive-button">Proceed</button>
+        </menu>
+      </article>
+    </form>
+  </dialog>
+
+  <dialog th:if="${user != null}" id="PostEditFeedback" inert loading modal-mode="mega" class="styled">
+    <form method="dialog">
+      <header>
+        <section class="icon-headline">
+          <i class="fa fa-comment icon-icon"></i>
+          <p>Let's edit your feedback</p>
+        </section>
+      </header>
+      <article>
+
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <label type="hidden" for="feedback-edit-input" class="hidden">Feedback:</label>
+        <textarea id="feedback-edit-input" placeholder="Begin writing feedback..." name="comment" minlength="12"></textarea>
+        <menu class="menu-btns">
+          <button autofocus class="button" type="button" onclick="this.closest('dialog').close('cancel')">Cancel</button>
+          <button type="submit" id="edit-feedback-btn" value="confirm" class="button button-custom">Update</button>
+        </menu>
+      </article>
+    </form>
+  </dialog>
+
+  <dialog th:if="${user != null}" id="DeleteConfirmation" inert loading modal-mode="mega" class="styled">
+    <form method="dialog">
+      <header>
+        <section class="icon-headline">
+          <i class="fa fa-trash-can icon-icon"></i>
+          <p>Are you sure you want to delete this feedback?</p>
+        </section>
+      </header>
+      <article>
+        <menu class="menu-btns">
+          <button autofocus class="button" type="button" onclick="this.closest('dialog').close('cancel')">Cancel</button>
+          <button type="submit" value="confirm" class="destructive-button">Delete Feedback</button>
+        </menu>
+      </article>
+    </form>
+  </dialog>
+
+  <dialog th:if="${user != null}" id="DeletePostConfirmation" inert loading modal-mode="mega" class="styled">
+    <form method="dialog">
+      <header>
+        <section class="icon-headline">
+          <i class="fa fa-trash-can icon-icon"></i>
+          <p>Are you sure you want to delete this post?</p>
+        </section>
+      </header>
+      <article>
+        <menu class="menu-btns">
+          <button autofocus class="button" type="button" onclick="this.closest('dialog').close('cancel')">Cancel</button>
+          <button type="submit" value="confirm" class="destructive-button">Delete Post</button>
+        </menu>
+      </article>
+    </form>
+  </dialog>
+
+  <th:block th:replace="modules/footer.html"></th:block>
+
+</body>
+</html>
