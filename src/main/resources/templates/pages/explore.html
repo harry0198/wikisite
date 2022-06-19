@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-  <title>Branding - Explore</title>
+  <title>Explore - TheDevBlog</title>
   <link rel="stylesheet" th:href="@{/css/pages/parents/explore.css}">
   <meta name=“description” content="Explore content posted on TheDevBlog by various users. Get inspired from lots of creations!" />
 
-  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
-  <div th:replace="fragments/head-fragment :: analytics"></div>
+  <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
+  <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
   <script type="module" th:src="@{/js/pages/explore.js}"></script>
 </head>

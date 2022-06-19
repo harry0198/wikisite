@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Brand - Home</title>
-
-
-    <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
-    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+    <title>Sign In - TheDevBlog</title>
 
     <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
-    <script type="module" th:src="@{/js/pages/home.js}"></script>
+
+    <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
+    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let signUpModal = document.getElementById('signInDialog');
             signUpModal.showModal();
         })
     </script>
+    <script type="module" th:src="@{/js/pages/home.js}"></script>
 </head>
 <body th:replace="pages/home.html :: body">
 </body>

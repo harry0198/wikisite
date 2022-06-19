@@ -1,22 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
-  <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
-
   <title>Brand - View Post</title>
 
-
-  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
-  <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
-
   <link rel="stylesheet" th:href="@{/css/pages/parents/view-post.css}">
-  <meta name="_csrf" th:content="${_csrf.token}"/>
-  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
   <meta name="_post_id" th:content="${post.getId()}"/>
 
-  <script type="module" th:src="@{/js/pages/view-post.js}"></script>
+  <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
+  <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
+  <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
+  <script type="module" th:src="@{/js/pages/view-post.js}"></script>
 </head>
 <body>
   <div th:replace="modules/navbar.html"></div>

@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
-
-    <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
-    <title>Branding - New Post</title>
+    <title>New Post - TheDevBlog</title>
     <meta name=“description” content="Create a new post" />
 
-    <div th:replace="fragments/head-fragment :: analytics"></div>
-
-    <!-- More CSS -->
     <link rel="stylesheet" th:href="@{/css/pages/parents/create-post.css}">
+
+    <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
+    <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
     <script type="module" th:src="@{/js/pages/create-post.js}"></script>
 </head>
