@@ -1,3 +1,5 @@
+
+
 * {
     --animation-close: zoomOut;
     --animation-slide-in-up: slideInUp;
@@ -6,7 +8,7 @@
     --shadow-2: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-html:has(dialog[open][modal-mode=mega]) {
+html:has(dialog[open][modal-mode="mega"]) {
     overflow: hidden;
 }
 
@@ -29,21 +31,16 @@ dialog {
 }
 
 dialog.styled {
-    display: grid;
+    /*display: grid;*/
     background: var(--surface-2);
     color: var(--text-color);
 }
 @media (prefers-reduced-motion: no-preference) {
     dialog {
-        animation: var(--animation-close) forwards 0.6s;
-        /*animation-timing-function: var(--ease-squish-3);*/
+        animation: var(--animation-close) forwards 0.5s;
     }
 }
-/*@media (prefers-color-scheme: dark) {*/
-/*    dialog {*/
-/*        border-block-start: 2px solid var(--surface-3);*/
-/*    }*/
-/*}*/
+
 @media (max-width: 60rem) {
     dialog[modal-mode=mega] {
         margin-block-end: 0;
@@ -57,40 +54,37 @@ dialog.styled {
 
 
 }
-dialog .menu-btns button {
-    width: 100%;
-}
 
-@media (max-width: 60rem) and (prefers-reduced-motion: no-preference) {
-    /*dialog[modal-mode=mega] {*/
-    /*    --animation-close: slideOutDown;*/
-    /*}*/
-}
 dialog:not([open]) {
     pointer-events: none;
     opacity: 0;
 }
+
 dialog[modal-mode=mega]::backdrop {
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
 }
-dialog[modal-mode=mini]::backdrop {
-    backdrop-filter: none;
-}
+
+
 dialog::backdrop {
     transition: backdrop-filter 0.5s ease;
 }
 dialog[loading] {
     visibility: hidden;
 }
+
+dialog .menu-btns button {
+    width: 100%;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
     dialog[open] {
-        animation: var(--animation-slide-in-up) forwards 0.3s;
+        animation: var(--animation-slide-in-up) forwards 0.5s;
     }
 }
 dialog > form {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    /*grid-template-rows: auto 1fr auto;*/
     align-items: start;
     max-block-size: 80vh;
 }

@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -86,7 +83,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             appUser.setUserRoles(Set.of(userRole));
             appUser.setProvider(Provider.GOOGLE);
             appUser.setAttributes(user.getAttributes()); //to the user at the top of this method
-            appUser.setUsername(email);
+            appUser.setUsername(generateUsername(email));
             appUser.setDateCreated(LocalDateTime.now());
 
             UserDetails userDetails = new UserDetails();
@@ -100,5 +97,21 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             appUserOptional.get().setEnabled(true);
         }
         return appUserOptional.get();
+    }
+
+    private String generateUsername(String email) {
+        String username = email;
+        if (username.contains("@")) {
+            username = username.substring(0, username.indexOf("@"));
+        }
+        username = username.replaceAll("[^a-zA-Z0-9]", "");
+        username = username.substring(0, Math.min(username.length(), 20));
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            username = "user-" + UUID.randomUUID().toString().substring(0, 5);
+        }
+
+        return username;
     }
 }
