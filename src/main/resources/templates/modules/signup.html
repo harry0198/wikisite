@@ -1,0 +1,13 @@
+<th:block th:fragment="signup">
+  <dialog class="nav_modal" id="signUpDialog" inert loading modal-mode="mega">
+    <h2>Sign Up in one click.</h2>
+    <h4>Sign up to make posts, customize your profile and leave feedback.</h4>
+    <div class="login-signup-options">
+      <a th:href="@{/oauth2/authorization/google}" class="login-btn login-google-btn">Sign up with Google</a>
+      <a th:href="@{/oauth2/authorization/facebook}" class="login-btn login-facebook-btn">Sign up with Facebook</a>
+      <p class="login-options-footer">Already have an account? <button class="minor-custom" onclick="this.closest('dialog').close('close');window.signInDialog.showModal()">Sign In</button></p>
+    </div>
+    <p class="small-print">By clicking "Sign up" you agree to Brand <a th:href="@{/tos}">Terms of Service</a> and acknowledge that Brand's <a th:href="privacy">Privacy Policy</a> applies to you.</p>
+    <button onclick="this.closest('dialog').close('close')" type="button" title="Close sign up menu"><i class="fa-solid fa-xmark close-btn"></i></button>
+  </dialog>
+</th:block>

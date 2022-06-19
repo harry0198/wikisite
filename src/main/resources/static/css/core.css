@@ -198,13 +198,14 @@ a.secondary-btn {
 }
 
 .small-print a {
-    color: #f45a2a;
+    color: var(--highlight-color);
+    opacity: 0.9;
     transition: 0.1s all ease;
     text-decoration: underline;
 }
 
 .small-print a:hover {
-    color: #eb3c06;
+    opacity: 1;
 }
 
 
@@ -420,6 +421,7 @@ mark.low.blue {
     align-items: center;
     gap: 0.5rem;
 }
+
 
 .nav_modal .close-btn {
     position: absolute;

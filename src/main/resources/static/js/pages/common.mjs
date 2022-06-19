@@ -1,4 +1,4 @@
-import {applyModalEventHandlers} from "../modules/modal.mjs";
+
 import {initializeUtilities} from "../modules/util.mjs";
 import {enableNavbarFunctionality} from "../modules/navbar.mjs";
 import {enableImageFallbackFunctionality} from "../modules/image-error.mjs";
@@ -7,7 +7,6 @@ import Dialog from "../modules/dialog.mjs"
 function init() {
 
     initializeUtilities()
-    applyModalEventHandlers()
     enableNavbarFunctionality()
     enableImageFallbackFunctionality()
     document.querySelectorAll('dialog[modal-mode="mega"]').forEach(dialog => {

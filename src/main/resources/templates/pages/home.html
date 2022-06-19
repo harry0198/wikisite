@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <title>Brand - Home</title>
-
+    <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
 
     <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
-    <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
     <script type="module" th:src="@{/js/pages/home.js}"></script>
 
 </head>
@@ -21,7 +20,7 @@
         <div class="home__sad_part">
             <h1 class="home__section_title">Showcase & discover exciting projects around the world.</h1>
             <p class="home__section_sub">Only 0.5% of people know how to code. Time to show off your skills and inspire others to join the top 0.5%</p>
-            <button th:if="${user == null}" onclick="window.signInDialog.showModal()" class="button-custom">Sign Up</button>
+            <button th:if="${user == null}" onclick="window.signUpDialog.showModal()" class="button-custom">Sign Up</button>
         </div>
         <div class="home__sad_img">
             <img th:src="@{images/characterz-people.png}"/>

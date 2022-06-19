@@ -1,5 +1,6 @@
 <th:block th:fragment="generic">
     <script type="module" th:src="@{/js/theme-toggle.js}"></script>
+
     <meta name="robots" th:content="${index} ? all : noindex">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,8 @@
 
     <meta property="og:site_name" content="Branding - Title" />
     <link rel="icon" th:href="@{/images/icons/site-icon.png}">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <!-- FONTS & ICONS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

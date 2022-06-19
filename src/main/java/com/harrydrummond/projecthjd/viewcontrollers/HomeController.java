@@ -138,4 +138,18 @@ public class HomeController {
         return "pages/dev";
     }
 
+    @GetMapping("/signup")
+    public String signUp(@AuthenticationPrincipal User user, Model model) {
+        getHome(user, model);
+
+        return "/pages/signup";
+    }
+
+    @GetMapping("/signin")
+    public String signIn(@AuthenticationPrincipal User user, Model model) {
+        getHome(user, model);
+
+        return "/pages/signin";
+    }
+
 }

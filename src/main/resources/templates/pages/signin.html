@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Brand - Home</title>
+
+
+    <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
+    <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
+    <script type="module" th:src="@{/js/pages/home.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let signUpModal = document.getElementById('signInDialog');
+            signUpModal.showModal();
+        })
+    </script>
+</head>
+<body th:replace="pages/home.html :: body">
+</body>
+</html>

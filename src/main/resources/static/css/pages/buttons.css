@@ -263,7 +263,7 @@
     animation: button-loading-spinner 1s ease infinite;
 }
 
-.minor-button, .minor-destructive {
+.minor-button, .minor-destructive, .minor-custom {
     opacity: 0.8;
     transition: opacity 0.2s ease;
 }

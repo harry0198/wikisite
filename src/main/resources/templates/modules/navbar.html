@@ -26,8 +26,10 @@
         </div>
 
         <div th:if="${user == null}">
-            <button onclick="window.signInDialog.showModal()" class="button button-custom">Sign In</button>
-            <th:block th:replace="modules/login :: login(closeable=true)"></th:block>
+            <button onclick="window.signInDialog.showModal()" class="minor-custom mobile-hide">Sign In</button>
+            <button onclick="window.signUpDialog.showModal()" class="button button-custom">Sign Up</button>
+            <th:block th:replace="modules/signin :: login"></th:block>
+            <th:block th:replace="modules/signup :: signup"></th:block>
         </div>
         <div th:unless="${user == null}">
             <button id="accountDropdownMenu" class="account-pfp profile-btn" tabindex="0"><img class="account-pfp" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture"></button>
@@ -42,10 +44,13 @@
                     <li class="nav-profile-icon-item nav-profile-important"><a th:href="@{/post/new}"><i class="fa fa-square-plus"></i>New Post</a></li>
                     <hr>
                     <li><a th:href="@{/account}" class="selectable">Account Settings</a></li>
-                    <li><a th:href="@{/logout}" class="selectable">Sign Out</a></li>
+                    <li><a href="#" onclick="document.getElementById('logout-form').submit();" class="selectable">Sign Out</a></li>
                     <hr>
                     <li><button class="button pagestyle">Switch Theme</button></li>
                 </ul>
+                <form id="logout-form" th:action="@{/logout}" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
             </div>
         </div>
     </div>

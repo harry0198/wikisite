@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <title>Branding - Explore</title>
-  <meta name=“description” content="Explore the content on ETC ETC TODO" />
+  <link rel="stylesheet" th:href="@{/css/pages/parents/explore.css}">
+  <meta name=“description” content="Explore content posted on TheDevBlog by various users. Get inspired from lots of creations!" />
 
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <div th:replace="fragments/head-fragment :: analytics"></div>
 
-  <!-- More CSS -->
-  <link rel="stylesheet" th:href="@{/css/pages/parents/explore.css}">
   <script type="module" th:src="@{/js/pages/explore.js}"></script>
 </head>
 <body>

@@ -5,8 +5,6 @@
 
     <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta name="id" th:content="${user.getId()}"/>
 
     <link rel="stylesheet" th:href="@{/css/pages/parents/dashboard.css}">
