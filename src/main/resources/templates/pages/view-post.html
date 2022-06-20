@@ -43,7 +43,7 @@
       </section>
 
       <aside class="aside">
-        <div class="group close start">
+        <div class="group close start no-media">
           <img class="author-pfp account-pfp" th:src="@{/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
           <div class="group close start vertical no-gap">
             <p>
@@ -63,7 +63,7 @@
         <div class="feedback">
           <h3 class="feedback-collapse" th:if="${post.getComments().size() > 0}">Feedback</h3>
           <th:block th:each="feedback : ${post.getComments()}">
-            <div class="group close start">
+            <div class="group close start no-media">
               <img class="comment-pfp account-pfp" th:src="@{/} + ${feedback.getUser().getUserDetails().getProfilePicturePath()}">
               <div>
                 <div>
@@ -86,7 +86,7 @@
             <button><i class="fa-solid fa-eye"></i> <span th:text="${post.getViews()}"></span></button>
             <button id="share-btn"><i class="fa-solid fa-share"></i></button>
           </div>
-          <div class="group close feedback-container">
+          <div class="group close feedback-container no-media">
             <img class="author-pfp account-pfp" th:unless="${user == null}" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
             <img class="author-pfp account-pfp" th:if="${user == null}" th:src="@{/images/default-pfp.png}" alt="Default Profile Picture">
             <form id="post-feedback-form" class="fake-form">

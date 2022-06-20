@@ -7,13 +7,11 @@ function isFileFormatImage(name) {
         case 'jpeg':
             return true;
         default:
-            this.value = '';
             return false;
     }
 }
 function isFileSizeSensible(file, maxFileSizeMb) {
     if(file.size > (1048576 * maxFileSizeMb)){
-        this.value = "";
         return false;
     }
     return true;

@@ -160,17 +160,5 @@ public class HomeController {
         return "/pages/signin";
     }
 
-    @GetMapping("/tos")
-    public String tos(Model model) {
-        return "/pages/site-info/tos";
-    }
-    @GetMapping("/disclaimer")
-    public String disclaimer(Model model) {
-        return "/pages/site-info/disclaimer";
-    }
-    @GetMapping("/privacy")
-    public String privacy(Model model) {
-        return "/pages/site-info/privacy";
-    }
 
 }

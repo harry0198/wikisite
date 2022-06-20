@@ -32,23 +32,23 @@
             <div class="carousel-item">
                 <label for='imageUpload' class="generic-title">Add a photo or video</label>
                 <div class="image-upload-box-wrapper">
-                    <image id="profileImageUpload" th:src="@{/images/photos.png}"></image>
+                    <image id="upload" class="card__image" th:src="@{/images/photos.png}"></image>
                     <div class="file-container">
                         <label for='imageUpload' class="form-input dragndrop fake-container">
                             <i class="fa-regular fa-square-plus"></i> Drag and drop or click to <span class="browse-text">browse</span>
                         </label>
-                        <input class="file-input no-submit enter-next image-input" accept="image/*" id="imageUpload" type="file" name="image" capture="">
+                        <input class="file-input no-submit enter-next image-input" accept="image/*" id="imageUpload" type="file" name="image" capture="" required>
                     </div>
                 </div>
             </div>
 
             <div class="carousel-item">
                 <label for='description' class="generic-title">Write a detailed description.</label>
-                <textarea id="description" type="text" class="form-input description-input" name="description" placeholder="This project is..." maxlength="2500"></textarea>
+                <textarea id="description" type="text" class="form-input description-input" name="description" placeholder="This project is..." maxlength="2500" required></textarea>
 <!--                <p class="small-print text-align-right">Max 2000 characters</p>-->
             </div>
             <div class="carousel-item ">
-                <p class="generic-title">All done?</p>
+                <p class="generic-title">All done? To post, ensure all fields are fully filled.</p>
                 <button class="button" type="submit">Create Post</button>
             </div>
 

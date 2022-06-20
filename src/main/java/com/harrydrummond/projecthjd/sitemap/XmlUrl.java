@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @XmlAccessorType(value = XmlAccessType.NONE)
@@ -39,10 +41,11 @@ public class XmlUrl {
     public XmlUrl() {
     }
 
-    public XmlUrl(String loc, Priority priority, Date date) {
+    public XmlUrl(String loc, Priority priority, LocalDateTime date) {
         this.loc = loc;
         this.priority = priority.getValue();
-        this.lastmod = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.lastmod = date.format(formatter);
     }
 
     public String getLoc() {

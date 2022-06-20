@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Server Error - TheDevBlog</title>
+
+    <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
+    <link rel="stylesheet" th:href="@{/css/pages/parents/404.css}">
+    <meta name=“description” content="Page not found" />
+
+    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+    <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
+    <script type="module" th:src="@{/js/pages/explore.js}"></script>
+</head>
+<body>
+
+<div th:replace="modules/navbar.html"></div>
+
+<main>
+    <section class="stage">
+        <div class="group vertical">
+            <h1>Sorry! This isn't supposed to happen!</h1>
+            <p>We've encountered an issue on our end. Don't worry! We've logged it and are working on it now!</p>
+            <a th:href="@{/home}" class="button-custom">Go Home</a>
+        </div>
+    </section>
+</main>
+
+<th:block th:replace="modules/footer.html"></th:block>
+</body>
+</html>

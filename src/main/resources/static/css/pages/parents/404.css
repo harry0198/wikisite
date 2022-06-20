@@ -1,0 +1,12 @@
+@import url("../../core.css");
+@import url("../../modules.css");
+
+.stage {
+    margin: 10rem auto auto;
+
+    height: 100vh;
+}
+.stage * {
+    text-align: center;
+    margin: auto;
+}

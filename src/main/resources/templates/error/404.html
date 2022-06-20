@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Page not found - TheDevBlog</title>
+
+    <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
+    <link rel="stylesheet" th:href="@{/css/pages/parents/404.css}">
+    <meta name=“description” content="Page not found" />
+
+    <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+    <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
+    <script type="module" th:src="@{/js/pages/explore.js}"></script>
+</head>
+<body>
+
+<div th:replace="modules/navbar.html"></div>
+
+<main>
+    <section class="stage">
+        <div class="group vertical">
+            <h1>This page cannot be found!</h1>
+            <p>Please ensure the URL is correct and then continue. Otherwise we have lots to find on our explore page</p>
+            <a th:href="@{/explore}" class="button-custom">Explore</a>
+        </div>
+    </section>
+</main>
+
+<th:block th:replace="modules/footer.html"></th:block>
+</body>
+</html>

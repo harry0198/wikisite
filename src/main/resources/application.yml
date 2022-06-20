@@ -3,8 +3,8 @@ spring:
     console.enabled: true
   servlet:
     multipart:
-      max-file-size: 500KB
-      max-request-size: 500KB
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
