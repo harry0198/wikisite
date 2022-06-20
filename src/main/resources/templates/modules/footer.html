@@ -1,6 +1,6 @@
 <footer class="site-footer">
     <div>
-        <p>Branding. image?</p>
+        <p><i class="fas fa-code logo-icon"></i> TheDevBlog</p>
         <p>&copy; 2022</p>
     </div>
     <div>
@@ -15,9 +15,11 @@
     <div>
         <h5>Site</h5>
         <ul>
-            <li><a href="" class="selectable">Sitemap</a></li>
-            <li><a href="" class="selectable">Privacy Policy</a></li>
-            <li><a href="" class="selectable">Manage Cookies</a></li>
+            <li><a th:href="@{/sitemap}" class="selectable">Sitemap</a></li>
+            <li><a th:href="@{/privacy}" class="selectable">Privacy Policy</a></li>
+            <li><a th:href="@{/cookies}" class="selectable">Cookies</a></li>
+            <li><a th:href="@{/tos}" class="selectable">Terms of Service</a></li>
+            <li><a th:href="@{/disclaimer}" class="selectable">Disclaimer</a></li>
             <hr/>
             <li><button class="button pagestyle">Switch Theme</button></li>
         </ul>

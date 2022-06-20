@@ -1,8 +1,8 @@
 package com.harrydrummond.projecthjd.user;
 
 
+import com.harrydrummond.projecthjd.posts.Post;
 import com.harrydrummond.projecthjd.user.details.UserDetails;
-import com.harrydrummond.projecthjd.user.likes.UserLikes;
 import com.harrydrummond.projecthjd.user.preferences.Preference;
 import com.harrydrummond.projecthjd.user.preferences.Preferences;
 import com.harrydrummond.projecthjd.user.roles.Role;
@@ -26,7 +26,6 @@ import java.util.*;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "app_user")
@@ -55,8 +54,12 @@ public class User implements OAuth2User, Serializable {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
-    @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserLikes> likes = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "post_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private Set<Post> likedPosts = new HashSet<>();
 
     @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserSaves> saves = new HashSet<>();
@@ -88,7 +91,7 @@ public class User implements OAuth2User, Serializable {
         this.enabled = user.enabled;
         this.dateCreated = user.dateCreated;
         this.provider = user.provider;
-        this.likes = user.likes;
+        this.likedPosts = user.likedPosts;
         this.saves = user.saves;
         this.userDetails = user.userDetails;
         this.userPreferences = user.userPreferences;
@@ -108,22 +111,6 @@ public class User implements OAuth2User, Serializable {
 
     public String getName() {
         return username;
-    }
-
-    public void addLike(UserLikes userLikes) {
-        likes.add(userLikes);
-    }
-
-    public void removeLike(UserLikes userLikes) {
-        likes.remove(userLikes);
-    }
-
-    public boolean isLiked(long articleId) {
-        for (UserLikes save : likes) {
-            long article = save.getPost().getId();
-            if (article == articleId) return true;
-        }
-        return false;
     }
 
     public void addSave(UserSaves userSaves) {

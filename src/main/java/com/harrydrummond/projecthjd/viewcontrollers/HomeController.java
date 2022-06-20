@@ -126,8 +126,16 @@ public class HomeController {
             return "pages/explore";
         }
 
+        post.get().incViews();
+        postService.savePost(post.get());
+
         model.addAttribute("user", user);
         model.addAttribute("post", post.get());
+//        if (user != null) {
+//            model.addAttribute("liked", false);
+//        } else {
+//            model.addAttribute("liked", false);
+//        }
         model.addAttribute("morePosts", postSearchService.findPopularThisMonth(1,3));
         return "pages/view-post";
     }
@@ -150,6 +158,19 @@ public class HomeController {
         getHome(user, model);
 
         return "/pages/signin";
+    }
+
+    @GetMapping("/tos")
+    public String tos(Model model) {
+        return "/pages/site-info/tos";
+    }
+    @GetMapping("/disclaimer")
+    public String disclaimer(Model model) {
+        return "/pages/site-info/disclaimer";
+    }
+    @GetMapping("/privacy")
+    public String privacy(Model model) {
+        return "/pages/site-info/privacy";
     }
 
 }

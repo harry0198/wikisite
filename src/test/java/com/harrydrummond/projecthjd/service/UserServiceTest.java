@@ -1,7 +1,6 @@
 package com.harrydrummond.projecthjd.service;
 
 import com.harrydrummond.projecthjd.user.*;
-import com.harrydrummond.projecthjd.user.likes.UserLikes;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import com.harrydrummond.projecthjd.user.saves.UserSaves;
@@ -93,50 +92,50 @@ class UserServiceTest {
         assertThat(employeeList.size()).isEqualTo(2);
     }
 
-    @Test
-    public void testUpdateUser() {
-        // given - precondition or setup
-        given(userRepository.save(user)).willReturn(user);
-
-        LocalDateTime ldt = LocalDateTime.now();
-
-        Set<UserLikes> userLikesSet = new HashSet<>();
-        UserLikes ul = new UserLikes();
-        ul.setUser(user);
-        ul.setPost(null);
-        userLikesSet.add(ul);
-
-        Set<UserSaves> userSavesSet = new HashSet<>();
-        UserSaves us = new UserSaves();
-        us.setUser(user);
-        us.setPost(null);
-        userSavesSet.add(us);
-
-        Set<UserRole> roles = Set.of(new UserRole(Role.ADMIN));
-
-        user.setEmail("ram@gmail.com");
-        user.setUsername("Ram");
-        user.setUserRoles(roles);
-        user.setProvider(Provider.GOOGLE);
-        user.setDateCreated(ldt);
-        user.setEnabled(true);
-        user.setLocked(true);
-        user.setLikes(userLikesSet);
-        user.setSaves(userSavesSet);
-        // when -  action or the behaviour that we are going test
-        User updatedUser = userService.updateUser(user);
-
-        // then - verify the output
-        assertThat(updatedUser.getEmail()).isEqualTo("ram@gmail.com");
-        assertThat(updatedUser.getUsername()).isEqualTo("Ram");
-        assertThat(updatedUser.getUserRoles()).isEqualTo(roles);
-        assertThat(updatedUser.getProvider()).isEqualTo(Provider.GOOGLE);
-        assertThat(updatedUser.getDateCreated()).isEqualTo(ldt);
-        assertTrue(updatedUser.getEnabled());
-        assertTrue(updatedUser.getLocked());
-        assertThat(updatedUser.getSaves()).isEqualTo(userSavesSet);
-        assertThat(updatedUser.getLikes()).isEqualTo(userLikesSet);
-    }
+//    @Test
+//    public void testUpdateUser() {
+//        // given - precondition or setup
+//        given(userRepository.save(user)).willReturn(user);
+//
+//        LocalDateTime ldt = LocalDateTime.now();
+//
+//        Set<UserLikes> userLikesSet = new HashSet<>();
+//        UserLikes ul = new UserLikes();
+//        ul.setUser(user);
+//        ul.setPost(null);
+//        userLikesSet.add(ul);
+//
+//        Set<UserSaves> userSavesSet = new HashSet<>();
+//        UserSaves us = new UserSaves();
+//        us.setUser(user);
+//        us.setPost(null);
+//        userSavesSet.add(us);
+//
+//        Set<UserRole> roles = Set.of(new UserRole(Role.ADMIN));
+//
+//        user.setEmail("ram@gmail.com");
+//        user.setUsername("Ram");
+//        user.setUserRoles(roles);
+//        user.setProvider(Provider.GOOGLE);
+//        user.setDateCreated(ldt);
+//        user.setEnabled(true);
+//        user.setLocked(true);
+//        user.setLikes(userLikesSet);
+//        user.setSaves(userSavesSet);
+//        // when -  action or the behaviour that we are going test
+//        User updatedUser = userService.updateUser(user);
+//
+//        // then - verify the output
+//        assertThat(updatedUser.getEmail()).isEqualTo("ram@gmail.com");
+//        assertThat(updatedUser.getUsername()).isEqualTo("Ram");
+//        assertThat(updatedUser.getUserRoles()).isEqualTo(roles);
+//        assertThat(updatedUser.getProvider()).isEqualTo(Provider.GOOGLE);
+//        assertThat(updatedUser.getDateCreated()).isEqualTo(ldt);
+//        assertTrue(updatedUser.getEnabled());
+//        assertTrue(updatedUser.getLocked());
+//        assertThat(updatedUser.getSaves()).isEqualTo(userSavesSet);
+//        assertThat(updatedUser.getLikes()).isEqualTo(userLikesSet);
+//    }
 
     @Test
     public void testDeleteUser() {

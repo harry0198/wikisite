@@ -16,9 +16,9 @@
 
 .search__input_form .search__field {
     width: 100%;
-    border-radius: 5px;
-    border: 1px solid rgba(0,0,0,0.25);
-    background-color: white;
+    border-radius: var(--border-rd-1);
+    border: var(--border-color) 5px solid;
+    background-color: var(--surface-1);
     height: 4rem;
     padding: 1rem 1rem 1rem 3.5rem;
     font-size: 1.5rem;
@@ -28,4 +28,11 @@
     position: absolute;
     left: 1rem;
     font-size: 1.5rem;
+}
+.search__btn > * {
+    color: var(--text-color-2);
+}
+
+.sec {
+    background-color: var(--surface-2);
 }

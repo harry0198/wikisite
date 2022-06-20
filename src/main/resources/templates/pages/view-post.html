@@ -3,11 +3,13 @@
 <head>
   <title>Brand - View Post</title>
 
+  <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
   <link rel="stylesheet" th:href="@{/css/pages/parents/view-post.css}">
   <meta name="_post_id" th:content="${post.getId()}"/>
 
+
+  <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
   <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
-  <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
   <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
   <script type="module" th:src="@{/js/pages/view-post.js}"></script>
@@ -17,11 +19,11 @@
 
   <main>
     <article class="post-area">
-      <section class="media-container">
+      <section class="media-container" th:fragment="area">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
           <div class="carousel-inner">
             <div class="carousel-item active image">
-              <img th:src="@{/} + ${post.getMainImagePath()}" alt="Provided Image">
+              <img th:src="@{/} + ${post.getMainImagePath()}" class="card__image" alt="Provided Image">
             </div>
           </div>
           <button class="carousel-btn button left" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -35,7 +37,7 @@
         </div>
         <div class="indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3">
-            <img th:src="@{/} + ${post.getMainImagePath()}" alt="Provided Image">
+            <img th:src="@{/} + ${post.getMainImagePath()}" class="card__image" alt="Provided Image">
           </button>
         </div>
       </section>
@@ -47,7 +49,7 @@
             <p>
               <span th:text="${post.getPoster().getUsername()}" rel="author" class="author">Harry Drummond</span><span class="lite">Lite</span>
             </p>
-            <a class="profile-link user-link" th:text="${post.getPoster().getUserDetails().getLink()}"></a>
+            <a class="profile-link user-link" th:text="${post.getPoster().getUserDetails().getLink() == null ? post.getFormattedDate() : post.getPoster().getUserDetails().getLink()}"></a>
           </div>
         </div>
         <p class="post-desc" th:text="${post.getDescription()}">Post desc</p>
@@ -59,7 +61,7 @@
         </th:block>
 
         <div class="feedback">
-          <h3 class="feedback-collapse">Feedback</h3>
+          <h3 class="feedback-collapse" th:if="${post.getComments().size() > 0}">Feedback</h3>
           <th:block th:each="feedback : ${post.getComments()}">
             <div class="group close start">
               <img class="comment-pfp account-pfp" th:src="@{/} + ${feedback.getUser().getUserDetails().getProfilePicturePath()}">
@@ -80,9 +82,9 @@
 
         <div class="actions-container">
           <div class="post-actions">
-            <button><i class="fa-solid fa-heart"></i> <span>10</span></button>
-            <button><i class="fa-solid fa-bookmark"></i></button>
-            <button><i class="fa-solid fa-share"></i></button>
+<!--            <button id="like-btn" th:attr="data-use=${user == null ? 'false' : 'true'}, data-liked=${liked}"><i class="fa-solid fa-heart"></i> <span th:text="${post.getLikes().size()}">10</span></button>-->
+            <button><i class="fa-solid fa-eye"></i> <span th:text="${post.getViews()}"></span></button>
+            <button id="share-btn"><i class="fa-solid fa-share"></i></button>
           </div>
           <div class="group close feedback-container">
             <img class="author-pfp account-pfp" th:unless="${user == null}" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">

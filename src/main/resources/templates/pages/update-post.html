@@ -4,12 +4,14 @@
   <title>Update Post - TheDevBlog</title>
   <meta name=“description” content="Update post" />
 
-  <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
+  <link rel="stylesheet" th:href="@{/css/pages/parents/create-post.css}">
   <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
+
+
+  <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
+  <th:block th:replace="fragments/head-fragment :: bootstrap-js"></th:block>
   <div th:replace="fragments/head-fragment :: analytics"></div>
 
-  <!-- More CSS -->
-  <link rel="stylesheet" th:href="@{/css/pages/parents/create-post.css}">
   <script type="module" th:src="@{/js/pages/create-post.js}"></script>
 </head>
 <body>
@@ -67,7 +69,7 @@
     <th:block th:replace="modules/post-card :: post-card(post=${post})"></th:block>
   </div>
   <div class="form-panel no-pointer-events">
-    <th:block th:replace="modules/main-post :: main(post=${post})"></th:block>
+    <th:block th:replace="pages/view-post.html :: area"></th:block>
   </div>
 </section>
 <th:block th:replace="modules/footer.html"></th:block>

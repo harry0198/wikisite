@@ -7,7 +7,6 @@
                 <a th:href="@{/oauth2/authorization/facebook}" class="login-btn login-facebook-btn">Sign in with Facebook</a>
                 <p class="login-options-footer">Don't have an account? <button class="minor-custom" onclick="this.closest('dialog').close('close');window.signUpDialog.showModal();">Sign Up</button></p>
             </div>
-            <p class="small-print">By clicking "Sign in" you agree to Brand <a th:href="@{/tos}">Terms of Service</a> and acknowledge that Brand's <a th:href="privacy">Privacy Policy</a> applies to you.</p>
-            <button onclick="this.closest('dialog').close('close')" type="button" title="Close sign in / sign up menu"><i class="fa-solid fa-xmark close-btn"></i></button>
+            <p class="small-print">By clicking "Sign up" you agree to TheDevBlog's <a th:href="@{/tos}">Terms of Service</a>, are over 18 years of age, are a UK or EU user and acknowledge that TheDevBlog's <a th:href="@{/privacy}">Privacy Policy</a> applies to you.</p>            <button onclick="this.closest('dialog').close('close')" type="button" title="Close sign in / sign up menu"><i class="fa-solid fa-xmark close-btn"></i></button>
         </dialog>
 </th:block>

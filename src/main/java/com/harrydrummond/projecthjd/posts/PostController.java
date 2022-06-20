@@ -35,6 +35,8 @@ public class PostController {
 
     private final CommentService commentService;
     private final PostService postService;
+    private final PostRepository postRepository;
+
     private final UserService userService;
     private final ImageService imageService;
 
@@ -187,6 +189,51 @@ public class PostController {
 
 
     }
+
+//    @PostMapping("/api/post/{uid}/like")
+//    public ResponseEntity<Object> likePost(@AuthenticationPrincipal User user, @PathVariable int uid) {
+//        if (user == null) {
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//        Optional<Post> postOptional = postService.getPostById(uid);
+//        if (postOptional.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        Post post = postOptional.get();
+//
+//        Optional<Post> hasLiked = postRepository.findByLikes_Id(user.getId());
+//        if (hasLiked.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//        }
+//
+//        user.getLikedPosts().add(post);
+//        userService.updateUser(user);
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+//
+//    @DeleteMapping("/api/post/{uid}/like")
+//    public ResponseEntity<Object> unlikePost(@AuthenticationPrincipal User user, @PathVariable int uid) {
+//        if (user == null) {
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//        Optional<Post> postOptional = postService.getPostById(uid);
+//        if (postOptional.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        Post post = postOptional.get();
+//
+//        Optional<Post> hasLiked = postRepository.findByLikes_Id(user.getId());
+//        if (hasLiked.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//        }
+//
+//        user.getLikedPosts().remove(post);
+//        System.out.println(user.getLikedPosts());
+//        userService.updateUser(user);
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @PatchMapping("/api/post/{uid}/comment/{commentId}")
     public ResponseEntity<Void> updateComment(@PathVariable long uid, @AuthenticationPrincipal User user, @PathVariable int commentId, @RequestBody String commentStr) {

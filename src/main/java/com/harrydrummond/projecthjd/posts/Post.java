@@ -3,7 +3,6 @@ package com.harrydrummond.projecthjd.posts;
 import com.harrydrummond.projecthjd.posts.comment.Comment;
 import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.user.User;
-import com.harrydrummond.projecthjd.user.likes.UserLikes;
 import com.harrydrummond.projecthjd.user.saves.UserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -54,8 +52,8 @@ public class Post {
     @Column(name = "posted_at", nullable = false)
     private LocalDateTime datePosted;
 
-    @OneToMany(mappedBy = "user")
-    private Set<UserLikes> likes = new HashSet<>();
+    @ManyToMany(mappedBy = "likedPosts")
+    private Set<User> likes = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private Set<UserSaves> saves = new HashSet<>();
@@ -84,5 +82,9 @@ public class Post {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return datePosted != null ? datePosted.format(formatter) : "00/00/0000";
 
+    }
+
+    public void incViews() {
+        views++;
     }
 }

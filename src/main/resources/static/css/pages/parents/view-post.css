@@ -140,8 +140,20 @@
     color: var(--text-color-2);
 }
 
+.post-actions button {
+    transition: transform 0.1s linear, color 0.2s ease;
+}
+
 .post-actions button:hover * {
     color: var(--highlight-color);
+}
+
+.post-actions button.active * {
+    color: var(--highlight-color) !important;
+}
+
+.post-actions button:active {
+    transform: translateY(2px);
 }
 
 

@@ -3,10 +3,13 @@
 <head>
     <title>Sign In - TheDevBlog</title>
 
+    <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
     <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
 
-    <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
+
+    <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

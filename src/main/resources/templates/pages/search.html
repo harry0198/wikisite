@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <title>Search - TheDevBlog</title>
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <link rel="stylesheet" th:href="@{/css/pages/imports/search-imports.css}">
 
-  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
   <script type="module" th:src="@{/js/pages/explore.js}"></script>
+  <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
 </head>
 <body>
 <div th:replace="modules/navbar.html"></div>
@@ -16,7 +17,7 @@
   <div class="search__with_dropdown">
     <form class="search__input_form" th:action="@{/search}" method="get" name="page-search">
       <input class="search__field" name="query" type="text" placeholder="Search..." maxlength="60"/>
-      <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
+      <button class="search__btn selectable" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
     </form>
 
   </div>
@@ -25,23 +26,11 @@
 
   <p th:if="${query == null}" class="results-sub">Find inspiring content from all over the world!</p>
   <p th:unless="${query == null}" th:text="${posts.getTotalHits() + ' result(s) found!'}" class="results-sub">Find inspiring content from all over the world!</p>
-
-
 </section>
 
-<section>
+<section class="sec">
   <div class="search-options">
     <div class="dropdown__menu">
-      <div class="dropdown__btn">
-        <button>Posts</button>
-        <i class="fa fa-chevron-down"></i>
-      </div>
-      <div class="list-box dropdown__options">
-        <ul class="list-box-list">
-          <li>Posts</li>
-          <li>People</li>
-        </ul>
-      </div>
     </div>
     <th:block th:replace="modules/pagination.html :: pages (${posts.calcTotalPages()}, ${posts.getPageNum()}, ${#httpServletRequest.requestURI} + ${uriForPageParams})"></th:block>
   </div>
@@ -63,18 +52,8 @@
   </div>
   <div class="search-options">
     <div class="dropdown__menu">
-      <div class="dropdown__btn">
-        <button>Posts</button>
-        <i class="fa fa-chevron-down"></i>
-      </div>
-      <div class="list-box dropdown__options">
-        <ul class="list-box-list">
-          <li>Posts</li>
-          <li>People</li>
-        </ul>
-      </div>
     </div>
-    <th:block th:replace="modules/pagination.html :: pages (${posts.calcTotalPages()}, ${page}, ${#httpServletRequest.requestURI} + ${uriForPageParams})"></th:block>
+    <th:block th:replace="modules/pagination.html :: pages (${posts.calcTotalPages()}, ${posts.getPageNum()}, ${#httpServletRequest.requestURI} + ${uriForPageParams})"></th:block>
   </div>
 </section>
 

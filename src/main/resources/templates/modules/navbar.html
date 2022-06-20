@@ -4,6 +4,7 @@
     <i class="fas fa-xmark desktop-hide left-panel nav-menu-btn" id="nav-close-btn"></i>
     <div class="site-nav-links">
         <a class="site-branding selectable selected" th:href="@{/}"><i class="fas fa-code logo-icon"></i>Branding.</a>
+        <a class="mobile-hide selectable" th:href="@{/}">Home</a>
         <a class="mobile-hide selectable" th:href="@{/explore}">Explore</a>
         <a class="mobile-hide selectable" data-modal-target="#modal-contact-form">Contact</a>
     </div>
@@ -14,6 +15,7 @@
                 <button class="search__btn" type="submit"><i class="fa fa-magnifying-glass search-btn-icon"></i></button>
             </form>
         </div>
+        <a class="hide selectable" th:href="@{/}">Home</a>
         <a class="hide selectable" th:href="@{/explore}">Explore</a>
         <a class="hide selectable" data-modal-target="#modal-contact-form">Contact</a>
     </div>
@@ -32,7 +34,7 @@
             <th:block th:replace="modules/signup :: signup"></th:block>
         </div>
         <div th:unless="${user == null}">
-            <button id="accountDropdownMenu" class="account-pfp profile-btn" tabindex="0"><img class="account-pfp" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture"></button>
+            <button id="accountDropdownMenu" class=" profile-btn" tabindex="0"><img class="account-pfp" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture"></button>
             <div class="list-box profile-list" id="profile-nav" aria-labelledby="accountDropdownMenu">
                 <h4 class="list-box-heading">Profile</h4>
                 <hr>

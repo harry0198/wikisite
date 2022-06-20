@@ -144,8 +144,8 @@ This file is used on some/most pages and is required for module functionality
 
 .card__container {
     background-color: var(--surface-3);
-    border-radius: 5px;
-    border: 1px solid rgba(0,0,0,0.25);
+    border-radius: var(--border-rd-3);
+    border: 1px solid var(--border-color);
     overflow: hidden;
     position: relative;
 }

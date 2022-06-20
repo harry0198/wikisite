@@ -4,11 +4,12 @@
   <title>Notification Preferences - TheDevBlog</title>
   <meta name="id" th:content="${user.getId()}"/>
 
+  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <link rel="stylesheet" th:href="@{/css/pages/parents/dashboard.css}">
 
-  <th:block th:replace="fragments/head-fragment :: generic(index=false)"></th:block>
   <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
+  <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
   <script type="module" th:src="@{/js/pages/dashboard.js}"></script>
 </head>
 <body>
@@ -57,6 +58,7 @@
 
   </section>
 </main>
+<th:block th:replace="modules/footer.html"></th:block>
 
 </body>
 </html>

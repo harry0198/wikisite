@@ -28,6 +28,7 @@ function initSafeLinks() {
 }
 
 function handleFeedback() {
+    const postId = document.querySelector('meta[name="_post_id"]').content;
 
     let form = document.getElementById('post-feedback-form');
     form.onsubmit = (e) => {
@@ -94,27 +95,76 @@ function handleFeedback() {
 
     let deletePostBtn = document.getElementById('delete-post-btn');
     let deletePostConfirm = document.getElementById('DeletePostConfirmation');
-    deletePostBtn.onclick = () => {
-        deletePostConfirm.showModal();
-        deletePostConfirm.addEventListener('closing',({target:dialog}) => {
-            const postId = document.querySelector('meta[name="_post_id"]').content;
+    if (deletePostBtn != null) {
+        deletePostBtn.onclick = () => {
+            deletePostConfirm.showModal();
+            deletePostConfirm.addEventListener('closing', ({target: dialog}) => {
 
-            if (dialog.returnValue === 'confirm') {
+                if (dialog.returnValue === 'confirm') {
+                    const cb = function (status) {
+                        if (status.status === 200) {
+                            window.location.href = BASE_URL;
+                        } else if (status.status === 401) {
+                            Toast("You are not authorized to do this", "fa-circle-exclamation");
+                        } else {
+                            Toast("Error: " + status.status + " Please try again later.", "fa-circle-exclamation");
+                        }
+                    }
+
+                    deleteData("/api/post/" + postId, cb, "");
+                }
+            }, {once: true});
+        }
+    }
+
+    let shareBtn = document.getElementById('share-btn');
+    shareBtn.onclick = () => {
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(window.location.href).then(r => {
+            Toast("Copied URL to clipboard", "da-circle-check");
+        });
+    }
+
+    let likeBtn = document.getElementById('like-btn');
+    likeBtn.onclick = () => {
+        if (likeBtn.getAttribute('data-use') === "true") {
+            if (likeBtn.getAttribute('data-liked') === 'true') {
                 const cb = function (status) {
                     if (status.status === 200) {
-                        window.location.href=BASE_URL;
+                        likeBtn.classList.remove('active');
+                        likeBtn.setAttribute('data-liked', "false");
+                        Toast("Unliked Post", "fa-circle-check")
                     } else if (status.status === 401) {
                         Toast("You are not authorized to do this", "fa-circle-exclamation");
                     } else {
-                        Toast("Error: "+status.status+" Please try again later.", "fa-circle-exclamation");
+                        Toast("Error: " + status.status + " Please try again later.", "fa-circle-exclamation");
                     }
                 }
 
-                deleteData("/api/post/"+postId, cb, "");
+                deleteData("/api/post/" + postId + "/like", cb, "");
+            } else {
+                const cb = function (status) {
+                    if (status.status === 200) {
+                        likeBtn.classList.add('active');
+                        likeBtn.setAttribute('data-liked', "true");
+                        Toast("Liked Post", "fa-circle-check")
+                    } else if (status.status === 401) {
+                        Toast("You are not authorized to do this", "fa-circle-exclamation");
+                    } else {
+                        Toast("Error: " + status.status + " Please try again later.", "fa-circle-exclamation");
+                    }
+                }
+
+                postData("/api/post/" + postId + "/like", cb, "");
+
             }
-        }, {once: true});
+        } else {
+            window.signInDialog.showModal()
+        }
     }
+
 }
+
 
 function saveComment(comment, id, cb) {
     const postId = document.querySelector('meta[name="_post_id"]').content;

@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -49,7 +52,9 @@ public class PostSearchService {
                 .where(f -> f.matchAll().except(f.range().field("datePosted").lessThan(LocalDateTime.now().minusMonths(1))))
                 .fetch(getPageOffset(pageNum, pageSize), pageSize);
 
-        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize, pageNum);
+        List<Post> copied = new ArrayList<>(result.hits());
+        Collections.reverse(copied);
+        return new Pagination<>(copied, result.total().hitCount(), pageSize, pageNum);
 
     }
 
@@ -65,7 +70,9 @@ public class PostSearchService {
                 .sort(f -> f.field("datePosted"))
                 .fetch(getPageOffset(pageNum, pageSize), pageSize);
 
-        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize, pageNum);
+        List<Post> copied = new ArrayList<>(result.hits());
+        Collections.reverse(copied);
+        return new Pagination<>(copied, result.total().hitCount(), pageSize, pageNum);
     }
 
     @Transactional
@@ -81,7 +88,9 @@ public class PostSearchService {
                 .sort(f -> f.field("views"))
                 .fetch(getPageOffset(pageNum, pageSize), pageSize);
 
-        return new Pagination<>(result.hits(), result.total().hitCount(), pageSize, pageNum);
+        List<Post> copied = new ArrayList<>(result.hits());
+        Collections.reverse(copied);
+        return new Pagination<>(copied, result.total().hitCount(), pageSize, pageNum);
     }
 
     private int getPageOffset(int pageNum, int pageSize) {

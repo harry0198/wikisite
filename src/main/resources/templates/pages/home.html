@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <title>Home - TheDevBlog</title>
+    <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
     <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
 
-    <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
+    <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
     <script type="module" th:src="@{/js/pages/home.js}"></script>
 
 </head>
@@ -33,13 +34,11 @@
             <h1 class="home__section_title">Show off your Projects 🥇</h1>
         </div>
         <div class="flex__layout">
-<!--            <th:block th:replace="modules/post-card.html"></th:block>-->
-<!--            <th:block th:replace="modules/post-card.html"></th:block>-->
-<!--            <th:block th:replace="modules/post-card.html"></th:block>-->
-<!--            <th:block th:replace="modules/post-card.html"></th:block>-->
+
         </div>
 
     </div>
+</section>
 <!--</section>-->
 <!--<section class="home__section" id="follow-creators">-->
 <!--    <div class="home__section_content">-->
