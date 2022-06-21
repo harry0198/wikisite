@@ -23,11 +23,11 @@ onLoad(() => {
         console.log(el.files[0].title)
         console.log(el.files[0].name)
         if (!isFileFormatImage(el.files[0].name)) {
-            Toast("Invalid file format (.jpg, .png)", "fa-circle-exclamation")
+            Toast("Invalid file format (.jpg, .jpeg, .png, .gif)", "fa-circle-exclamation")
             el.value = '';
             return;
         }
-        if (!isFileSizeSensible(el.files[0], 2)) {
+        if (!isFileSizeSensible(el.files[0], 10)) {
             Toast("Max file size reached! (10mb)", "fa-circle-exclamation")
             el.value = '';
             return;

@@ -35,7 +35,7 @@ public class Post {
     private String title;
 
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
     private Set<Image> images = new HashSet<>();
 
     @FullTextField

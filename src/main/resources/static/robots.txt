@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /find-new/
 Allow: /
 
-Sitemap: https://www.vesudatutorials.com/sitemap.xml
+Sitemap: https://www.thedevblog.co.uk/sitemap.xml

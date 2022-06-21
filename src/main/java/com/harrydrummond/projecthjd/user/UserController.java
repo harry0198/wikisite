@@ -121,8 +121,7 @@ public class UserController {
         Preferences preference = preferencesRepository.getByPreference(Preference.ACCOUNT_SUMMARY);
         updatePreference(user, preference, userDTO.isAccountSummary());
 
-        Preferences preference2 = preferencesRepository.getByPreference(Preference.PROMOTIONS);
-        updatePreference(user, preference2, userDTO.isPromotions());
+
 
         Preferences preference3 = preferencesRepository.getByPreference(Preference.BRAND_INFO);
         updatePreference(user, preference3, userDTO.isBrandInfo());

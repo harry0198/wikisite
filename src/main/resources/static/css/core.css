@@ -83,8 +83,16 @@ body {
     background-color: var(--surface-1);
 }
 
+*::-webkit-scrollbar {
+    display: none;
+}
+
 p {
     margin: 0;
+}
+
+.no-padding {
+    padding: 0;
 }
 
 button {

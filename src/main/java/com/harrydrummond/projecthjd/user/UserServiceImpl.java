@@ -61,12 +61,6 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         userRepository.deleteById(id);
     }
 
-    @Transactional
-    public User loadPreferences(User user) {
-        user.getUserPreferences();
-        return user;
-    }
-
 
 
     @Override

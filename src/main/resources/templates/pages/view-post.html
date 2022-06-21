@@ -22,9 +22,9 @@
       <section class="media-container" th:fragment="area">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
           <div class="carousel-inner">
-            <div class="carousel-item active image">
-              <img th:src="@{/} + ${post.getMainImagePath()}" class="card__image" alt="Provided Image">
-            </div>
+
+              <img class="carousel-item active image card__image" th:src="@{/} + ${post.getMainImagePath()}"  alt="Provided Image">
+
           </div>
           <button class="carousel-btn button left" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
@@ -47,7 +47,8 @@
           <img class="author-pfp account-pfp" th:src="@{/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
           <div class="group close start vertical no-gap">
             <p>
-              <span th:text="${post.getPoster().getUsername()}" rel="author" class="author">Harry Drummond</span><span class="lite">Lite</span>
+              <span th:text="${post.getPoster().getUsername()}" rel="author" class="author">Harry Drummond</span>
+<!--              <span class="lite">Lite</span>-->
             </p>
             <a class="profile-link user-link" th:text="${post.getPoster().getUserDetails().getLink() == null ? post.getFormattedDate() : post.getPoster().getUserDetails().getLink()}"></a>
           </div>
@@ -91,7 +92,7 @@
             <img class="author-pfp account-pfp" th:if="${user == null}" th:src="@{/images/default-pfp.png}" alt="Default Profile Picture">
             <form id="post-feedback-form" class="fake-form">
               <label class="visually-hidden" for="post-feedback-input">Give feedback:</label>
-              <input class="feedback-field" id="post-feedback-input" type="text" name="" placeholder="Leave feedback..." maxlength="130"/>
+              <input class="feedback-field" id="post-feedback-input" type="text" name="" placeholder="Leave feedback..." minlength="12" maxlength="1500"/>
               <button class="minor-custom">
                 <i class="fa-solid fa-arrow-right"></i>
                 <span class="visually-hidden">Post</span>
@@ -138,7 +139,7 @@
 
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <label type="hidden" for="feedback-edit-input" class="hidden">Feedback:</label>
-        <textarea id="feedback-edit-input" placeholder="Begin writing feedback..." name="comment" minlength="12"></textarea>
+        <textarea id="feedback-edit-input" placeholder="Begin writing feedback..." name="comment" minlength="12" maxlength="1500"></textarea>
         <menu class="menu-btns">
           <button autofocus class="button" type="button" onclick="this.closest('dialog').close('cancel')">Cancel</button>
           <button type="submit" id="edit-feedback-btn" value="confirm" class="button button-custom">Update</button>

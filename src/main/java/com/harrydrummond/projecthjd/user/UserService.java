@@ -5,8 +5,6 @@ import java.util.Optional;
 
 public interface UserService {
 
-    User loadPreferences(User user);
-
     Optional<User> getUserById(long id);
 
     Optional<User> getUserByEmail(String email);

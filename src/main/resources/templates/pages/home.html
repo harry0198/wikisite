@@ -3,7 +3,7 @@
 <head>
     <title>Home - TheDevBlog</title>
     <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
-    <link rel="stylesheet" th:href="@{/css/pages/imports/home-imports.css}">
+    <link rel="stylesheet" th:href="@{/css/pages/parents/home.css}">
 
     <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
@@ -28,15 +28,54 @@
         </div>
     </div>
 </section>
-<section class="home__section" id="show-off-projects">
-    <div class="home__section_content">
+<section id="show-off-projects">
+    <div class="group vertical">
         <div>
-            <h1 class="home__section_title">Show off your Projects 🥇</h1>
+            <h1>Show off your Projects 🥇</h1>
+            <p class="home__section_sub">Get real feedback from real users on your latest projects and tasks. It’s as simple as making a post and letting the feedback roll in.</p>
+            <a th:href="@{/explore}" class="button-custom">Explore</a>
         </div>
-        <div class="flex__layout">
+        <img th:src="@{/images/show-projects.png}">
 
+    </div>
+</section>
+<section class="feature-format">
+    <div class="group">
+        <div>
+            <span class="icon"><i class="fa fa-comment"></i></span>
+            <span class="pre-title">OUR MISSION</span>
+            <h2>Publish your work to the world</h2>
+            <p>In our experience, the most important thing when developing new software and undertaking
+                projects is the ability to show new people. Unfortunately, not everybody understands why what you've done is
+                awesome!</p>
+            <p>So join today and share your work with like minded individuals!</p>
         </div>
-
+    </div>
+</section>
+<section class="feature-format">
+    <div class="group">
+        <div class="box-it">
+            <span class="icon"><i class="fa fa-heart"></i></span>
+            <span class="pre-title">LIKE, SAVE AND FOLLOW - COMING SOON</span>
+            <h2>Express your love to creators</h2>
+            <p>Making software is not easy. Why not show your favourite creators some
+            well deserved gratitude and like their posts? By doing so, creators' posts
+             rank higher and are exposed to more audiences!</p>
+            <p>With TheDevBlog you can help inspire the next developer!</p>
+        </div>
+    </div>
+</section>
+<section class="feature-format">
+    <div class="group">
+        <div>
+            <span class="icon"><i class="fa fa-star"></i></span>
+            <span class="pre-title">GET INSPIRED</span>
+            <h2>Fire up your imagination</h2>
+            <p>With TheDevBlog, get inspired by lots of other developer's work and get first hand
+            experience on what other developers thought worked well, and what didn't. All the tools you
+            need to get that new project to its best.</p>
+            <p>Let's <a th:href="@{/explore}" class="minor-custom">explore</a></p>
+        </div>
     </div>
 </section>
 <!--</section>-->

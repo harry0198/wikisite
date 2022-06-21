@@ -72,7 +72,7 @@ public class User implements OAuth2User, Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_preference")
-    @OneToMany(mappedBy = "preference", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "preference", fetch = FetchType.EAGER)
     private Set<Preferences> userPreferences = new HashSet<>();
 
     public User(String name, String email, UserRole userRoles) {
@@ -99,6 +99,10 @@ public class User implements OAuth2User, Serializable {
 
     public boolean containsRole(Role role) {
         return userRoles.stream().map(UserRole::getRole).anyMatch(x -> x == role);
+    }
+
+    public Set<Preferences> getUserPreferences() {
+        return userPreferences;
     }
 
     public boolean containsPreference(Preference preference) {

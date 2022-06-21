@@ -166,7 +166,11 @@
 ):where(:not(:active):hover) {
     --_highlight-size: .5rem;
 }
-
+:where(
+  .button-custom
+):where(:not(:active):hover) {
+    color: white !important;
+}
 /* disabled */
 :where(
  .button,

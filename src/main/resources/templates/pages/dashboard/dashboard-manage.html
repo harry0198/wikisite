@@ -21,11 +21,11 @@
     <section class="settings-area">
         <th:block th:replace="pages/dashboard/dashboard-sidebar :: sidebar(activeNum=4)"></th:block>
         <div class="settings-content">
-            <h3 class="field-heading">Disable Account</h3>
-            <p class="field-paragraph spacer">If you no longer need your account but wish to reactive it at some point in the future you can deactivate
-                it temporarily. <span class="bold">To reactivate, log back in with your credentials.</span></p>
-            <button id="disable-btn" class="destructive-button spacer-x2">Disable Account</button>
-            <hr class="spacer-x2">
+<!--            <h3 class="field-heading">Disable Account</h3>-->
+<!--            <p class="field-paragraph spacer">If you no longer need your account but wish to reactive it at some point in the future you can deactivate-->
+<!--                it temporarily. <span class="bold">To reactivate, log back in with your credentials.</span></p>-->
+<!--            <button id="disable-btn" class="destructive-button spacer-x2">Disable Account</button>-->
+<!--            <hr class="spacer-x2">-->
             <h3 class="field-heading">Delete Account</h3>
             <p class="field-paragraph spacer">If you no longer need your account you can permanently delete it. All of your
             data and database records will be permanently deleted and cannot be recovered.</p>
@@ -35,23 +35,23 @@
     </section>
 </main>
 
-<dialog id="DisableAccount" inert loading modal-mode="mega" class="styled">
-    <form method="dialog">
-        <header>
-            <section class="icon-headline">
-                <i class="fa fa-comment icon-icon"></i>
-                <p>Are you sure you wish to do this?</p>
-            </section>
-        </header>
-        <article>
-            <p>If you disable your account you can reactivate by logging back in.</p>
-            <menu class="menu-btns">
-                <button autofocus class="button" type="button" onclick="this.closest('dialog').close('cancel')">Cancel</button>
-                <button type="submit" id="disable-account-btn" value="confirm" class="button button-custom">Disable My Account</button>
-            </menu>
-        </article>
-    </form>
-</dialog>
+<!--<dialog id="DisableAccount" inert loading modal-mode="mega" class="styled">-->
+<!--    <form method="dialog">-->
+<!--        <header>-->
+<!--            <section class="icon-headline">-->
+<!--                <i class="fa fa-comment icon-icon"></i>-->
+<!--                <p>Are you sure you wish to do this?</p>-->
+<!--            </section>-->
+<!--        </header>-->
+<!--        <article>-->
+<!--            <p>If you disable your account you can reactivate by logging back in.</p>-->
+<!--            <menu class="menu-btns">-->
+<!--                <button autofocus class="button" type="button" onclick="this.closest('dialog').close('cancel')">Cancel</button>-->
+<!--                <button type="submit" id="disable-account-btn" value="confirm" class="button button-custom">Disable My Account</button>-->
+<!--            </menu>-->
+<!--        </article>-->
+<!--    </form>-->
+<!--</dialog>-->
 
 <dialog id="DeleteAccount" inert loading modal-mode="mega" class="styled">
     <form method="dialog">

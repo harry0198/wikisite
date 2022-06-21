@@ -125,44 +125,6 @@ function handleFeedback() {
         });
     }
 
-    let likeBtn = document.getElementById('like-btn');
-    likeBtn.onclick = () => {
-        if (likeBtn.getAttribute('data-use') === "true") {
-            if (likeBtn.getAttribute('data-liked') === 'true') {
-                const cb = function (status) {
-                    if (status.status === 200) {
-                        likeBtn.classList.remove('active');
-                        likeBtn.setAttribute('data-liked', "false");
-                        Toast("Unliked Post", "fa-circle-check")
-                    } else if (status.status === 401) {
-                        Toast("You are not authorized to do this", "fa-circle-exclamation");
-                    } else {
-                        Toast("Error: " + status.status + " Please try again later.", "fa-circle-exclamation");
-                    }
-                }
-
-                deleteData("/api/post/" + postId + "/like", cb, "");
-            } else {
-                const cb = function (status) {
-                    if (status.status === 200) {
-                        likeBtn.classList.add('active');
-                        likeBtn.setAttribute('data-liked', "true");
-                        Toast("Liked Post", "fa-circle-check")
-                    } else if (status.status === 401) {
-                        Toast("You are not authorized to do this", "fa-circle-exclamation");
-                    } else {
-                        Toast("Error: " + status.status + " Please try again later.", "fa-circle-exclamation");
-                    }
-                }
-
-                postData("/api/post/" + postId + "/like", cb, "");
-
-            }
-        } else {
-            window.signInDialog.showModal()
-        }
-    }
-
 }
 
 
@@ -187,6 +149,8 @@ function leaveFeedback() {
             window.location.reload();
         } else if (status.status === 403) {
             Toast("You must be logged in to leave feedback", "fa-circle-exclamation");
+        } else if (status.status === 409) {
+            Toast("Please edit your existing feedback instead of posting more", "fa-circle-exclamation");
         } else {
             Toast("Unexpected Error: "+status+" Failed to post feedback", "fa-circle-exclamation");
         }

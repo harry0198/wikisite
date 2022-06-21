@@ -32,14 +32,14 @@
       </div>
 
       <div class="carousel-item">
-        <label for='imageUpload' class="generic-title">Add a photo or video</label>
+        <label for='imageUpload' class="generic-title">Add a photo or gif</label>
         <div class="image-upload-box-wrapper">
           <image id="upload" class="card__image" th:src="@{/images/photos.png}"></image>
           <div class="file-container">
             <label for='imageUpload' class="form-input dragndrop fake-container">
               <i class="fa-regular fa-square-plus"></i> Drag and drop or click to <span class="browse-text">browse</span>
             </label>
-            <input class="file-input no-submit enter-next image-input" accept="image/*" id="imageUpload" type="file" name="image" capture="" required>
+            <input class="file-input no-submit enter-next image-input" accept="image/*" id="imageUpload" type="file" name="image" capture="">
           </div>
         </div>
       </div>

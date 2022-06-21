@@ -13,6 +13,7 @@ import com.harrydrummond.projecthjd.user.UserService;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.util.Pagination;
 import lombok.AllArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -116,13 +117,16 @@ public class PostController {
 
         Post post = postOptional.get();
 
-        if (postRequestDTO.getImage().getSize() > 0) {
+        if (postRequestDTO.getImage() != null && !postRequestDTO.getImage().isEmpty()) {
             Image image = new Image();
             image.setPost(post);
             image.setOrderNo(1);
             image.setAlt("");
             saveImage(postRequestDTO.getImage(), image);
             imageService.saveImage(image);
+            for (Image postImage : post.getImages()) {
+                imageService.deleteImage(postImage.getId());
+            }
             post.getImages().clear();
             post.getImages().add(image);
         }
@@ -236,7 +240,7 @@ public class PostController {
 //    }
 
     @PatchMapping("/api/post/{uid}/comment/{commentId}")
-    public ResponseEntity<Void> updateComment(@PathVariable long uid, @AuthenticationPrincipal User user, @PathVariable int commentId, @RequestBody String commentStr) {
+    public ResponseEntity<Void> updateComment(@PathVariable long uid, @AuthenticationPrincipal User user, @PathVariable int commentId, @RequestBody @Length(max = 1500) String commentStr) {
         Optional<Comment> commentOptional = commentService.getCommentById(commentId);
         if (commentOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -251,12 +255,19 @@ public class PostController {
     }
 
     @PostMapping("/api/post/{uid}/comment")
-    public ResponseEntity<Void> saveComment(@PathVariable long uid, @AuthenticationPrincipal User user, @RequestBody String commentStr) {
+    public ResponseEntity<Void> saveComment(@PathVariable long uid, @AuthenticationPrincipal User user, @RequestBody @Length(max = 1500) String commentStr) {
         Optional<Post> postOptional = postService.getPostById(uid);
         if (postOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Post post = postOptional.get();
+
+        for (Comment comment : post.getComments()) {
+            if (comment.getUser().getId().equals(user.getId())) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+
         Comment comment = Comment.builder()
                 .user(user)
                 .post(post)

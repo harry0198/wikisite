@@ -3,7 +3,7 @@ function isFileFormatImage(name) {
     switch (ext) {
         case 'jpg':
         case 'png':
-        case 'svg':
+        case 'gif':
         case 'jpeg':
             return true;
         default:
