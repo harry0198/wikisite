@@ -10,6 +10,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Stream;
 import org.springframework.core.io.Resource;
@@ -34,7 +37,10 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public Path save(MultipartFile file) {
         try {
-            Path path = this.root.resolve(UUID.randomUUID().toString().substring(0,5) + "-" + file.getOriginalFilename().toLowerCase().substring(0, Math.min(file
+            String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            Files.createDirectories(root.resolve(format));
+            Path path = this.root.resolve(format + File.separator + UUID.randomUUID().toString().substring(0,5) + "-" + file.getOriginalFilename().toLowerCase().substring(0, Math.min(file
                     .getOriginalFilename().length(), 6)));
             Files.copy(file.getInputStream(), path);
             return path;
@@ -49,7 +55,9 @@ public class FileStorageServiceImpl implements FileStorageService {
             URL url = new URL(link);
             InputStream is = url.openStream();
 
-            Path path = this.root.resolve( "LINK_DOWNLOAD-" + UUID.randomUUID().toString().substring(0,5));
+
+            Files.createDirectories(root.resolve("THIRD_PARTY_DOWNLOADS"));
+            Path path = this.root.resolve( "THIRD_PARTY_DOWNLOADS" + File.separator + "LINK_DOWNLOAD-" + UUID.randomUUID().toString().substring(0,5));
             Files.copy(is, path);
             return path;
         } catch (Exception e) {

@@ -140,12 +140,6 @@ public class HomeController {
         return "pages/view-post";
     }
 
-    @GetMapping("/dev")
-    public String dev(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
-        return "pages/dev";
-    }
-
     @GetMapping("/signup")
     public String signUp(@AuthenticationPrincipal User user, Model model) {
         getHome(user, model);

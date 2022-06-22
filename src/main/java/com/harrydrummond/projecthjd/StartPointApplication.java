@@ -44,13 +44,13 @@ public class StartPointApplication extends WebMvcConfigurerAdapter implements Co
         storageService.init();
 
 
-            UserRole userRole = new UserRole();
-            userRole.setRole(Role.USER);
-            roleRepository.save(userRole);
-
-            UserRole userAdminRole = new UserRole();
-            userAdminRole.setRole(Role.ADMIN);
-            roleRepository.save(userAdminRole);
+//            UserRole userRole = new UserRole();
+//            userRole.setRole(Role.USER);
+//            roleRepository.save(userRole);
+//
+//            UserRole userAdminRole = new UserRole();
+//            userAdminRole.setRole(Role.ADMIN);
+//            roleRepository.save(userAdminRole);
 
 
 //            Preferences preferences2 = new Preferences();

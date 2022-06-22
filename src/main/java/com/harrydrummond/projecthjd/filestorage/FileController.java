@@ -15,9 +15,9 @@ public class FileController {
 
     private ResourceLoader resourceLoader;
 
-    @GetMapping("/uploads/post/images/{fileName}")
-    public ResponseEntity<Resource> getFile(@PathVariable String fileName) {
-        Resource resource = resourceLoader.getResource("file:uploads/post/images/" + fileName);
+    @GetMapping("/uploads/post/images/{sub}/{fileName}")
+    public ResponseEntity<Resource> getFile(@PathVariable String sub, @PathVariable String fileName) {
+        Resource resource = resourceLoader.getResource("file:uploads/post/images/" + sub + "/" + fileName);
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"temp").body(resource);
