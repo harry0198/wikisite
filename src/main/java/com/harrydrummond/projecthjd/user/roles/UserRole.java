@@ -20,6 +20,7 @@ public class UserRole {
     private int id;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     public UserRole(Role role) {

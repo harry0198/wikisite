@@ -29,7 +29,7 @@ function initializeUtilities() {
     let cards = document.getElementsByClassName('card__container');
     for (let card of cards) {
         let cardTitles = card.getElementsByClassName('card__title');
-        let cardImage = card.getElementsByClassName('card__image');
+        let cardImage = card.getElementsByClassName('card__body');
         for (let cardTitle of cardTitles) {
             let aTag = cardTitle.getElementsByTagName('a');
             for (let aTagElement of aTag) {

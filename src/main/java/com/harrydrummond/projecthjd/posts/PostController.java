@@ -12,6 +12,7 @@ import com.harrydrummond.projecthjd.user.User;
 import com.harrydrummond.projecthjd.user.UserService;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.util.Pagination;
+import com.harrydrummond.projecthjd.validators.ImageValidator;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
@@ -19,16 +20,21 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -36,24 +42,21 @@ public class PostController {
 
     private final CommentService commentService;
     private final PostService postService;
-    private final PostRepository postRepository;
-
-    private final UserService userService;
     private final ImageService imageService;
 
     @PostMapping(value = "/api/post/new",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String savePostForm(@AuthenticationPrincipal User requestingUser, PostRequestDTO postRequestDTO) {
+    public String savePostForm(@AuthenticationPrincipal User requestingUser, @Valid PostRequestDTO postRequestDTO, BindingResult bindingResult) {
 
-        ResponseEntity<Post> postResponseEntity = savePost(requestingUser, postRequestDTO);
+        ResponseEntity<Post> postResponseEntity = savePost(requestingUser, postRequestDTO, bindingResult);
         if (postResponseEntity.getStatusCode() == HttpStatus.OK && postResponseEntity.getBody() != null) {
             return "redirect:/post/view/" + postResponseEntity.getBody().getId();
         }
 
-        return "redirect:/search";
+        return "redirect:/";
     }
 
     @PostMapping(value = "/api/post/new")
-    public ResponseEntity<Post> savePost(@AuthenticationPrincipal User user, @RequestBody PostRequestDTO postDTO) {
+    public ResponseEntity<Post> savePost(@AuthenticationPrincipal User user, @RequestBody @Valid PostRequestDTO postDTO, BindingResult bindingResult) {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -95,24 +98,36 @@ public class PostController {
         return true;
     }
     @PostMapping(value = "/api/post/update",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String updatePostForm(@AuthenticationPrincipal User requestingUser, PostRequestDTO postRequestDTO) {
-        ResponseEntity<Post> postResponseEntity = updatePost(requestingUser, postRequestDTO);
+    public String updatePostForm(@AuthenticationPrincipal User requestingUser, @Valid PostRequestDTO postRequestDTO, BindingResult bindingResult) {
+        ResponseEntity<Object> postResponseEntity = updatePost(requestingUser, postRequestDTO, bindingResult);
         if (postResponseEntity.getStatusCode() == HttpStatus.OK && postResponseEntity.getBody() != null) {
-            return "redirect:/post/view/" + postResponseEntity.getBody().getId();
+            if (postResponseEntity.getBody() instanceof Post) {
+                return "redirect:/post/view/" + ((Post) postResponseEntity.getBody()).getId();
+            }
         }
 
-        return "redirect:/search";
+        return "redirect:/";
     }
 
     @PostMapping("/api/post/update")
-    public ResponseEntity<Post> updatePost(@AuthenticationPrincipal User user, @RequestBody PostRequestDTO postRequestDTO) {
+    public ResponseEntity<Object> updatePost(@AuthenticationPrincipal User user, @RequestBody @Valid PostRequestDTO postRequestDTO, BindingResult bindingResult) {
 
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+
         Optional<Post> postOptional = postService.getPostById(postRequestDTO.getId());
         if (postOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = bindingResult.getFieldErrors().stream()
+                    .collect(
+                            Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)
+                    );
+
+            return new ResponseEntity<>(errors, HttpStatus.valueOf(400));
         }
 
         Post post = postOptional.get();
@@ -193,51 +208,6 @@ public class PostController {
 
 
     }
-
-//    @PostMapping("/api/post/{uid}/like")
-//    public ResponseEntity<Object> likePost(@AuthenticationPrincipal User user, @PathVariable int uid) {
-//        if (user == null) {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//        Optional<Post> postOptional = postService.getPostById(uid);
-//        if (postOptional.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        Post post = postOptional.get();
-//
-//        Optional<Post> hasLiked = postRepository.findByLikes_Id(user.getId());
-//        if (hasLiked.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-//        }
-//
-//        user.getLikedPosts().add(post);
-//        userService.updateUser(user);
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping("/api/post/{uid}/like")
-//    public ResponseEntity<Object> unlikePost(@AuthenticationPrincipal User user, @PathVariable int uid) {
-//        if (user == null) {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//        Optional<Post> postOptional = postService.getPostById(uid);
-//        if (postOptional.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        Post post = postOptional.get();
-//
-//        Optional<Post> hasLiked = postRepository.findByLikes_Id(user.getId());
-//        if (hasLiked.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-//        }
-//
-//        user.getLikedPosts().remove(post);
-//        System.out.println(user.getLikedPosts());
-//        userService.updateUser(user);
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 
     @PatchMapping("/api/post/{uid}/comment/{commentId}")
     public ResponseEntity<Void> updateComment(@PathVariable long uid, @AuthenticationPrincipal User user, @PathVariable int commentId, @RequestBody @Length(max = 1500) String commentStr) {
@@ -321,8 +291,6 @@ public class PostController {
                 .datePosted(post.getDatePosted())
                 .title(post.getTitle())
                 .description(post.getDescription())
-                .likes(post.getLikes().size())
-                .saves(post.getSaves().size())
                 .images(images)
                 .posterId(post.getPoster().getId())
                 .build();

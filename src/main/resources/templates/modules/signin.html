@@ -5,6 +5,7 @@
             <div class="login-signup-options">
                 <a th:href="@{/oauth2/authorization/google}" class="login-btn login-google-btn">Sign in with Google</a>
                 <a th:href="@{/oauth2/authorization/facebook}" class="login-btn login-facebook-btn">Sign in with Facebook</a>
+                <a th:href="@{/oauth2/authorization/github}" class="login-btn login-github-btn">Sign in with Github</a>
                 <p class="login-options-footer">Don't have an account? <button class="minor-custom" onclick="this.closest('dialog').close('close');window.signUpDialog.showModal();">Sign Up</button></p>
             </div>
             <p class="small-print">By clicking "Sign in" you agree to TheDevBlog's <a th:href="@{/tos}">Terms of Service</a>, are over 18 years of age, are a UK or EU user and acknowledge that TheDevBlog's <a th:href="@{/privacy}">Privacy Policy</a> applies to you.</p>

@@ -50,16 +50,16 @@
               <span th:text="${post.getPoster().getUsername()}" rel="author" class="author">Harry Drummond</span>
 <!--              <span class="lite">Lite</span>-->
             </p>
-            <a class="profile-link user-link" th:text="${post.getPoster().getUserDetails().getLink() == null ? post.getFormattedDate() : post.getPoster().getUserDetails().getLink()}"></a>
+            <p class="profile-link" th:if="${post.getPoster().getUserDetails().getLink() == null}" th:text="${post.getFormattedDate()}"></p>
+            <a class="profile-link user-link" th:unless="${post.getPoster().getUserDetails().getLink() == null}" th:text="${post.getPoster().getUserDetails().getLink()}"></a>
           </div>
         </div>
         <p class="post-desc" th:text="${post.getDescription()}">Post desc</p>
-        <th:block th:if="${user != null}">
           <div class="poster-actions">
-            <a th:href="@{/post/edit/} + ${post.getId()}" th:if="${user.getId().equals(post.getPoster().getId())}" class="selectable">Edit</a>
-            <button th:if="${user.getId().equals(post.getPoster().getId())}" id="delete-post-btn" class="selectable">Delete Post</button>
+            <button class="selectable" th:unless="${user != null and post.getPoster().getId().equals(user.getId())}" onclick="window.ContactModal.showModal()">Report</button>
+            <a th:href="@{/post/edit/} + ${post.getId()}" th:if="${user != null and post.getPoster().getId().equals(user.getId())}" class="selectable">Edit</a>
+            <button th:if="${user != null and (post.getPoster().getId().equals(user.getId()))}" id="delete-post-btn" class="selectable">Delete Post</button>
           </div>
-        </th:block>
 
         <div class="feedback">
           <h3 class="feedback-collapse" th:if="${post.getComments().size() > 0}">Feedback</h3>
@@ -72,7 +72,7 @@
                   <comment th:attr="data-feedback-edit-target=${feedback.getId()}" th:text="${feedback.getComment()}"></comment>
                 </div>
                 <div class="feedback-actions">
-                  <button class="selectable" th:unless="${user != null and feedback.getUser().getId().equals(user.getId())}">Report</button>
+                  <button class="selectable" th:unless="${user != null and feedback.getUser().getId().equals(user.getId())}" onclick="window.ContactModal.showModal()">Report</button>
                   <button class="selectable" th:if="${user != null and feedback.getUser().getId().equals(user.getId())}" th:attr="data-feedback-edit=${feedback.getId()}">Edit</button>
                   <button class="selectable" th:if="${user != null and (feedback.getUser().getId().equals(user.getId()) or post.getPoster().getId().equals(user.getId()))}" th:attr="data-feedback-delete-id=${feedback.getId()}">Delete</button>
                 </div>
@@ -90,7 +90,7 @@
           <div class="group close feedback-container no-media">
             <img class="author-pfp account-pfp" th:unless="${user == null}" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
             <img class="author-pfp account-pfp" th:if="${user == null}" th:src="@{/images/default-pfp.png}" alt="Default Profile Picture">
-            <form id="post-feedback-form" class="fake-form">
+            <form id="post-feedback-form" class="fake-form" th:attr="data-require-signin=${user == null ? 'true' : ''}">
               <label class="visually-hidden" for="post-feedback-input">Give feedback:</label>
               <input class="feedback-field" id="post-feedback-input" type="text" name="" placeholder="Leave feedback..." minlength="12" maxlength="1500"/>
               <button class="minor-custom">

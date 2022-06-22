@@ -162,7 +162,7 @@ This file is used on some/most pages and is required for module functionality
     padding: 1rem;
 }
 
-.card__image {
+.card__body {
     cursor: pointer;
 }
 
@@ -181,7 +181,7 @@ This file is used on some/most pages and is required for module functionality
 }
 
 .card__header .card__title a:hover {
-    color: black;
+    color: var(--text-color);
 }
 
 .card__header .card__title {

@@ -1,8 +1,12 @@
 package com.harrydrummond.projecthjd.filestorage;
 
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,6 +39,21 @@ public class FileStorageServiceImpl implements FileStorageService {
             Files.copy(file.getInputStream(), path);
             return path;
         } catch (Exception e) {
+            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Path save(String link) {
+        try {
+            URL url = new URL(link);
+            InputStream is = url.openStream();
+
+            Path path = this.root.resolve( "LINK_DOWNLOAD-" + UUID.randomUUID().toString().substring(0,5));
+            Files.copy(is, path);
+            return path;
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }

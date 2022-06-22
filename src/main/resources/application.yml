@@ -8,10 +8,10 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
+    url: jdbc:mysql://localhost:3306/site
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: rootpassword
 
 #  datasource:
 #    url: jdbc:mysql://localhost:8889/socialsite
@@ -24,27 +24,36 @@ spring:
     oauth2:
       client:
         registration:
+          github:
+            clientId: b4a49ad2980c49f29824
+            clientSecret: 00fc3f5fe82a3d225914b3785a7e3f8259ebb39b
+            scope:
+              - user:email
+              - email
+              - read:user
           google:
             clientId: 731140942694-vtus1fn8u0m1acv803g8q51mnpct8n3d.apps.googleusercontent.com
             clientSecret: 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
             scope:
               - email
           facebook:
-            client-id: 4978756288905349
-            clientSecret: cd5cb7ff16ca451715d5e961f752a6b2
+            client-id: 3227155080935808
+            clientSecret: 538d212988e6f5591df4703a8e60fff8
             scope:
               - email
+              - public_profile
+
   jpa:
     show-sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
 
-      ddl-auto: create-drop
+      ddl-auto: update
 #      naming:
 #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
         search:
           backend:
             directory: root = posts/index

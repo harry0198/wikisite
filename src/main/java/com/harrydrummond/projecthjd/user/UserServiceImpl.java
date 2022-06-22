@@ -1,5 +1,6 @@
 package com.harrydrummond.projecthjd.user;
 
+import com.harrydrummond.projecthjd.filestorage.FileStorageService;
 import com.harrydrummond.projecthjd.user.details.UserDetails;
 import com.harrydrummond.projecthjd.user.details.UserDetailsRepository;
 import com.harrydrummond.projecthjd.user.roles.Role;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -24,11 +26,16 @@ import java.util.*;
 public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
 
     private final UserRepository userRepository;
-    private final UserDetailsRepository userDetailsRepository;
+    private final FileStorageService fileStorageService;
     private final RoleRepository roleRepository;
 
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<User> getUserByProviderAndOAuthId(Provider provider, String OAuthId) {
+        return userRepository.findByProviderAndAuthId(provider, OAuthId);
     }
 
     @Override
@@ -66,32 +73,110 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     @Override
     public User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User user =  super.loadUser(oAuth2UserRequest);
-        String email = user.getAttributes().get("email").toString();
-        Optional<User> appUserOptional = userRepository.findByEmail(email);
 
-        if (appUserOptional.isEmpty()) {
-            UserRole userRole = roleRepository.getByRole(Role.USER);
+        String providerName = oAuth2UserRequest.getClientRegistration().getClientName();
 
-            User appUser = new User();
-            appUser.setEmail(email);
-            appUser.setUserRoles(Set.of(userRole));
-            appUser.setProvider(Provider.GOOGLE);
-            appUser.setAttributes(user.getAttributes()); //to the user at the top of this method
-            appUser.setUsername(generateUsername(email));
-            appUser.setDateCreated(LocalDateTime.now());
+        System.out.println(user.getAttributes());
 
-            UserDetails userDetails = new UserDetails();
-            userDetails.setUser(appUser);
-
-            appUser.setUserDetails(userDetails);
-
-            return userRepository.save(appUser);
-        } else if (!appUserOptional.get().getEnabled()) {
-            // if account is disabled, enable it
-            appUserOptional.get().setEnabled(true);
+        switch(providerName) {
+            case "Google":
+                return getGoogleUser(user).orElseGet(() -> makeGoogleUser(user));
+            case "Facebook":
+                return getFacebookUser(user).orElseGet(() -> makeFacebookUser(user));
+            case "GitHub":
+                return getGithubUser(user).orElseGet(() -> makeGithubUser(user));
+            default:
+                // error!
         }
-        return appUserOptional.get();
+
+
+        return null;
     }
+
+    public User makeGoogleUser(OAuth2User user) {
+        User appUser = makeUser(user);
+
+        String email = user.getAttribute("email").toString();
+        String pfp = user.getAttribute("picture");
+
+        if (pfp != null && !pfp.isEmpty()) {
+            Path path = fileStorageService.save(pfp);
+            appUser.getUserDetails().setProfilePicturePath(path.toString());
+        }
+
+        appUser.setUsername(generateUsername(email));
+        appUser.setEmail(email);
+        appUser.setProvider(Provider.GOOGLE);
+        appUser.setAuthId(user.getAttribute("sub"));
+
+        return userRepository.save(appUser);
+    }
+
+    public User makeGithubUser(OAuth2User user) {
+        User appUser = makeUser(user);
+
+        String name = user.getAttribute("login");
+        String pfp = user.getAttribute("avatar_url");
+        Object id = user.getAttribute("id");
+
+        if (pfp != null && !pfp.isEmpty()) {
+            Path path = fileStorageService.save(pfp);
+            appUser.getUserDetails().setProfilePicturePath(path.toString());
+        }
+
+        appUser.setUsername(generateUsername(name));
+        appUser.setProvider(Provider.GITHUB);
+        appUser.setAuthId(id.toString());
+
+        return userRepository.save(appUser);
+    }
+
+    public User makeFacebookUser(OAuth2User user) {
+        User appUser = makeUser(user);
+
+        String id = user.getAttribute("id").toString();
+        String username = user.getAttribute("name").toString();
+        String email = user.getAttribute("email").toString();
+
+        appUser.setUsername(generateUsername(username));
+        appUser.setEmail(email);
+        appUser.setProvider(Provider.FACEBOOK);
+        appUser.setAuthId(id);
+
+        return userRepository.save(appUser);
+    }
+
+    private User makeUser(OAuth2User user) {
+        UserRole userRole = roleRepository.getByRole(Role.USER);
+
+        User appUser = new User();
+        appUser.setUserRoles(Set.of(userRole));
+        appUser.setAttributes(user.getAttributes());
+        appUser.setDateCreated(LocalDateTime.now());
+
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUser(appUser);
+
+        appUser.setUserDetails(userDetails);
+
+        return appUser;
+    }
+
+    private Optional<User> getGoogleUser(OAuth2User user) {
+        Object id = user.getAttribute("sub");
+        return userRepository.findByProviderAndAuthId(Provider.GOOGLE, id.toString());
+    }
+
+    private Optional<User> getGithubUser(OAuth2User user) {
+        Object id = user.getAttribute("id");
+        return userRepository.findByProviderAndAuthId(Provider.GITHUB, id.toString());
+    }
+
+    private Optional<User> getFacebookUser(OAuth2User user) {
+        Object id = user.getAttribute("id");
+        return userRepository.findByProviderAndAuthId(Provider.FACEBOOK, id.toString());
+    }
+
 
     private String generateUsername(String email) {
         String username = email;

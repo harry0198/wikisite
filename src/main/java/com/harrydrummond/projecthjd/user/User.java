@@ -1,17 +1,14 @@
 package com.harrydrummond.projecthjd.user;
 
 
-import com.harrydrummond.projecthjd.posts.Post;
 import com.harrydrummond.projecthjd.user.details.UserDetails;
 import com.harrydrummond.projecthjd.user.preferences.Preference;
 import com.harrydrummond.projecthjd.user.preferences.Preferences;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
-import com.harrydrummond.projecthjd.user.saves.UserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +25,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "app_user")
+@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames={"provider", "auth_id"}))
 public class User implements OAuth2User, Serializable {
 
     private static final List<GrantedAuthority> ROLE_USER = Collections
@@ -37,6 +34,7 @@ public class User implements OAuth2User, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "username")
     @FullTextField
     private String username;
@@ -52,17 +50,12 @@ public class User implements OAuth2User, Serializable {
     private LocalDateTime dateCreated;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "provider")
     private Provider provider;
 
-    @ManyToMany
-    @JoinTable(
-            name = "post_like",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id"))
-    private Set<Post> likedPosts = new HashSet<>();
+    @Column(name = "auth_id")
+    private String authId;
 
-    @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserSaves> saves = new HashSet<>();
 
     private transient Map<String, Object> attributes;
 
@@ -91,8 +84,6 @@ public class User implements OAuth2User, Serializable {
         this.enabled = user.enabled;
         this.dateCreated = user.dateCreated;
         this.provider = user.provider;
-        this.likedPosts = user.likedPosts;
-        this.saves = user.saves;
         this.userDetails = user.userDetails;
         this.userPreferences = user.userPreferences;
     }
@@ -115,22 +106,6 @@ public class User implements OAuth2User, Serializable {
 
     public String getName() {
         return username;
-    }
-
-    public void addSave(UserSaves userSaves) {
-        saves.add(userSaves);
-    }
-
-    public void removeSave(UserSaves userSaves) {
-        saves.remove(userSaves);
-    }
-
-    public boolean isSaved(long articleId) {
-        for (UserSaves save : saves) {
-            long article = save.getPost().getId();
-            if (article == articleId) return true;
-        }
-        return false;
     }
 
     @Override

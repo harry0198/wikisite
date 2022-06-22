@@ -43,27 +43,33 @@ public class StartPointApplication extends WebMvcConfigurerAdapter implements Co
     public void run(String... args) throws Exception {
         storageService.init();
 
-        UserRole userRole = new UserRole();
-        userRole.setRole(Role.USER);
 
-        UserRole userAdminRole = new UserRole();
-        userAdminRole.setRole(Role.ADMIN);
+            UserRole userRole = new UserRole();
+            userRole.setRole(Role.USER);
+            roleRepository.save(userRole);
 
-        roleRepository.save(userRole);
-        roleRepository.save(userAdminRole);
+            UserRole userAdminRole = new UserRole();
+            userAdminRole.setRole(Role.ADMIN);
+            roleRepository.save(userAdminRole);
 
-        Preferences preferences1 = new Preferences();
-        preferences1.setPreference(Preference.ACCOUNT_SUMMARY);
 
-        Preferences preferences2 = new Preferences();
-        preferences2.setPreference(Preference.BRAND_INFO);
+//            Preferences preferences2 = new Preferences();
+//            preferences2.setPreference(Preference.BRAND_INFO);
+//            preferencesRepository.save(preferences2);
+//
+//
+//
+//            Preferences preferences1 = new Preferences();
+//            preferences1.setPreference(Preference.ACCOUNT_SUMMARY);
+//            preferencesRepository.save(preferences1);
+//
+//
+//
+//            Preferences preferences3 = new Preferences();
+//            preferences3.setPreference(Preference.PROMOTIONS);
+//
+//            preferencesRepository.save(preferences3);
 
-        Preferences preferences3 = new Preferences();
-        preferences3.setPreference(Preference.PROMOTIONS);
-
-        preferencesRepository.save(preferences1);
-        preferencesRepository.save(preferences2);
-        preferencesRepository.save(preferences3);
     }
 
     @Bean

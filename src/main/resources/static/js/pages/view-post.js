@@ -20,7 +20,7 @@ function initSafeLinks() {
             areYouSure.showModal();
             areYouSure.addEventListener('closing', ({target:dialog}) => {
                 if (dialog.returnValue === 'confirm') {
-                    window.location.href = text;
+                    window.open(text);
                 }
             });
         }
@@ -28,10 +28,18 @@ function initSafeLinks() {
 }
 
 function handleFeedback() {
+
     const postId = document.querySelector('meta[name="_post_id"]').content;
 
     let form = document.getElementById('post-feedback-form');
     form.onsubmit = (e) => {
+        console.log(form.getAttribute('data-require-signin'))
+        if (form.getAttribute('data-require-signin') === "true") {
+            let signUp = document.getElementById('signUpDialog');
+            signUp.showModal();
+            e.preventDefault()
+            return;
+        }
         e.preventDefault();
         leaveFeedback()
     }

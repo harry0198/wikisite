@@ -3,7 +3,6 @@ package com.harrydrummond.projecthjd.posts;
 import com.harrydrummond.projecthjd.posts.comment.Comment;
 import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.user.User;
-import com.harrydrummond.projecthjd.user.saves.UserSaves;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,7 +39,7 @@ public class Post {
 
     @FullTextField
     @Lob
-    @Column(columnDefinition="CLOB", nullable = false)
+    @Column(nullable = false)
     private String description;
 
     @ManyToOne
@@ -51,14 +50,7 @@ public class Post {
     @GenericField(sortable = Sortable.YES)
     @Column(name = "posted_at", nullable = false)
     private LocalDateTime datePosted;
-
-    @ManyToMany(mappedBy = "likedPosts")
-    private Set<User> likes = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<UserSaves> saves = new HashSet<>();
-
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     @GenericField(sortable = Sortable.YES)

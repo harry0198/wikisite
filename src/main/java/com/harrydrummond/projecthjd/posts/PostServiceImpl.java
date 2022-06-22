@@ -32,8 +32,6 @@ public class PostServiceImpl implements PostService {
         if (post.isPresent()) {
             Post p = post.get();
             p.getComments();
-            p.getLikes();
-            p.getSaves();
             for (Comment comment : p.getComments()) {
                 comment.getUser();
             }

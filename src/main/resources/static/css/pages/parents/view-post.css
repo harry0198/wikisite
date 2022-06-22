@@ -196,6 +196,10 @@ comment, .post-desc {
     font-size: 0.8rem;
 }
 
+.poster-actions > *:first-child {
+    padding-left: 0;
+}
+
 .feedback-actions button {
     padding-left: 0;
 }
