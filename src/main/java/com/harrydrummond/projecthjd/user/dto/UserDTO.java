@@ -2,6 +2,7 @@ package com.harrydrummond.projecthjd.user.dto;
 
 import com.harrydrummond.projecthjd.user.preferences.Preferences;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
+import com.harrydrummond.projecthjd.validators.ImageConstraint;
 import com.harrydrummond.projecthjd.validators.LinkConstraint;
 import com.harrydrummond.projecthjd.validators.UniqueUsernameConstraint;
 import lombok.Data;
@@ -32,5 +33,6 @@ public class UserDTO {
     private Boolean enabled;
     @Length(max = 1500, message = "{validation.bio.too_long}")
     private String bio;
+    @ImageConstraint
     private MultipartFile profilePicture;
 }

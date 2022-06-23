@@ -41,6 +41,7 @@ public class StartPointApplication extends WebMvcConfigurerAdapter implements Co
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("Showcase Site CommandLineRunner");
         storageService.init();
 
 

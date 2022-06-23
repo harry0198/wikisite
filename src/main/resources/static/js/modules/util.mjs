@@ -2,7 +2,7 @@ import {isFileSizeSensible, isFileFormatImage} from "./validation.mjs";
 
 let profileImagePreview;
 let profileImageUpload;
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://www.thedevblog.co.uk";
 
 function initializeUtilities() {
     profileImagePreview = document.getElementById('profileImageUpload');
@@ -10,13 +10,11 @@ function initializeUtilities() {
 
     if (profileImageUpload != null && profileImagePreview != null) {
         profileImageUpload.onchange = () => {
-            console.log('yep')
             if (profileImageUpload.files && profileImageUpload.files[0]) {
                 if (!isFileFormatImage(profileImageUpload.value)) {
                     return;
                 }
                 if (!isFileSizeSensible(profileImageUpload.files[0].size)) {
-                    alert("File is too large! Max file size is 4MB");
                     return;
                 }
                 profileImagePreview.setAttribute('src',

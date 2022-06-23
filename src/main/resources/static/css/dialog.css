@@ -294,3 +294,12 @@ dialog {
 dialog textarea{
     width: 100%;
 }
+
+dialog.active {
+    display: block;
+}
+@media not all and (min-resolution:.001dpcm) {
+    dialog, dialog *, dialog[open] {
+        animation: none;
+    }
+}

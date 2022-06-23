@@ -14,7 +14,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let signUpModal = document.getElementById('signInDialog');
-            signUpModal.showModal();
+            signUpModal.setAttribute('open', 'true');
         })
     </script>
     <script type="module" th:src="@{/js/pages/home.js}"></script>

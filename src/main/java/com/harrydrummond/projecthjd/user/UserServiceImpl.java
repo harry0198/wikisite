@@ -72,11 +72,14 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     public User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
+        System.out.println("loading");
+        System.out.println("request null?: " + (oAuth2UserRequest == null));
         OAuth2User user =  super.loadUser(oAuth2UserRequest);
+        System.out.println("user null?: " + (user == null));
 
         String providerName = oAuth2UserRequest.getClientRegistration().getClientName();
-
-        System.out.println(user.getAttributes());
+        System.out.println("Provider:" + providerName);
+        System.out.println("Attributes:" + user.getAttributes());
 
         switch(providerName) {
             case "Google":
@@ -87,9 +90,11 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
                 return getGithubUser(user).orElseGet(() -> makeGithubUser(user));
             default:
                 // error!
+                System.out.println("Error here!");
         }
 
 
+        System.out.println("Nulled it.");
         return null;
     }
 

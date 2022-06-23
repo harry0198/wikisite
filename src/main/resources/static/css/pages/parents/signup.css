@@ -1,0 +1,19 @@
+@import url("../../core.css");
+@import url("../../modules.css");
+
+main {
+    padding: 2rem;
+    height: 80vh;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+main * {
+    text-align: center;
+}
+
+main p.small-print {
+    margin-top: 0;
+}

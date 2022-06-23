@@ -144,14 +144,14 @@ public class HomeController {
     public String signUp(@AuthenticationPrincipal User user, Model model) {
         getHome(user, model);
 
-        return "/pages/signup";
+        return "pages/signup";
     }
 
     @GetMapping("/signin")
     public String signIn(@AuthenticationPrincipal User user, Model model) {
         getHome(user, model);
 
-        return "/pages/signin";
+        return "pages/signin";
     }
 
 
