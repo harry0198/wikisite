@@ -664,9 +664,10 @@ a {
     width: 100%;
 }
 
-.profile-btn:hover + #profile-nav, #profile-nav:hover {
+.profile-btn:hover + #profile-nav, #profile-nav:hover, .profile-btn:focus + #profile-nav {
     visibility: visible;
 }
+
 
 .profile-list {
     top: 3.8rem;

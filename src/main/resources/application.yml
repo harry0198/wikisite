@@ -36,12 +36,12 @@ spring:
       client:
         registration:
           github:
-            clientId: b4a49ad2980c49f29824
-            clientSecret: 00fc3f5fe82a3d225914b3785a7e3f8259ebb39b
+#            clientId: b4a49ad2980c49f29824
+#            clientSecret: 00fc3f5fe82a3d225914b3785a7e3f8259ebb39b
 
           #Dev credentials
-#            clientId: f7f85663c5eddc1b9358
-#            clientSecret: 82cdaf1a05216cd31ea831a2d8603e8701df26b0
+            clientId: f7f85663c5eddc1b9358
+            clientSecret: 82cdaf1a05216cd31ea831a2d8603e8701df26b0
             scope:
               - user:email
               - email

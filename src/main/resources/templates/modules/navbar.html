@@ -34,7 +34,7 @@
             <th:block th:replace="modules/signup :: signup"></th:block>
         </div>
         <div th:unless="${user == null}">
-            <button id="accountDropdownMenu" class=" profile-btn" tabindex="0"><img class="account-pfp" th:src="@{/uploads/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture"></button>
+            <button id="accountDropdownMenu" class="profile-btn"><img class="account-pfp" th:src="@{/uploads/}+${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture"></button>
             <div class="list-box profile-list" id="profile-nav" aria-labelledby="accountDropdownMenu">
                 <h4 class="list-box-heading">Profile</h4>
                 <hr>
