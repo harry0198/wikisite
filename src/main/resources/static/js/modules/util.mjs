@@ -3,6 +3,7 @@ import {isFileSizeSensible, isFileFormatImage} from "./validation.mjs";
 let profileImagePreview;
 let profileImageUpload;
 const BASE_URL = "https://www.thedevblog.co.uk";
+// const BASE_URL = "http://localhost:8080";
 
 function initializeUtilities() {
     profileImagePreview = document.getElementById('profileImageUpload');

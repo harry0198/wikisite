@@ -54,7 +54,12 @@ function submitFormRequest(url, cb, data, type) {
 }
 
 function toJsonObject(jsonString) {
-    return JSON.parse(jsonString);
+    try {
+        let p = JSON.parse(jsonString);
+        return p;
+    } catch (err) {
+        return {};
+    }
 }
 
 function toJsonString(obj) {

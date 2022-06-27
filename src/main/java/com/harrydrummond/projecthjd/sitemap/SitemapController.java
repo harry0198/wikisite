@@ -22,6 +22,16 @@ public class SitemapController {
     @ResponseBody
     public XmlUrlSet getSitemap() {
         XmlUrlSet xmlUrlSet = new XmlUrlSet();
+
+        xmlUrlSet.addUrl(new XmlUrl("https://www.thedevblog.co.uk", XmlUrl.Priority.HIGH, LocalDateTime.now()));
+        xmlUrlSet.addUrl(new XmlUrl("https://www.thedevblog.co.uk/explore", XmlUrl.Priority.HIGH, LocalDateTime.now()));
+        xmlUrlSet.addUrl(new XmlUrl("https://www.thedevblog.co.uk/cookies", XmlUrl.Priority.HIGH, LocalDateTime.now()));
+        xmlUrlSet.addUrl(new XmlUrl("https://www.thedevblog.co.uk/privacy", XmlUrl.Priority.HIGH, LocalDateTime.now()));
+        xmlUrlSet.addUrl(new XmlUrl("https://www.thedevblog.co.uk/tos", XmlUrl.Priority.HIGH, LocalDateTime.now()));
+        xmlUrlSet.addUrl(new XmlUrl("https://www.thedevblog.co.uk/disclaimer", XmlUrl.Priority.HIGH, LocalDateTime.now()));
+
+
+
         for (Post post : postService.getAllPosts()) {
             create(xmlUrlSet, post.getId(), XmlUrl.Priority.MEDIUM, post.getDatePosted());
         }

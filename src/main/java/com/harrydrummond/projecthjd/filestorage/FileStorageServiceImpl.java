@@ -3,6 +3,7 @@ package com.harrydrummond.projecthjd.filestorage;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -14,81 +15,106 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
-import java.util.stream.Stream;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+import java.util.concurrent.CompletableFuture;
+
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    private final Path root = Paths.get("uploads", "post", "images");
-    @Override
-    public void init() {
-        try {
-            Files.createDirectories(root);
+    @Autowired
+    private AmazonS3 amazonS3;
+
+    @Value("${s3.bucket.name}")
+    private String s3BucketName;
+
+    private static final Logger LOG = LoggerFactory.getLogger(FileStorageServiceImpl.class);
+
+    private File convertMultiPartFileToFile(final MultipartFile multipartFile) {
+        final File file = new File(multipartFile.getOriginalFilename());
+        try (final FileOutputStream outputStream = new FileOutputStream(file)) {
+            outputStream.write(multipartFile.getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Could not initialize folder for upload!");
+            LOG.error("Error {} occurred while converting the multipart file", e.getLocalizedMessage());
         }
-    }
-    @Override
-    public Path save(MultipartFile file) {
-        try {
-            String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-            Files.createDirectories(root.resolve(format));
-            Path path = this.root.resolve(format + File.separator + UUID.randomUUID().toString().substring(0,5) + "-" + file.getOriginalFilename().toLowerCase().substring(0, Math.min(file
-                    .getOriginalFilename().length(), 6)));
-            Files.copy(file.getInputStream(), path);
-            return path;
-        } catch (Exception e) {
-            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
-        }
+        return file;
     }
 
+    private File convertInputStreamToFile(final InputStream inputStream) {
+        File file = new File(UUID.randomUUID().toString());
+
+        try (final FileOutputStream outputStream = new FileOutputStream(file)) {
+            outputStream.write(inputStream.readAllBytes());
+        } catch (IOException e) {
+            LOG.error("Error {} occurred while converting the input stream to file", e.getLocalizedMessage());
+        }
+        return file;
+    }
+
+    @Async
     @Override
-    public Path save(String link) {
+    public CompletableFuture<Path> save(MultipartFile multipartFile) {
+        return save(convertMultiPartFileToFile(multipartFile));
+    }
+
+
+
+    @Async
+    @Override
+    public CompletableFuture<Path> save(String link) {
         try {
             URL url = new URL(link);
             InputStream is = url.openStream();
 
-
-            Files.createDirectories(root.resolve("THIRD_PARTY_DOWNLOADS"));
-            Path path = this.root.resolve( "THIRD_PARTY_DOWNLOADS" + File.separator + "LINK_DOWNLOAD-" + UUID.randomUUID().toString().substring(0,5));
-            Files.copy(is, path);
-            return path;
+            return save(convertInputStreamToFile(is));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }
+
     @Override
-    public Resource load(String filename) {
-        try {
-            Path file = root.resolve(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new RuntimeException("Could not read the file!");
+    public CompletableFuture<Path> save(File file) {
+
+        String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        final String fileName = format + File.separator + UUID.randomUUID().toString().substring(0,5) + "-" + file.getName().toLowerCase().substring(0, Math.min(file
+                .getName().length(), 6));
+
+        System.out.println("saving...");
+        System.out.println(fileName);
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            try {
+                LOG.info("Uploading file with name {}", fileName);
+                final PutObjectRequest putObjectRequest = new PutObjectRequest(s3BucketName, fileName, file);
+                amazonS3.putObject(putObjectRequest);
+                Files.delete(file.toPath()); // Remove the file locally created in the project folder
+            } catch (AmazonServiceException e) {
+                LOG.error("Error {} occurred while uploading file", e.getLocalizedMessage());
+            } catch (IOException ex) {
+                LOG.error("Error {} occurred while deleting temporary file", ex.getLocalizedMessage());
             }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
-        }
+
+            return Paths.get(fileName);
+        });
     }
+
+
     @Override
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
-    }
-    @Override
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not load the files!");
-        }
+    @Async
+    public CompletableFuture<S3ObjectInputStream> findByName(String fileName) {
+        LOG.info("Downloading file with name {}", fileName);
+        return CompletableFuture.supplyAsync(() -> amazonS3.getObject(s3BucketName, fileName).getObjectContent());
     }
 }

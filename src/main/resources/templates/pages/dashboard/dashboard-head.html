@@ -6,9 +6,9 @@
         </button>
         <div class="group">
             <div class="group close start no-media" id="settings-header">
-                <img class="account-pfp" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Author Profile Picture">
+                <img class="account-pfp" th:src="@{/uploads/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Author Profile Picture">
                 <div class="group vertical settings-headings">
-                    <h1 class="topic-heading">Harry Drummond</h1>
+                    <h1 class="topic-heading" th:text="${user.getUsername()}">Harry Drummond</h1>
                     <h2 class="topic-subheading">Update your username and manage your account</h2>
 
                 </div>

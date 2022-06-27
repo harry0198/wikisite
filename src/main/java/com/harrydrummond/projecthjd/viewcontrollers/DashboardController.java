@@ -34,6 +34,8 @@ public class DashboardController {
     public String getSavedForDashboard(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("brand", user.containsPreference(Preference.BRAND_INFO));
+        model.addAttribute("promotions", user.containsPreference(Preference.PROMOTIONS));
+
         model.addAttribute("accountSummary", user.containsPreference(Preference.ACCOUNT_SUMMARY));
         return "pages/dashboard/dashboard-notifications";
     }

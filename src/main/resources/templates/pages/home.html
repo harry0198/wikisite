@@ -2,6 +2,13 @@
 <html lang="en">
 <head>
     <title>Home - TheDevBlog</title>
+    <meta name="description" content="Explore top developer and programmer's work. Like, leave feedback and inspire the future generation of programmers. ">
+    <link rel="canonical" href="https://www.thedevblog.co.uk">
+    <meta property="og:title" content="Home Page" />
+    <meta property="og:url" content="https://www.thedevblog.co.uk" />
+    <meta property="og:image" content="https://www.thedevblog.co.uk/images/icons/site-icon.png" />
+    <meta property="og:description" content="Explore top developer and programmer's work. Like, leave feedback and inspire the future generation of programmers." />
+
     <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
     <link rel="stylesheet" th:href="@{/css/pages/parents/home.css}">
 
@@ -24,7 +31,7 @@
             <button th:if="${user == null}" onclick="window.signUpDialog.showModal()" class="button-custom">Sign Up</button>
         </div>
         <div class="home__sad_img">
-            <img th:src="@{images/characterz-people.png}"/>
+            <img th:src="@{images/characterz-people.png}" alt="Inclusivity suggestive image"/>
         </div>
     </div>
 </section>
@@ -35,7 +42,7 @@
             <p class="home__section_sub">Get real feedback from real users on your latest projects and tasks. It’s as simple as making a post and letting the feedback roll in.</p>
             <a th:href="@{/explore}" class="button-custom">Explore</a>
         </div>
-        <img th:src="@{/images/show-projects.png}">
+        <img th:src="@{/images/show-projects.png}" alt="Example post format">
 
     </div>
 </section>

@@ -31,6 +31,6 @@ public class UserDetails {
         if (profilePicturePath != null && profilePicturePath.length() != 0) {
             return profilePicturePath;
         }
-        return "images/default-pfp.png";
+        return "../images/default-pfp.png";
     }
 }

@@ -1,6 +1,7 @@
 package com.harrydrummond.projecthjd.user;
 
 
+import com.harrydrummond.projecthjd.posts.Post;
 import com.harrydrummond.projecthjd.user.details.UserDetails;
 import com.harrydrummond.projecthjd.user.preferences.Preference;
 import com.harrydrummond.projecthjd.user.preferences.Preferences;
@@ -67,6 +68,9 @@ public class User implements OAuth2User, Serializable {
     @Column(name = "user_preference")
     @OneToMany(mappedBy = "preference", fetch = FetchType.EAGER)
     private Set<Preferences> userPreferences = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "poster")
+    private Set<Post> posts = new HashSet<>();
 
     public User(String name, String email, UserRole userRoles) {
         this.username = name;

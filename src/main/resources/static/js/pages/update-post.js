@@ -41,6 +41,7 @@ onLoad(() => {
 function formSubmission() {
     let form = document.getElementById('form-carousel');
     let submitBtn = document.getElementById('submit-post');
+
     submitBtn.onclick = ((e) => {
         submitBtn.classList.add('button--loading');
         e.preventDefault();
@@ -87,6 +88,6 @@ function formSubmission() {
         }
 
         let formData = new FormData(form);
-        submitFormRequest("/api/post/new", cb, formData, 'POST');
+        submitFormRequest("/api/post/update", cb, formData, 'POST');
     });
 }

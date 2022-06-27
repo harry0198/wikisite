@@ -2,6 +2,7 @@ package com.harrydrummond.projecthjd.posts.image;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -11,10 +12,9 @@ public interface ImageService {
 
     Optional<Image> getImageById(long id);
 
-    Image saveImage(Image image);
-
-    Path saveImageToFileOnly(Image image, MultipartFile file) throws IOException;
-    Image saveImageWithFile(Image image, MultipartFile file) throws IOException;
+    Image saveImage(Image image, File file);
+    Image saveImage(Image image, MultipartFile file);
+    Image saveImage(Image image, String link);
 
     List<Image> getAllImages();
 

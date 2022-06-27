@@ -44,6 +44,7 @@ main {
 }
 
 .sidebar {
+    z-index: 101;
     background-color: var(--surface-2);
 }
 

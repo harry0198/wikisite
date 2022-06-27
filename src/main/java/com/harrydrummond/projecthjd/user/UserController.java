@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -121,6 +122,8 @@ public class UserController {
         Preferences preference = preferencesRepository.getByPreference(Preference.ACCOUNT_SUMMARY);
         updatePreference(user, preference, userDTO.isAccountSummary());
 
+        Preferences preference2 = preferencesRepository.getByPreference(Preference.PROMOTIONS);
+        updatePreference(user, preference2, userDTO.isPromotions());
 
 
         Preferences preference3 = preferencesRepository.getByPreference(Preference.BRAND_INFO);
@@ -193,11 +196,15 @@ public class UserController {
         user.getUserDetails().setBio(Objects.nonNull(userDTO.getBio()) ? userDTO.getBio() : user.getUserDetails().getBio());
         if (userDTO.getProfilePicture() != null && !userDTO.getProfilePicture().isEmpty() && userDTO.getProfilePicture().getSize() > 0) {
             MultipartFile pfp = userDTO.getProfilePicture();
-            Path path = fileStorageService.save(pfp);
+            Path path;
+            try {
+                path = fileStorageService.save(pfp).get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
             user.getUserDetails().setProfilePicturePath(path.toString());
         }
 
         userService.updateUser(user);
-//        userDetailsRepository.save(user.getUserDetails());
     }
 }

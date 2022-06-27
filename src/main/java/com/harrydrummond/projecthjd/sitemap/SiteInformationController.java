@@ -19,4 +19,10 @@ public class SiteInformationController {
     public String privacy(Model model) {
         return "pages/site-info/privacy";
     }
+
+    @GetMapping("/cookies")
+    public String cookies(Model model) {
+        return "pages/site-info/cookies";
+    }
+
 }

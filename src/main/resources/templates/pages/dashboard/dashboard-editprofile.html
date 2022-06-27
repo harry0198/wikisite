@@ -24,7 +24,7 @@
             <label for='imageUpload' class="field-heading spacer">Change Profile Picture</label>
             <div class="group spacer-x2">
                 <div class="image-upload-box-wrapper">
-                    <image id="profileImageUpload" class="account-pfp" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Author Profile Picture"></image>
+                    <image id="profileImageUpload" class="account-pfp" th:src="@{/uploads/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Author Profile Picture"></image>
                     <div class="file-container">
                         <label for='imageUpload' class="form-input dragndrop fake-container">
                             <i class="fa-regular fa-square-plus" aria-hidden="true"></i> Drag and drop or click to <span class="browse-text">browse</span>

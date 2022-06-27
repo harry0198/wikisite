@@ -19,6 +19,7 @@ import org.springframework.validation.Validator;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 
 @Service
@@ -72,14 +73,10 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     public User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
-        System.out.println("loading");
-        System.out.println("request null?: " + (oAuth2UserRequest == null));
         OAuth2User user =  super.loadUser(oAuth2UserRequest);
-        System.out.println("user null?: " + (user == null));
 
         String providerName = oAuth2UserRequest.getClientRegistration().getClientName();
-        System.out.println("Provider:" + providerName);
-        System.out.println("Attributes:" + user.getAttributes());
+
 
         switch(providerName) {
             case "Google":
@@ -90,11 +87,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
                 return getGithubUser(user).orElseGet(() -> makeGithubUser(user));
             default:
                 // error!
-                System.out.println("Error here!");
         }
-
-
-        System.out.println("Nulled it.");
         return null;
     }
 
@@ -105,8 +98,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         String pfp = user.getAttribute("picture");
 
         if (pfp != null && !pfp.isEmpty()) {
-            Path path = fileStorageService.save(pfp);
-            appUser.getUserDetails().setProfilePicturePath(path.toString());
+            savePfp(appUser, pfp);
         }
 
         appUser.setUsername(generateUsername(email));
@@ -125,8 +117,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         Object id = user.getAttribute("id");
 
         if (pfp != null && !pfp.isEmpty()) {
-            Path path = fileStorageService.save(pfp);
-            appUser.getUserDetails().setProfilePicturePath(path.toString());
+            savePfp(appUser, pfp);
         }
 
         appUser.setUsername(generateUsername(name));
@@ -149,6 +140,17 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         appUser.setAuthId(id);
 
         return userRepository.save(appUser);
+    }
+
+    private void savePfp(User user, String link) {
+        Path path;
+        try {
+            path = fileStorageService.save(link).get();
+        } catch (InterruptedException | ExecutionException e) {
+            return;
+        }
+
+        user.getUserDetails().setProfilePicturePath(path.toString());
     }
 
     private User makeUser(OAuth2User user) {

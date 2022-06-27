@@ -5,9 +5,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @AllArgsConstructor
 @Service
@@ -22,22 +27,32 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image saveImage(Image image) {
-        return imageRepository.save(image);
+    public Image saveImage(Image image, File file) {
+        return handleSaveImage(image, fileStorageService.save(file));
     }
 
     @Override
-    public Image saveImageWithFile(Image image, MultipartFile file) {
-        Path path = saveImageToFileOnly(image, file);
+    public Image saveImage(Image image, MultipartFile file) {
+        return handleSaveImage(image, fileStorageService.save(file));
+    }
+
+    @Override
+    public Image saveImage(Image image, String link) {
+        return handleSaveImage(image, fileStorageService.save(link));
+    }
+
+    private Image handleSaveImage(Image image, CompletableFuture<Path> cf) {
+        Path path;
+        try {
+            path = cf.get(10, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
         image.setPath(path.toString());
-
         return imageRepository.save(image);
     }
 
-    @Override
-    public Path saveImageToFileOnly(Image image, MultipartFile file) {
-        return fileStorageService.save(file);
-    }
+
 
     @Override
     public List<Image> getAllImages() {

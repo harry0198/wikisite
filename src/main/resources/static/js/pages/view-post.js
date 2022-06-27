@@ -18,11 +18,8 @@ function initSafeLinks() {
             let linkModal = document.getElementById('UnsafeLink-text');
             linkModal.innerText = text;
             areYouSure.showModal();
-            areYouSure.addEventListener('closing', ({target:dialog}) => {
-                if (dialog.returnValue === 'confirm') {
-                    window.open(text);
-                }
-            });
+            let confirmBtn = document.getElementById('link-proceed');
+            confirmBtn.href = text;
         }
     }
 }

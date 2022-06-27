@@ -4,7 +4,7 @@ function enableImageFallbackFunctionality() {
     const imgs = document.querySelectorAll('img');
 
     imgs.forEach(img => {
-        if (img.src === (BASE_URL + "/")) {
+        if (img.src === (BASE_URL + "/") || img.src === (BASE_URL + "/uploads/")) {
             fixBrokenImage(img);
         }
         img.onerror = () => {

@@ -2,7 +2,7 @@
   <div class="post">
     <div class="post-header flexing-row">
       <div class="user__widget">
-        <img th:src="@{/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" alt="Author profile picture" class="user__widget_pfp">
+        <img th:src="@{/uploads/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" alt="Author profile picture" class="user__widget_pfp">
         <div>
           <h3 class="user__widget_name" th:text="${post.getPoster().getUsername()}">Harry Drummond</h3>
           <div class="user__widget_interactables">

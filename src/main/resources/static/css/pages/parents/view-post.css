@@ -19,6 +19,14 @@
     margin: 1rem 2rem;
 }
 
+#link-proceed:hover {
+    color: white;
+}
+
+#link-proceed {
+    width: 100%;
+}
+
 .aside {
     grid-area: sidebar;
     background-color: var(--surface-2);

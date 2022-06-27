@@ -6,6 +6,13 @@
   <th:block th:replace="fragments/head-fragment :: generic(index=true)"></th:block>
   <link rel="stylesheet" th:href="@{/css/pages/parents/view-post.css}">
   <meta name="_post_id" th:content="${post.getId()}"/>
+  <meta name="description" th:content="${post.getDescription()}">
+
+  <link rel="canonical" th:href="${'https://www.thedevblog.co.uk/' + 'post/view/' + post.getId()}">
+  <meta property="og:title" th:content="${post.getTitle()}" />
+  <meta property="og:url" th:content="${'https://www.thedevblog.co.uk/' + 'post/view/' + post.getId()}" />
+  <meta property="og:image" th:content="${'https://www.thedevblog.co.uk/uploads/' + post.getMainImagePath()}" />
+  <meta property="og:description" th:content="${post.getDescription()}" />
 
 
   <th:block th:replace="fragments/head-fragment :: scripts"></th:block>
@@ -23,7 +30,7 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
           <div class="carousel-inner">
 
-              <img class="carousel-item active image card__image" th:src="@{/} + ${post.getMainImagePath()}"  alt="Provided Image">
+              <img class="carousel-item active image card__image" th:src="@{/uploads/} + ${post.getMainImagePath()}"  alt="Provided Image">
 
           </div>
           <button class="carousel-btn button left" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -37,14 +44,14 @@
         </div>
         <div class="indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3">
-            <img th:src="@{/} + ${post.getMainImagePath()}" class="card__image" alt="Provided Image">
+            <img th:src="@{/uploads/} + ${post.getMainImagePath()}" class="card__image" alt="Provided Image">
           </button>
         </div>
       </section>
 
       <aside class="aside">
         <div class="group close start no-media">
-          <img class="author-pfp account-pfp" th:src="@{/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
+          <img class="author-pfp account-pfp" th:src="@{/uploads/} + ${post.getPoster().getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
           <div class="group close start vertical no-gap">
             <p>
               <span th:text="${post.getPoster().getUsername()}" rel="author" class="author">Harry Drummond</span>
@@ -65,7 +72,7 @@
           <h3 class="feedback-collapse" th:if="${post.getComments().size() > 0}">Feedback</h3>
           <th:block th:each="feedback : ${post.getComments()}">
             <div class="group close start no-media">
-              <img class="comment-pfp account-pfp" th:src="@{/} + ${feedback.getUser().getUserDetails().getProfilePicturePath()}">
+              <img class="comment-pfp account-pfp" th:src="@{/uploads/} + ${feedback.getUser().getUserDetails().getProfilePicturePath()}">
               <div>
                 <div>
                   <span class="feedback-username" th:text="${feedback.getUser().getUsername()}">Username</span>
@@ -88,7 +95,7 @@
             <button id="share-btn"><i class="fa-solid fa-share"></i></button>
           </div>
           <div class="group close feedback-container no-media">
-            <img class="author-pfp account-pfp" th:unless="${user == null}" th:src="@{/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
+            <img class="author-pfp account-pfp" th:unless="${user == null}" th:src="@{/uploads/} + ${user.getUserDetails().getProfilePicturePath()}" alt="Account Profile Picture">
             <img class="author-pfp account-pfp" th:if="${user == null}" th:src="@{/images/default-pfp.png}" alt="Default Profile Picture">
             <form id="post-feedback-form" class="fake-form" th:attr="data-require-signin=${user == null ? 'true' : ''}">
               <label class="visually-hidden" for="post-feedback-input">Give feedback:</label>
@@ -121,7 +128,7 @@
         <p id="UnsafeLink-text">Link</p>
         <menu class="menu-btns">
           <button autofocus class="button" type="button" onclick="this.closest('dialog').close('cancel')">Cancel</button>
-          <button type="submit" id="delete-account-btn" value="confirm" class="button destructive-button">Proceed</button>
+          <a id="link-proceed" class="button destructive-button" target="_blank" rel="noopener noreferrer" href="#">Proceed</a>
         </menu>
       </article>
     </form>

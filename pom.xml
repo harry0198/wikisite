@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.harrydrummond</groupId>
     <artifactId>projecthjd</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.1-ALPHA</version>
     <name>projecthjd</name>
     <description>Project HJD</description>
     <properties>
@@ -161,6 +161,13 @@
                     <artifactId>hamcrest-core</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- S3 -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.11.163</version>
         </dependency>
     </dependencies>
 

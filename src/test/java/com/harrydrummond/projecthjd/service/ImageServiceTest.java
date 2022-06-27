@@ -56,14 +56,14 @@ class ImageServiceTest {
         assertThat(foundImage).isNotNull();
     }
 
-    @Test
-    void saveImage() {
-        given(imageRepository.save(image)).willReturn(image);
-
-        Image savedImage = imageService.saveImage(image);
-
-        assertThat(savedImage).isNotNull();
-    }
+//    @Test
+//    void saveImage() {
+//        given(imageRepository.save(image)).willReturn(image);
+//
+//        Image savedImage = imageService.saveImage(image);
+//
+//        assertThat(savedImage).isNotNull();
+//    }
 
     @Test
     void getAllImages() {

@@ -8,11 +8,15 @@ import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.user.roles.RoleRepository;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
 import lombok.AllArgsConstructor;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.schema.management.SearchSchemaManager;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -21,18 +25,14 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import java.util.Locale;
 
 @AllArgsConstructor
 @SpringBootApplication
 public class StartPointApplication extends WebMvcConfigurerAdapter implements CommandLineRunner, WebMvcConfigurer {
 
-
-    @Resource
-    private final FileStorageService storageService;
-
-    private final RoleRepository roleRepository;
-    private final PreferencesRepository preferencesRepository;
+    private final EntityManager entityManager;
 
     public static void main(String[] args) {
         SpringApplication.run(StartPointApplication.class, args);
@@ -40,9 +40,12 @@ public class StartPointApplication extends WebMvcConfigurerAdapter implements Co
 
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
-        System.out.println("Showcase Site CommandLineRunner");
-        storageService.init();
+        SearchSession searchSession = Search.session( entityManager );
+        SearchSchemaManager schemaManager = searchSession.schemaManager();
+        schemaManager.dropAndCreate();
+        searchSession.massIndexer().startAndWait();
 
 
 //            UserRole userRole = new UserRole();

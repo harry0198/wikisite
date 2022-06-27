@@ -1,6 +1,6 @@
 import {init as commons, onLoad} from "./common.mjs";
 import {setLightMode, setDarkMode, clearColorPreference} from "../theme-toggle.js";
-import {isLink, validationPassed, validationFailed} from "../modules/form-validation.js";
+import {isLink, validationPassed, validationFailed} from "../modules/form-validation.mjs";
 import {toJsonObject, submitFormRequest, patchData, postData, deleteData} from "../modules/ajax.mjs";
 import Toast from "../modules/toast.mjs";
 import {enableDragNDropFunctionality} from "../modules/dragndrop.mjs";

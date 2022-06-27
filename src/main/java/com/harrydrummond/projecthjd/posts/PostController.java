@@ -1,5 +1,6 @@
 package com.harrydrummond.projecthjd.posts;
 
+import com.harrydrummond.projecthjd.filestorage.FileStorageService;
 import com.harrydrummond.projecthjd.posts.comment.Comment;
 import com.harrydrummond.projecthjd.posts.comment.CommentService;
 import com.harrydrummond.projecthjd.posts.dto.PostInfoDTO;
@@ -30,10 +31,12 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -43,25 +46,29 @@ public class PostController {
     private final CommentService commentService;
     private final PostService postService;
     private final ImageService imageService;
+    private final FileStorageService fileStorageService;
 
     @PostMapping(value = "/api/post/new",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String savePostForm(@AuthenticationPrincipal User requestingUser, @Valid PostRequestDTO postRequestDTO, BindingResult bindingResult) {
-
-        ResponseEntity<Post> postResponseEntity = savePost(requestingUser, postRequestDTO, bindingResult);
-        if (postResponseEntity.getStatusCode() == HttpStatus.OK && postResponseEntity.getBody() != null) {
-            return "redirect:/post/view/" + postResponseEntity.getBody().getId();
-        }
-
-        return "redirect:/";
+    public ResponseEntity<Object> savePostForm(@AuthenticationPrincipal User requestingUser, @Valid PostRequestDTO postRequestDTO, BindingResult bindingResult) {
+        return savePost(requestingUser, postRequestDTO, bindingResult);
     }
 
     @PostMapping(value = "/api/post/new")
-    public ResponseEntity<Post> savePost(@AuthenticationPrincipal User user, @RequestBody @Valid PostRequestDTO postDTO, BindingResult bindingResult) {
+    public ResponseEntity<Object> savePost(@AuthenticationPrincipal User user, @RequestBody @Valid PostRequestDTO postDTO, BindingResult bindingResult) {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         if (postDTO.getDescription() == null || postDTO.getTitle() == null || postDTO.getImage().getSize() <= 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = bindingResult.getFieldErrors().stream()
+                    .collect(
+                            Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)
+                    );
+
+            return new ResponseEntity<>(errors, HttpStatus.valueOf(400));
         }
 
         Post post = new Post();
@@ -75,38 +82,26 @@ public class PostController {
         image.setAlt("");
         image.setOrderNo(1);
 
-        boolean success = saveImage(postDTO.getImage(), image);
-        if (!success) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        saveImage(image, postDTO.getImage());
 
         post.setImages(Set.of(image));
-        postService.savePost(post);
-        return new ResponseEntity<>(post, HttpStatus.OK);
+        Post p = postService.savePost(post);
+        return new ResponseEntity<>(p.getId(), HttpStatus.OK);
     }
 
-    private boolean saveImage(MultipartFile imageFile, Image image) {
-
-        File savedFile;
+    private void saveImage(Image image, MultipartFile file) {
+        Path path;
         try {
-            savedFile = imageService.saveImageToFileOnly(image, imageFile).toFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            path = fileStorageService.save(file).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
         }
-        image.setPath(savedFile.getPath());
-        return true;
+        image.setPath(path.toString());
     }
-    @PostMapping(value = "/api/post/update",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String updatePostForm(@AuthenticationPrincipal User requestingUser, @Valid PostRequestDTO postRequestDTO, BindingResult bindingResult) {
-        ResponseEntity<Object> postResponseEntity = updatePost(requestingUser, postRequestDTO, bindingResult);
-        if (postResponseEntity.getStatusCode() == HttpStatus.OK && postResponseEntity.getBody() != null) {
-            if (postResponseEntity.getBody() instanceof Post) {
-                return "redirect:/post/view/" + ((Post) postResponseEntity.getBody()).getId();
-            }
-        }
 
-        return "redirect:/";
+    @PostMapping(value = "/api/post/update",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Object> updatePostForm(@AuthenticationPrincipal User requestingUser, @Valid PostRequestDTO postRequestDTO, BindingResult bindingResult) {
+        return updatePost(requestingUser, postRequestDTO, bindingResult);
     }
 
     @PostMapping("/api/post/update")
@@ -137,8 +132,7 @@ public class PostController {
             image.setPost(post);
             image.setOrderNo(1);
             image.setAlt("");
-            saveImage(postRequestDTO.getImage(), image);
-            imageService.saveImage(image);
+            saveImage(image, postRequestDTO.getImage());
             for (Image postImage : post.getImages()) {
                 imageService.deleteImage(postImage.getId());
             }
@@ -152,7 +146,7 @@ public class PostController {
             post.setDescription(postRequestDTO.getDescription());
         }
         postService.updatePost(post);
-        return new ResponseEntity<>(post, HttpStatus.OK);
+        return new ResponseEntity<>(post.getId(), HttpStatus.OK);
 
     }
 
