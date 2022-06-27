@@ -64,12 +64,6 @@ public class Post {
         comments.stream().filter(x -> x.getId() == id).findAny().ifPresent(comment -> comments.remove(comment));
     }
 
-    public String getMainImagePath() {
-        Optional<Image> image = images.stream().findFirst();
-        if (image.isPresent()) return image.get().getPath();
-        return "";
-    }
-
     public String getFormattedDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return datePosted != null ? datePosted.format(formatter) : "00/00/0000";

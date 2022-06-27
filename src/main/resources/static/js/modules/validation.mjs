@@ -5,6 +5,7 @@ function isFileFormatImage(name) {
         case 'png':
         case 'gif':
         case 'jpeg':
+        case 'heic':
             return true;
         default:
             return false;

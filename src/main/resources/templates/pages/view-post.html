@@ -11,7 +11,7 @@
   <link rel="canonical" th:href="${'https://www.thedevblog.co.uk/' + 'post/view/' + post.getId()}">
   <meta property="og:title" th:content="${post.getTitle()}" />
   <meta property="og:url" th:content="${'https://www.thedevblog.co.uk/' + 'post/view/' + post.getId()}" />
-  <meta property="og:image" th:content="${'https://www.thedevblog.co.uk/uploads/' + post.getMainImagePath()}" />
+  <meta property="og:image" th:content="${'https://www.thedevblog.co.uk/uploads/' + post.getImages()[0]}" />
   <meta property="og:description" th:content="${post.getDescription()}" />
 
 
@@ -30,22 +30,26 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
           <div class="carousel-inner">
 
-              <img class="carousel-item active image card__image" th:src="@{/uploads/} + ${post.getMainImagePath()}"  alt="Provided Image">
+              <img class="carousel-item active image card__image" th:src="@{/uploads/} + ${post.getImages()[0].getPath()}"  alt="Provided Image">
 
           </div>
-          <button class="carousel-btn button left" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-btn button right" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-            <span class="visually-hidden">Next</span>
-          </button>
+          <th:block th:unless="${post.getImages().size() <= 1}">
+            <button class="carousel-btn button left" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-btn button right" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </th:block>
         </div>
         <div class="indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3">
-            <img th:src="@{/uploads/} + ${post.getMainImagePath()}" class="card__image" alt="Provided Image">
-          </button>
+          <th:block th:each="i: ${#numbers.sequence(0, post.getImages().size() - 1)}">
+            <button type="button" data-bs-target="#carouselExampleIndicators" th:attr="data-bs-slide-to=${i}" aria-label="Slide 3">
+              <img th:src="@{/uploads/} + ${post.getImages()[i].getPath()}" class="card__image" alt="Provided Image">
+            </button>
+          </th:block>
         </div>
       </section>
 

@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="card__body">
-      <img class="card__image" th:src="@{/uploads/} + ${post.getMainImagePath()}">
+      <img class="card__image" th:src="@{/uploads/} + ${post.getImages()[0].getPath()}">
       <div class="card__stats">
         <p><i class="fa fa-eye"></i> <span th:text="${post.getViews()}">300k</span></p>
 <!--        <p><button type='button' class='like-btn like-btn&#45;&#45;like'></button> 1.4k</p>-->

@@ -60,7 +60,6 @@
       <th:block th:replace="modules/post-card :: post-card(${post})"></th:block>
     </th:block>
 
-
     <div th:if="${posts == null || posts.getContent().size() < 1}" class="item item--1"></div>
     <div th:if="${posts == null || posts.getContent().size() < 2}" class="item item--2"></div>
     <div th:if="${posts == null || posts.getContent().size() < 3}" class="item item--3"></div>
