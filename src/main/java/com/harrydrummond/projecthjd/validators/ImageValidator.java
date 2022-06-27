@@ -20,7 +20,8 @@ public class ImageValidator implements ConstraintValidator<ImageConstraint, Mult
 
         String fileType = file.getContentType();
         if (fileType == null) return false;
-        if (fileType.equals("image/png") || fileType.equals("image/jpeg") || fileType.equals("image/jpg") || fileType.equals("image/gif")) {
+        if (fileType.equals("image/png") || fileType.equals("image/jpeg") || fileType.equals("image/jpg") || fileType.equals("image/gif") ||
+        fileType.equals("image/heic") || fileType.equals("image/heic-sequence")) {
 
             try {
                 InputStream input = file.getInputStream();
