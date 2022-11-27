@@ -9,13 +9,11 @@ import javax.validation.constraints.Size;
 
 @ToString
 @Data
-public class PostRequestDTO {
+public class ImageDTO {
 
-    @Size(min = 3, max = 60)
-    private String title;
-    @Size(max = 1500, min = 12)
-    private String description;
     @ImageConstraint
-    private MultipartFile[] images;
-    private Long id;
+    private MultipartFile media;
+    private int order;
+    @Size(max = 500)
+    private String alt;
 }

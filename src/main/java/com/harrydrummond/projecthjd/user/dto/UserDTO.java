@@ -1,18 +1,15 @@
 package com.harrydrummond.projecthjd.user.dto;
 
-import com.harrydrummond.projecthjd.user.preferences.Preferences;
 import com.harrydrummond.projecthjd.user.roles.UserRole;
-import com.harrydrummond.projecthjd.validators.ImageConstraint;
+import com.harrydrummond.projecthjd.validators.image.ImageConstraint;
 import com.harrydrummond.projecthjd.validators.LinkConstraint;
 import com.harrydrummond.projecthjd.validators.UniqueUsernameConstraint;
+import com.harrydrummond.projecthjd.validators.image.SingleImageConstraint;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -33,6 +30,6 @@ public class UserDTO {
     private Boolean enabled;
     @Length(max = 1500, message = "{validation.bio.too_long}")
     private String bio;
-    @ImageConstraint
+    @SingleImageConstraint
     private MultipartFile profilePicture;
 }

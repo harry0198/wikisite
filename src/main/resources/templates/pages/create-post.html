@@ -30,14 +30,14 @@
             </div>
 
             <div class="carousel-item">
-                <label for='imageUpload' class="generic-title">Add a photo or gif</label>
+                <label for='imageUpload' class="generic-title">Add some photos or videos</label>
                 <div class="image-upload-box-wrapper">
-                    <image id="upload" class="card__image" th:src="@{/images/photos.png}"></image>
+<!--                    <image id="upload" class="card__image" th:src="@{/images/photos.png}"></image>-->
                     <div class="file-container">
                         <label for='imageUpload' class="form-input dragndrop fake-container">
                             <i class="fa-regular fa-square-plus"></i> Drag and drop or click to <span class="browse-text">browse</span>
                         </label>
-                        <input class="file-input no-submit enter-next image-input" accept="image/*" id="imageUpload" type="file" name="image" capture="" required>
+                        <input class="file-input no-submit enter-next image-input" accept="image/*" id="imageUpload" type="file" name="images" capture="" required multiple>
                     </div>
                 </div>
             </div>
@@ -64,10 +64,15 @@
     <div class="info-panel no-pointer-events">
         <h2 class="generic-title">How it looks so far...</h2>
         <p class="generic-subtitle preview-el">Please be aware the image may be resized slightly upon posting</p>
+        <div id="thumbnail-card">
         <th:block th:replace="modules/post-card :: post-card(post=${post})"></th:block>
+        </div>
     </div>
-    <div class="form-panel no-pointer-events">
-        <th:block th:replace="pages/view-post.html :: area"></th:block>
+    <div class="form-panel">
+<!--        <th:block th:replace="pages/view-post.html :: area"></th:block>-->
+        <div id="upload-preview">
+
+        </div>
     </div>
 </section>
 <th:block th:replace="modules/footer.html"></th:block>

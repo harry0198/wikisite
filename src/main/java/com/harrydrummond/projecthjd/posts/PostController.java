@@ -10,10 +10,8 @@ import com.harrydrummond.projecthjd.posts.image.Image;
 import com.harrydrummond.projecthjd.posts.image.ImageGetDTO;
 import com.harrydrummond.projecthjd.posts.image.ImageService;
 import com.harrydrummond.projecthjd.user.User;
-import com.harrydrummond.projecthjd.user.UserService;
 import com.harrydrummond.projecthjd.user.roles.Role;
 import com.harrydrummond.projecthjd.util.Pagination;
-import com.harrydrummond.projecthjd.validators.ImageValidator;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
@@ -23,16 +21,16 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -58,11 +56,14 @@ public class PostController {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        if (postDTO.getDescription() == null || postDTO.getTitle() == null || postDTO.getImage().getSize() <= 0) {
+        if (postDTO.getDescription() == null || postDTO.getTitle() == null || postDTO.getImages() == null  || postDTO.getImages().length <= 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if (bindingResult.hasErrors()) {
+            for (ObjectError allError : bindingResult.getAllErrors()) {
+                System.out.println(allError.getDefaultMessage());
+            }
             Map<String, String> errors = bindingResult.getFieldErrors().stream()
                     .collect(
                             Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)
@@ -77,14 +78,20 @@ public class PostController {
         post.setDescription(postDTO.getDescription());
         post.setPoster(user);
 
-        Image image = new Image();
-        image.setPost(post);
-        image.setAlt("");
-        image.setOrderNo(1);
+        Set<Image> imageSet = new HashSet<>();
+        for (int i = 0; i < postDTO.getImages().length; i++) {
+            Image image = new Image();
+            image.setPost(post);
+            image.setAlt("");
+            image.setOrderNo(i);
 
-        saveImage(image, postDTO.getImage());
+            saveImage(image, postDTO.getImages()[i]);
+            imageSet.add(image);
+        }
 
-        post.setImages(Set.of(image));
+
+
+        post.setImages(imageSet);
         Post p = postService.savePost(post);
         return new ResponseEntity<>(p.getId(), HttpStatus.OK);
     }
@@ -117,6 +124,11 @@ public class PostController {
         }
 
         if (bindingResult.hasErrors()) {
+            System.out.println("Has erors");
+            System.out.println(bindingResult.getAllErrors().size());
+            for (ObjectError allError : bindingResult.getAllErrors()) {
+                System.out.println(allError.getDefaultMessage());
+            }
             Map<String, String> errors = bindingResult.getFieldErrors().stream()
                     .collect(
                             Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)
@@ -127,17 +139,23 @@ public class PostController {
 
         Post post = postOptional.get();
 
-        if (postRequestDTO.getImage() != null && !postRequestDTO.getImage().isEmpty()) {
-            Image image = new Image();
-            image.setPost(post);
-            image.setOrderNo(1);
-            image.setAlt("");
-            saveImage(image, postRequestDTO.getImage());
+        if (postRequestDTO.getImages() != null) {
             for (Image postImage : post.getImages()) {
                 imageService.deleteImage(postImage.getId());
             }
             post.getImages().clear();
-            post.getImages().add(image);
+
+            for (int i = 0; i < postRequestDTO.getImages().length; i++) {
+                Image image = new Image();
+                image.setPost(post);
+                image.setOrderNo(i);
+                image.setAlt("");
+                saveImage(image, postRequestDTO.getImages()[i]);
+
+                post.getImages().add(image);
+            }
+
+
         }
         if (postRequestDTO.getTitle() != null) {
             post.setTitle(postRequestDTO.getTitle());

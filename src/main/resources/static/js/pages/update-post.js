@@ -49,7 +49,7 @@ function formSubmission() {
         const cb = function (s) {
             let status = s.status;
             if (status === 200) {
-                Toast("Successfully made post", "fa-circle-check");
+                Toast("Successfully updateed post", "fa-circle-check");
                 window.location.href = BASE_URL + '/post/view/' + s.responseText;
             } else if (status === 401) {
                 Toast("You are not authorized to do this", "fa-circle-exclamation");
@@ -77,7 +77,7 @@ function formSubmission() {
                 } else {
                     validationPassed(descriptionField)
                 }
-                Toast("There were errors in your request", "fa-circle-exclamation");
+                Toast("There are errors in your updated post. Please go back and fix them.", "fa-circle-exclamation");
             } else if (status === 413) {
                 Toast("File was too large!", "fa-circle-exclamation");
             } else {
@@ -88,6 +88,7 @@ function formSubmission() {
         }
 
         let formData = new FormData(form);
+        console.log(formData)
         submitFormRequest("/api/post/update", cb, formData, 'POST');
     });
 }

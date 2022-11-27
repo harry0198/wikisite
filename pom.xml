@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.harrydrummond</groupId>
     <artifactId>projecthjd</artifactId>
-    <version>0.0.1-ALPHA</version>
+    <version>0.0.1-BETA</version>
     <name>projecthjd</name>
     <description>Project HJD</description>
     <properties>
@@ -98,12 +98,12 @@
 <!--            <artifactId>thymeleaf-extras-springsecurity5</artifactId>-->
 <!--        </dependency>-->
 <!--Remove on production-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
 
         <!-- Markdown parser official -->
 <!--        <dependency>-->

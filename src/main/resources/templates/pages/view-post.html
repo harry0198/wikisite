@@ -20,6 +20,9 @@
   <th:block th:replace="fragments/head-fragment :: analytics"></th:block>
 
   <script type="module" th:src="@{/js/pages/view-post.js}"></script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6787754437771899"
+          crossorigin="anonymous"></script>
 </head>
 <body>
   <div th:replace="modules/navbar.html"></div>
@@ -29,8 +32,10 @@
       <section class="media-container" th:fragment="area">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
           <div class="carousel-inner">
+            <th:block th:each="image : ${post.getImages()}">
+              <img th:style="'order: ' + ${image.getOrderNo()} + ';'" class="carousel-item image card__image" th:classappend="${image.getOrderNo() == 0 ? 'active' : ''}" th:src="@{/uploads/} + ${image.getPath()}"  alt="Provided Image">
+            </th:block>
 
-              <img class="carousel-item active image card__image" th:src="@{/uploads/} + ${post.getImages()[0].getPath()}"  alt="Provided Image">
 
           </div>
           <th:block th:unless="${post.getImages().size() <= 1}">
@@ -43,13 +48,13 @@
               <span class="visually-hidden">Next</span>
             </button>
           </th:block>
-        </div>
-        <div class="indicators">
-          <th:block th:each="i: ${#numbers.sequence(0, post.getImages().size() - 1)}">
-            <button type="button" data-bs-target="#carouselExampleIndicators" th:attr="data-bs-slide-to=${i}" aria-label="Slide 3">
-              <img th:src="@{/uploads/} + ${post.getImages()[i].getPath()}" class="card__image" alt="Provided Image">
-            </button>
-          </th:block>
+          <div class="indicators" th:if="${post.getImages().size() >= 1}">
+            <th:block th:each="i: ${#numbers.sequence(0, post.getImages().size() - 1)}">
+              <button type="button" th:style="'order: ' + ${post.getImages()[i].getOrderNo()} + ';'" data-bs-target="#carouselExampleIndicators" th:attr="data-bs-slide-to=${i}" aria-label="Slide 3">
+                <img th:src="@{/uploads/} + ${post.getImages()[i].getPath()}" class="card__image" alt="Provided Image">
+              </button>
+            </th:block>
+          </div>
         </div>
       </section>
 
